@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TextView tvInfo = (TextView) findViewById(R.id.tvInfo);
-        File file=new File(Environment.getExternalStorageDirectory(),"123.wmv");
+        File file=new File(Environment.getExternalStorageDirectory(),"video_1.mkv");
         tvInfo.setText(nativeGetVideoInfo(file.getAbsolutePath()));
     }
 
