@@ -14,7 +14,9 @@ set(include-headers ${CMAKE_SOURCE_DIR}/src/main/cpp/include)
 include_directories(${include-headers})
 
 add_library(avcodec SHARED IMPORTED)
-set_target_properties(avcodec PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libavcodec-57.so)
+set_target_properties(avcodec
+                        PROPERTIES
+                         IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libavcodec-57.so)
 
 
 add_library(avdevice SHARED IMPORTED)
@@ -84,9 +86,6 @@ find_library( # Sets the name of the path variable.
 # build script, prebuilt third-party libraries, or system libraries.
 
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
-
-
 target_link_libraries( # Specifies the target library.
                        native-lib
 
@@ -101,4 +100,6 @@ target_link_libraries( # Specifies the target library.
                         postproc
                         swresample
                         swscale
+                         log
+                         android
                         )

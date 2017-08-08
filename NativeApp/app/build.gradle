@@ -13,13 +13,12 @@ android {
 
         externalNativeBuild {
             cmake {
-                cppFlags ""
-               // arguments '-DANDROID_TOOLCHAIN=clang','-DANDROID_STL=gnustl_static'
+                arguments '-DANDROID_TOOLCHAIN=clang','-DANDROID_STL=gnustl_static'
             }
         }
 
-        ndk{
-            abiFilters "armeabi-v7a"  //由于ffmpeg 只提供了此库,所以so要指定abi
+        ndk {
+            abiFilters 'armeabi-v7a'
         }
     }
     buildTypes {
@@ -33,7 +32,7 @@ android {
     }
     externalNativeBuild {
         cmake {
-            path "CMakeLists.txt"
+            path 'CMakeLists.txt'
         }
     }
 
