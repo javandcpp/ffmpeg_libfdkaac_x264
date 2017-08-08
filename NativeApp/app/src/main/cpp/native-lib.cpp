@@ -112,7 +112,7 @@ Java_com_guagua_nativeapp_MainActivity_nativeGetVideoInfo(JNIEnv *env, jobject i
 
     avformat_close_input(&pFormatCtx);
 
-    return env->NewStringUTF(path);
+    return env->NewStringUTF(avcodec_configuration());
 }
 
 JNIEXPORT jstring JNICALL
