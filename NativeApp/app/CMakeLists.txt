@@ -10,52 +10,56 @@ cmake_minimum_required(VERSION 3.4.1)
 # Gradle automatically packages shared libraries with your APK.
 
 
+#包含头文件
+
 set(include-headers ${CMAKE_SOURCE_DIR}/src/main/cpp/include)
 include_directories(${include-headers})
 
+set(include-sdl2headers ${CMAKE_SOURCE_DIR}/src/main/cpp/sdl2/include)
+include_directories(${include-sdl2headers})
+
+#添加依赖库
 add_library(avcodec SHARED IMPORTED)
 set_target_properties(avcodec
                         PROPERTIES
                          IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libavcodec-57.so)
 
-
+#添加依赖库
 add_library(avdevice SHARED IMPORTED)
 set_target_properties( avdevice
                        PROPERTIES
                        IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libavdevice-57.so )
-
+#添加依赖库
  add_library(avfilter SHARED IMPORTED)
  set_target_properties( avfilter
                         PROPERTIES
                         IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libavfilter-6.so )
-
+#添加依赖库
  add_library(avformat SHARED IMPORTED)
  set_target_properties( avformat
                         PROPERTIES
                         IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libavformat-57.so )
-
+#添加依赖库
  add_library(avutil SHARED IMPORTED)
  set_target_properties( avutil
                         PROPERTIES
                         IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libavutil-55.so )
-
+#添加依赖库
  add_library(postproc SHARED IMPORTED)
  set_target_properties( postproc
                         PROPERTIES
                         IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libpostproc-54.so )
-
+#添加依赖库
  add_library(swresample SHARED IMPORTED)
  set_target_properties( swresample
                         PROPERTIES
                         IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libswresample-2.so )
 
-
+#添加依赖库
  add_library(swscale SHARED IMPORTED)
  set_target_properties( swscale
                         PROPERTIES
                         IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libswscale-4.so )
-
-
 
 add_library( # Sets the name of the library.
              native-lib

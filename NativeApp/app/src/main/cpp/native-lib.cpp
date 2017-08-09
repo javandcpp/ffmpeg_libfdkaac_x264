@@ -6,14 +6,17 @@
 #include <string.h>
 #include <stdio.h>
 
+
 #ifdef __cplusplus
-    extern "C" {
+extern "C" {
 #endif
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
 #include "libavutil/imgutils.h"
 #include "libswscale/swscale.h"
-
+#include "sdl2/include/SDL.h"
+#include "sdl2/include/SDL_log.h"
+#include "sdl2/include/SDL_main.h"
 
 #define LOG_TAG "native"
 #define LOG_D(...)   __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG, __VA_ARGS__)

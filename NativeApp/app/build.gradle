@@ -13,10 +13,10 @@ android {
 
         externalNativeBuild {
             cmake {
-                arguments '-DANDROID_TOOLCHAIN=clang','-DANDROID_STL=gnustl_static'
+                cppFlags ""
+//                arguments '-DANDROID_TOOLCHAIN=clang','-DANDROID_STL=gnustl_static'
             }
         }
-
         ndk {
             abiFilters 'armeabi-v7a'
         }
@@ -36,11 +36,20 @@ android {
         }
     }
 
-//    sourceSets{
-//        main{
-//            jniLibs.srcDirs= ['libs']
-//        }
-//    }
+    sourceSets{
+        main{
+            jniLibs.srcDirs "src/main/jniLibs"
+        }
+    }
+
+    splits {//删除64位的so库
+        abi {
+            enable true
+            reset()
+            include 'armeabi-v7a'
+            universalApk false
+        }
+    }
 
 }
 
@@ -51,4 +60,5 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
+    compile project(':sDLActivity')
 }
