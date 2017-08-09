@@ -101,5 +101,5 @@ target_link_libraries( # Specifies the target library.
                         swresample
                         swscale
                          log
-                         android
+                         android   #这句很重要,涉及android中库的调用
                         )
