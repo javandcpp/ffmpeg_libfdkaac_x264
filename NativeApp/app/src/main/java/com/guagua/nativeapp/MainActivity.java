@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView tvInfo = (TextView) findViewById(R.id.tvInfo);
         srcfile = new File(Environment.getExternalStorageDirectory(),"video_1.mkv");
         destfile = new File(Environment.getExternalStorageDirectory(),"video_2.yuv");
-//        tvInfo.setText(nativeGetVideoInfo(file.getAbsolutePath());
+        tvInfo.setText(nativeGetVideoInfo(srcfile.getAbsolutePath()));
 
 
         ((EditText) findViewById(R.id.etInputUri)).setText(srcfile.getAbsolutePath());
