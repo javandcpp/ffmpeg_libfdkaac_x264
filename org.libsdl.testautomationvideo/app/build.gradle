@@ -10,6 +10,7 @@ android {
         targetSdkVersion 22
 
         ndk {
+            moduleName "sdl2"
             abiFilters 'armeabi-v7a'
         }
     }
@@ -24,7 +25,7 @@ android {
     sourceSets{
         main{
             jniLibs.srcDirs "src/main/jniLibs"
-            jni.srcDirs = [] //dis
+            jni.srcDirs = []
         }
     }
 
