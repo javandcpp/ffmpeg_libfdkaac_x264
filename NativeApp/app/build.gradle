@@ -13,7 +13,7 @@ android {
 
         externalNativeBuild {
             cmake {
-                cppFlags ""
+                cppFlags "-std=c++11"
 //                arguments '-DANDROID_TOOLCHAIN=clang','-DANDROID_STL=gnustl_static'
             }
         }
@@ -36,11 +36,11 @@ android {
         }
     }
 
-    sourceSets{
-        main{
-            jniLibs.srcDirs "src/main/jniLibs"
-        }
-    }
+//    sourceSets{
+//        main{
+//            jniLibs.srcDirs "src/main/jniLibs"
+//        }
+//    }
 
     splits {//删除64位的so库
         abi {
@@ -60,5 +60,6 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
-    compile project(':sDLActivity')
+    compile 'com.android.support:support-annotations:26.0.0-alpha1'
+    compile project(':sdl')
 }

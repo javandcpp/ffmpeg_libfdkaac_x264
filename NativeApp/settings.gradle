@@ -1,2 +1,2 @@
-include ':app'
-include ':sDLActivity'
+include ':app', ':sdl'
+

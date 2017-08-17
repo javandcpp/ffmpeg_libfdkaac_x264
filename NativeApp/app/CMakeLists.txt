@@ -62,15 +62,18 @@ set_target_properties( avdevice
                         IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libswscale-4.so )
 
 add_library( # Sets the name of the library.
-             native-lib
-
+             Media
              # Sets the library as a shared library.
              SHARED
 
              # Provides a relative path to your source file(s).
              # Associated headers in the same location as their source
              # file are automatically included.
-             src/main/cpp/native-lib.cpp )
+             src/main/cpp/native-lib.cpp
+             src/main/cpp/jni_encode_h264.cpp
+             src/main/cpp/jni_debug.cpp
+             src/main/cpp/jni_ffmpeg_config.cpp
+              )
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because system libraries are included in the search path by
@@ -91,7 +94,7 @@ find_library( # Sets the name of the path variable.
 
 
 target_link_libraries( # Specifies the target library.
-                       native-lib
+                       Media
 
                        # Links the target library to the log library
                        # included in the NDK.

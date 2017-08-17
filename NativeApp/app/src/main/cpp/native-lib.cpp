@@ -5,6 +5,7 @@
 
 #include <string.h>
 #include <stdio.h>
+#include "jni_debug.h"
 
 
 #ifdef __cplusplus
@@ -18,10 +19,6 @@ extern "C" {
 #include "sdl2/include/SDL_log.h"
 #include "sdl2/include/SDL_main.h"
 
-#define LOG_TAG "native"
-#define LOG_D(...)   __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG, __VA_ARGS__)
-
-#define LOG_E(...)   __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG, __VA_ARGS__)
 
 
 JNIEXPORT jstring JNICALL
@@ -72,7 +69,7 @@ Java_com_guagua_nativeapp_MainActivity_nativeGetVideoInfo(JNIEnv *env, jobject i
             break;
         }
     if (videoindex == -1) {
-        LOG_D("Didn't find a video stream.\n");
+        LOG_D(DEBUG,"Didn't find a video stream.\n");
         return env->NewStringUTF("Didn't find a video stream");
     }
 
@@ -80,23 +77,23 @@ Java_com_guagua_nativeapp_MainActivity_nativeGetVideoInfo(JNIEnv *env, jobject i
     pEncoder = avcodec_find_encoder(pCodecCtx->codec_id);
     pCodec = avcodec_find_decoder(pCodecCtx->codec_id);
     if (pCodec == NULL) {
-        LOG_D("Codec not found.\n");
+        LOG_D(DEBUG,"Codec not found.\n");
         return env->NewStringUTF("Codec not found");
     } else {
-        LOG_D("encoder :%s", pEncoder->name);
+        LOG_D(DEBUG,"encoder :%s", pEncoder->name);
     }
 
     if (pEncoder != NULL) {
-        LOG_D("decoder:%s", pEncoder->name);
+        LOG_D(DEBUG,"decoder:%s", pEncoder->name);
 
     }
 
     int64_t duration = pFormatCtx->duration / 1000 / 1000;
 
-    LOG_D("duration时长:%lld(秒)", duration);
+    LOG_D(DEBUG,"duration时长:%lld(秒)", duration);
 
-    LOG_D("文件名:", "%s", pFormatCtx->filename);
-    LOG_D("bitrate码率:%lld", pFormatCtx->bit_rate);
+    LOG_D(DEBUG,"文件名:", "%s", pFormatCtx->filename);
+    LOG_D(DEBUG,"bitrate码率:%lld", pFormatCtx->bit_rate);
 
 
     if (avcodec_open2(pCodecCtx, pCodec, NULL) < 0) {
@@ -138,7 +135,7 @@ Java_com_guagua_nativeapp_MainActivity_getStringUTF(JNIEnv *env, jobject instanc
 
 
 void callback(void *v, int i, const char *a, va_list b) {
-    LOG_D("%d --%s", i, a);
+    LOG_D(DEBUG,"%d --%s", i, a);
 }
 
 JNIEXPORT jint JNICALL
@@ -177,11 +174,11 @@ Java_com_guagua_nativeapp_MainActivity_nativeDecode(JNIEnv *env, jobject instanc
     pFormatCtx = avformat_alloc_context();
 
     if (avformat_open_input(&pFormatCtx, input_str, NULL, NULL) != 0) {
-        LOG_E("Couldn't open input stream.\n");
+        LOG_E(DEBUG,"Couldn't open input stream.\n");
         return -1;
     }
     if (avformat_find_stream_info(pFormatCtx, NULL) < 0) {
-        LOG_E("Couldn't find stream information.\n");
+        LOG_E(DEBUG,"Couldn't find stream information.\n");
         return -1;
     }
     videoindex = -1;
@@ -191,17 +188,17 @@ Java_com_guagua_nativeapp_MainActivity_nativeDecode(JNIEnv *env, jobject instanc
             break;
         }
     if (videoindex == -1) {
-        LOG_E("Couldn't find a video stream.\n");
+        LOG_E(DEBUG,"Couldn't find a video stream.\n");
         return -1;
     }
     pCodecCtx = pFormatCtx->streams[videoindex]->codec;
     pCodec = avcodec_find_decoder(pCodecCtx->codec_id);
     if (pCodec == NULL) {
-        LOG_E("Couldn't find Codec.\n");
+        LOG_E(DEBUG,"Couldn't find Codec.\n");
         return -1;
     }
     if (avcodec_open2(pCodecCtx, pCodec, NULL) < 0) {
-        LOG_E("Couldn't open codec.\n");
+        LOG_E(DEBUG,"Couldn't open codec.\n");
         return -1;
     }
 
@@ -240,7 +237,7 @@ Java_com_guagua_nativeapp_MainActivity_nativeDecode(JNIEnv *env, jobject instanc
         if (packet->stream_index == videoindex) {
             ret = avcodec_decode_video2(pCodecCtx, pFrame, &got_picture, packet);
             if (ret < 0) {
-                LOG_E("Decode Error.\n");
+                LOG_E(DEBUG,"Decode Error.\n");
                 return -1;
             }
             if (got_picture) {
@@ -268,7 +265,7 @@ Java_com_guagua_nativeapp_MainActivity_nativeDecode(JNIEnv *env, jobject instanc
                         sprintf(pictype_str, "Other");
                         break;
                 }
-                LOG_D("Frame Index: %5d. Type:%s", frame_cnt, pictype_str);
+                LOG_D(DEBUG,"Frame Index: %5d. Type:%s", frame_cnt, pictype_str);
                 frame_cnt++;
             }
         }
@@ -305,7 +302,7 @@ Java_com_guagua_nativeapp_MainActivity_nativeDecode(JNIEnv *env, jobject instanc
                 sprintf(pictype_str, "Other");
                 break;
         }
-        LOG_D("Frame Index: %5d. Type:%s", frame_cnt, pictype_str);
+        LOG_D(DEBUG,"Frame Index: %5d. Type:%s", frame_cnt, pictype_str);
         frame_cnt++;
     }
     time_finish = clock();
@@ -336,23 +333,23 @@ JNIEXPORT jint JNICALL Java_com_guagua_nativeapp_MainActivity_nativePlayer(JNIEn
                                                                            jstring playUri_,
                                                                            jobject surface) {
     const char *playUri = env->GetStringUTFChars(playUri_, 0);
-    LOG_D("play");
+    LOG_D(DEBUG,"play");
     // sd卡中的视频文件地址,可自行修改或者通过jni传入
     const char *file_name = env->GetStringUTFChars(playUri_, 0);
 
     av_register_all();
-
+    avformat_network_init();
     AVFormatContext *pFormatCtx = avformat_alloc_context();
 
     // Open video file
     if (avformat_open_input(&pFormatCtx, file_name, NULL, NULL) != 0) {
-        LOG_E("Couldn't open file:%s\n", file_name);
+        LOG_E(DEBUG,"Couldn't open file:%s\n", file_name);
         return -1; // Couldn't open file
     }
 
     // Retrieve stream information
     if (avformat_find_stream_info(pFormatCtx, NULL) < 0) {
-        LOG_E("Couldn't find stream information.");
+        LOG_E(DEBUG,"Couldn't find stream information.");
         return -1;
     }
 
@@ -365,7 +362,7 @@ JNIEXPORT jint JNICALL Java_com_guagua_nativeapp_MainActivity_nativePlayer(JNIEn
         }
     }
     if (videoStream == -1) {
-        LOG_E("Didn't find a video stream.");
+        LOG_E(DEBUG,"Didn't find a video stream.");
         return -1; // Didn't find a video stream
     }
     // Get a pointer to the codec context for the video stream
@@ -373,12 +370,12 @@ JNIEXPORT jint JNICALL Java_com_guagua_nativeapp_MainActivity_nativePlayer(JNIEn
     // Find the decoder for the video stream
     AVCodec *pCodec = avcodec_find_decoder(pCodecCtx->codec_id);
     if (pCodec == NULL) {
-        LOG_E("Codec not found.");
+        LOG_E(DEBUG,"Codec not found.");
         return -1; // Codec not found
     }
 
     if (avcodec_open2(pCodecCtx, pCodec, NULL) < 0) {
-        LOG_E("Could not open codec.");
+        LOG_E(DEBUG,"Could not open codec.");
         return -1; // Could not open codec
     }
 
@@ -395,7 +392,7 @@ JNIEXPORT jint JNICALL Java_com_guagua_nativeapp_MainActivity_nativePlayer(JNIEn
     ANativeWindow_Buffer windowBuffer;
 
     if (avcodec_open2(pCodecCtx, pCodec, NULL) < 0) {
-        LOG_E("Could not open codec.");
+        LOG_E(DEBUG,"Could not open codec.");
         return -1; // Could not open codec
     }
 
@@ -405,7 +402,7 @@ JNIEXPORT jint JNICALL Java_com_guagua_nativeapp_MainActivity_nativePlayer(JNIEn
     // 用于渲染
     AVFrame *pFrameRGBA = av_frame_alloc();
     if (pFrameRGBA == NULL || pFrame == NULL) {
-        LOG_E("Could not allocate video frame.");
+        LOG_E(DEBUG,"Could not allocate video frame.");
         return -1;
     }
 
@@ -482,6 +479,48 @@ JNIEXPORT jint JNICALL Java_com_guagua_nativeapp_MainActivity_nativePlayer(JNIEn
     env->ReleaseStringUTFChars(playUri_, playUri);
     return 0;
 }
+
+JNIEXPORT jstring JNICALL
+Java_com_guagua_nativeapp_YUVActivity_getYuvInfo(JNIEnv *env, jobject instance, jstring path_) {
+    const char *path = env->GetStringUTFChars(path_, 0);
+    int video_index = -1, audio_index = -1;
+    av_register_all();
+
+    AVFormatContext *pFormatContext = avformat_alloc_context();
+
+    if (avformat_open_input(&pFormatContext, path, NULL, NULL) !=0) {
+        return env->NewStringUTF("");
+    }
+
+    if (avformat_find_stream_info(pFormatContext, NULL) < 0) {
+        return env->NewStringUTF("");
+    }
+
+    for (int i = 0; i < pFormatContext->nb_streams; i++) {
+        if (pFormatContext->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
+            video_index = i;
+        } else if (pFormatContext->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
+            audio_index = i;
+        }
+    }
+    AVCodecContext *pVideoAVCodecContext = pFormatContext->streams[video_index]->codec;
+    AVCodecContext *pAudioAVCodecContext = pFormatContext->streams[audio_index]->codec;
+
+    AVCodec *pVideoCodec = avcodec_find_decoder(pVideoAVCodecContext->codec_id);
+    AVCodec *pAudioCodec = avcodec_find_decoder(pAudioAVCodecContext->codec_id);
+    LOG_D("video codec:%s,audio codec:%s",pVideoCodec->name,pAudioCodec->name);
+
+
+
+    // TODO
+
+    env->ReleaseStringUTFChars(path_, path);
+
+//    avformat_free_context(pContext);
+
+    return env->NewStringUTF("");
+}
+
 
 #ifdef __cplusplus
 }

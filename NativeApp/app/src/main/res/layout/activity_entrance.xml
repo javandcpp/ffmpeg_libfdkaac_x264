@@ -19,4 +19,16 @@
         android:layout_height="wrap_content"
         android:text="sdl" />
 
+    <Button
+        android:id="@+id/getYUVInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="yuvInfo" />
+
+    <Button
+        android:id="@+id/recorder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="recorder" />
+
 </LinearLayout>

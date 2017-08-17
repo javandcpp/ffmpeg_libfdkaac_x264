@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         TextView tvInfo = (TextView) findViewById(R.id.tvInfo);
-        srcfile = new File(Environment.getExternalStorageDirectory(),"video_1.mkv");
-        destfile = new File(Environment.getExternalStorageDirectory(),"video_2.yuv");
+        srcfile = new File(Environment.getExternalStorageDirectory(), "video_1.mkv");
+        destfile = new File(Environment.getExternalStorageDirectory(), "video_2.yuv");
         tvInfo.setText(nativeGetVideoInfo(srcfile.getAbsolutePath()));
 
 
@@ -45,8 +45,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnPlay.setOnClickListener(this);
     }
 
-    static {
-        System.loadLibrary("native-lib");
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
 
@@ -56,21 +57,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public native String nativeGetVideoInfo(String path);
 
-    public native int nativeDecode(String inputUri,String outputUri);
+    public native int nativeDecode(String inputUri, String outputUri);
 
-    public native int nativePlayer(String playUri,Object surface);
+    public native int nativePlayer(String playUri, Object surface);
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btnVideoDecorder:
-                nativeDecode(srcfile.getAbsolutePath(),destfile.getAbsolutePath());
+                nativeDecode(srcfile.getAbsolutePath(), destfile.getAbsolutePath());
                 break;
             case R.id.btnPlay:
 //                new Thread(new Runnable() {
 //                    @Override
 //                    public void run() {
-                        nativePlayer(srcfile.getAbsolutePath(),surfaceView.getHolder().getSurface());
+                nativePlayer(srcfile.getAbsolutePath(), surfaceView.getHolder().getSurface());
 //                    }
 //                }).start();
                 break;
