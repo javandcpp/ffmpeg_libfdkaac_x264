@@ -2,7 +2,7 @@
 # https://github.com/mabeijianxi
 # mabeijianxi@gmail.com
 
-NDK_HOME=/Users/jianxi/android/sdk/ndk-bundle
+NDK=/Applications/android-ndk-r13
 ANDROID_API=android-14
 
 SYSROOT=$NDK_HOME/platforms/$ANDROID_API/arch-x86
@@ -11,7 +11,8 @@ ANDROID_BIN=$NDK_HOME/toolchains/x86-4.9/prebuilt/darwin-x86_64/bin
 
 CROSS_COMPILE=${ANDROID_BIN}/i686-linux-android-
 
-basepath=$(cd `dirname $0`; pwd)
+#basepath=$(cd `dirname $0`; pwd)
+basepath=.
 
 echo "$basepath"
 

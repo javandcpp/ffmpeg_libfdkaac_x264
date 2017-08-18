@@ -2,7 +2,7 @@
 # https://github.com/mabeijianxi
 # mabeijianxi@gmail.com
 
-NDK=/Users/jianxi/android/sdk/ndk-bundle
+NDK=/Applications/android-ndk-r13
 
 PLATFORM=$NDK/platforms/android-21/arch-x86_64/
 TOOLCHAIN=$NDK/toolchains/x86_64-4.9/prebuilt/darwin-x86_64

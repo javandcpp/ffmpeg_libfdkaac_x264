@@ -5,7 +5,8 @@
 
 #include <string.h>
 #include <stdio.h>
-#include "jni_debug.h"
+#include "debug.h"
+
 
 
 #ifdef __cplusplus

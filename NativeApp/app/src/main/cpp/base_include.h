@@ -12,11 +12,21 @@ extern "C"{
 #include "include/libavformat/avformat.h"
 #include "include/libavcodec/avcodec.h"
 #include "include/libavutil/opt.h"
+#include "include/libavutil/frame.h"
 }
 
 #include <jni.h>
 #include <iostream>
-#include <string>
+#include <string.h>
 #include <android/log.h>
+#include "debug.h"
+#include "threadsafe_queue.cpp"
+#include "arguments.h"
+#include "jni_encode_aac.h"
+
+#define START 0
+#define END 1
+#define RELEASE 1
+
 
 #endif //NATIVEAPP_BASE_INCLUDE_H

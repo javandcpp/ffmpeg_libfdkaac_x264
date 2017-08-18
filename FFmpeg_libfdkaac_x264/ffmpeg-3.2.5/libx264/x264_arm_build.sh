@@ -3,7 +3,7 @@ NDK=/Applications/android-ndk-r13
 
 PLATFORM=$NDK/platforms/android-14/arch-arm
 TOOLCHAIN=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64
-PREFIX=./android/arm
+PREFIX=$(pwd)/android/arm
 
 function build_one
 {

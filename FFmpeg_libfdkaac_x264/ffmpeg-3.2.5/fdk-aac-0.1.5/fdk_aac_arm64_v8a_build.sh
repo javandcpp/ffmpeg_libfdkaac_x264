@@ -2,7 +2,7 @@
 # https://github.com/mabeijianxi
 # mabeijianxi@gmail.com
 
-NDK_HOME=/Users/jianxi/android/sdk/ndk-bundle
+NDK=/Applications/android-ndk-r13
 ANDROID_API=android-21
 
 SYSROOT=$NDK_HOME/platforms/$ANDROID_API/arch-arm64

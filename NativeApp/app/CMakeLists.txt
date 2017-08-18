@@ -22,44 +22,43 @@ include_directories(${include-sdl2headers})
 add_library(avcodec SHARED IMPORTED)
 set_target_properties(avcodec
                         PROPERTIES
-                         IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libavcodec-57.so)
+                         IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libavcodec.so)
 
 #添加依赖库
-add_library(avdevice SHARED IMPORTED)
-set_target_properties( avdevice
-                       PROPERTIES
-                       IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libavdevice-57.so )
+
 #添加依赖库
  add_library(avfilter SHARED IMPORTED)
  set_target_properties( avfilter
                         PROPERTIES
-                        IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libavfilter-6.so )
+                        IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libavfilter.so )
 #添加依赖库
  add_library(avformat SHARED IMPORTED)
  set_target_properties( avformat
                         PROPERTIES
-                        IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libavformat-57.so )
+                        IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libavformat.so )
 #添加依赖库
  add_library(avutil SHARED IMPORTED)
  set_target_properties( avutil
                         PROPERTIES
-                        IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libavutil-55.so )
+                        IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libavutil.so )
 #添加依赖库
- add_library(postproc SHARED IMPORTED)
- set_target_properties( postproc
-                        PROPERTIES
-                        IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libpostproc-54.so )
+
 #添加依赖库
  add_library(swresample SHARED IMPORTED)
  set_target_properties( swresample
                         PROPERTIES
-                        IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libswresample-2.so )
+                        IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libswresample.so )
 
 #添加依赖库
  add_library(swscale SHARED IMPORTED)
  set_target_properties( swscale
                         PROPERTIES
-                        IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libswscale-4.so )
+                        IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libswscale.so )
+
+add_library(fdkaac SHARED IMPORTED)
+set_target_properties( fdkaac
+                       PROPERTIES
+                       IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libfdk-aac.so )
 
 add_library( # Sets the name of the library.
              Media
@@ -71,9 +70,12 @@ add_library( # Sets the name of the library.
              # file are automatically included.
              src/main/cpp/native-lib.cpp
              src/main/cpp/jni_encode_h264.cpp
-             src/main/cpp/jni_debug.cpp
+             src/main/cpp/debug.cpp
              src/main/cpp/jni_ffmpeg_config.cpp
-              )
+             src/main/cpp/jni_ffmpeg_bridge.cpp
+             src/main/cpp/jni_encode_aac.cpp
+             src/main/cpp/jni_handler.cpp
+             )
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because system libraries are included in the search path by
@@ -100,13 +102,14 @@ target_link_libraries( # Specifies the target library.
                        # included in the NDK.
                        ${log-lib}
                         avcodec
-                        avdevice
+                        #avdevice
                         avfilter
                         avformat
                         avutil
-                        postproc
+                        #postproc
                         swresample
                         swscale
-                         log
-                         android   #这句很重要,涉及android中库的调用
+                        fdkaac
+                        log
+                        android   #这句很重要,涉及android中库的调用
                         )

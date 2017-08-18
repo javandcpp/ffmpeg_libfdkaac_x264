@@ -1,19 +1,19 @@
 package com.guagua.nativeapp;
 
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.guagua.nativeapp.jnibridge.FFmpegJavaNativeBridge;
 import com.guagua.nativeapp.recorder.IMediaCallback;
 import com.guagua.nativeapp.recorder.NativeAudioRecorder;
-
-import java.io.File;
 
 public class Recorder extends AppCompatActivity implements View.OnClickListener, IMediaCallback {
 
     private NativeAudioRecorder nativeAudioRecorder;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class Recorder extends AppCompatActivity implements View.OnClickListener,
 
         nativeAudioRecorder = new NativeAudioRecorder(this);
         try {
-            nativeAudioRecorder.setPath(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "audio.pcm");
+            nativeAudioRecorder.setPath(Environment.getExternalStorageDirectory().getAbsolutePath(), "audio.aac");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -43,6 +43,8 @@ public class Recorder extends AppCompatActivity implements View.OnClickListener,
             case R.id.btnSwitchCamera:
                 break;
             case R.id.btnStop:
+                FFmpegJavaNativeBridge.endAACEncode();
+//                FFmpegJavaNativeBridge.releaseAACEncode();
                 nativeAudioRecorder.stopAudioRecord();
                 break;
         }
@@ -56,5 +58,8 @@ public class Recorder extends AppCompatActivity implements View.OnClickListener,
     @Override
     public void receiveAudioData(byte[] sampleBuffer, int result) {
         Log.d("record", result + "");
+        if (nativeAudioRecorder.isRecording() && result > 0) {
+            FFmpegJavaNativeBridge.encode2AAC(sampleBuffer);
+        }
     }
 }

@@ -6,7 +6,7 @@
 basepath=.
 export TMPDIR=$basepath/ffmpegtemp
 # NDK的路径，根据自己的安装位置进行设置
-NDK=/Users/jianxi/android/sdk/ndk-bundle
+NDK=/Applications/android-ndk-r13
 # 编译针对的平台，可以根据自己的需求进行设置
 # 这里选择最低支持android-14, arm架构，生成的so库是放在
 # libs/armeabi文件夹下的，若针对x86架构，要选择arch-x86

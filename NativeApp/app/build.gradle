@@ -14,10 +14,9 @@ android {
         externalNativeBuild {
             cmake {
                 cppFlags "-std=c++11"
-//                arguments '-DANDROID_TOOLCHAIN=clang','-DANDROID_STL=gnustl_static'
             }
         }
-        ndk {
+        ndk{
             abiFilters 'armeabi-v7a'
         }
     }

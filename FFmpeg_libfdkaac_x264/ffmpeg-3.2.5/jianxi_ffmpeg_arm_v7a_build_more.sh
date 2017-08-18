@@ -4,7 +4,7 @@
 
 #!/bin/bash
 basepath=.
-export TMPDIR=$basepath/ffmpegtemp
+export TMPDIR=${basepath}/ffmpegtemp
 # NDK的路径，根据自己的安装位置进行设置
 NDK=/Applications/android-ndk-r13
 # 编译针对的平台，可以根据自己的需求进行设置
@@ -16,7 +16,8 @@ PLATFORM=$NDK/platforms/android-14/arch-arm
 # 根据自己安装的NDK版本来确定，一般使用最新的版本
 TOOLCHAIN=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64
 
-CPU=arm-v7a
+CPU=armv7-a
+
 
 echo $basepath
 
@@ -33,8 +34,8 @@ FF_CFLAGS="-O3 -Wall -pipe \
 -ffast-math \
 -fstrict-aliasing -Werror=strict-aliasing \
 -Wno-psabi -Wa,--noexecstack \
--DANDROID  "
-PREFIX=./android_more/$CPU
+-DANDROID  " 
+PREFIX=$basepath/android_more/$CPU
 
 rm "./compat/strtod.o"
 
@@ -44,8 +45,10 @@ build_one(){
 --enable-cross-compile \
 --disable-runtime-cpudetect \
 --disable-asm \
+--cpu=armv7-a \
 --arch=arm \
 --target-os=android \
+--enable-version3 \
 --cc=$TOOLCHAIN/bin/arm-linux-androideabi-gcc \
 --cross-prefix=$TOOLCHAIN/bin/arm-linux-androideabi- \
 --disable-stripping \
@@ -55,6 +58,8 @@ build_one(){
 --extra-ldflags="-L$FDK_LIB -L$X264_LIB" \
 --enable-gpl \
 --enable-shared \
+--enable-cross-compile \
+--enable-neon \
 --disable-static \
 --enable-version3 \
 --enable-pthreads \
@@ -71,7 +76,14 @@ build_one(){
 --enable-encoder=mjpeg \
 --enable-encoder=png \
 --enable-nonfree \
---enable-muxers \
+--disable-muxers \
+--enable-muxer=adts \
+--enable-muxer=h264 \
+--enable-muxer=mp4 \
+--enable-muxer=pcm_s16le \
+--enable-parser=aac \
+--enable-parser=aac_latm \
+--enable-parser=h264 \
 --enable-decoders \
 --enable-demuxers \
 --enable-parsers \

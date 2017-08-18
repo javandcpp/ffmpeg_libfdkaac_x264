@@ -2,21 +2,18 @@
 # https://github.com/mabeijianxi
 # mabeijianxi@gmail.com
 
-NDK_HOME=/Applications/android-ndk-r13
+NDK=/Applications/android-ndk-r13
 ANDROID_API=android-14
 
-SYSROOT=$NDK_HOME/platforms/$ANDROID_API/arch-arm
+SYSROOT=$NDK/platforms/$ANDROID_API/arch-arm
 
-ANDROID_BIN=$NDK_HOME/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin
+ANDROID_BIN=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin
 
 CROSS_COMPILE=${ANDROID_BIN}/arm-linux-androideabi-
 
-basepath=$(cd `dirname $0`; pwd)
-
-echo "$basepath"
 
 
-CPU=arm
+CPU=arm-v7a
 
 
 CFLAGS=""
@@ -43,7 +40,7 @@ export AS="${CROSS_COMPILE}gcc"
 ./configure $FLAGS \
 --enable-pic \
 --enable-strip \
---prefix=${basepath}/android/$CPU
+--prefix=${pwd}/android/$CPU
 
 $ADDITIONAL_CONFIGURE_FLAG
 make clean

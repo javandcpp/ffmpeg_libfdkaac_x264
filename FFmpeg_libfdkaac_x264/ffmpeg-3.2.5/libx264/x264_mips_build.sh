@@ -2,7 +2,7 @@
 # https://github.com/mabeijianxi
 # mabeijianxi@gmail.com
 
-NDK=/Users/jianxi/android/sdk/ndk-bundle
+NDK=/Applications/android-ndk-r13
 
 PLATFORM=$NDK/platforms/android-14/arch-mips/
 TOOLCHAIN=$NDK/toolchains/mipsel-linux-android-4.9/prebuilt/darwin-x86_64
