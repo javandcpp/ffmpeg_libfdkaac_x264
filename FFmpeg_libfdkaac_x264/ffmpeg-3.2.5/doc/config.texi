@@ -378,7 +378,7 @@
 @set config-encoders yes
 @c @set config-hwaccels no
 @set config-parsers yes
-@c @set config-indevs no
+@set config-indevs yes
 @c @set config-outdevs no
 @set config-filters yes
 @set config-demuxers yes
@@ -521,12 +521,12 @@
 @set config-nonfree yes
 @set config-version3 yes
 @set config-avcodec yes
-@c @set config-avdevice no
+@set config-avdevice yes
 @set config-avfilter yes
 @set config-avformat yes
 @c @set config-avresample no
 @set config-avutil yes
-@c @set config-postproc no
+@set config-postproc yes
 @set config-swresample yes
 @set config-swscale yes
 @c @set config-ffplay no
@@ -1782,7 +1782,7 @@
 @set config-perspective-filter yes
 @set config-phase-filter yes
 @set config-pixdesctest-filter yes
-@c @set config-pp-filter no
+@set config-pp-filter yes
 @set config-pp7-filter yes
 @set config-prewitt-filter yes
 @set config-psnr-filter yes
@@ -1950,17 +1950,17 @@
 @c @set config-decklink-indev no
 @c @set config-dshow-indev no
 @c @set config-dv1394-indev no
-@c @set config-fbdev-indev no
+@set config-fbdev-indev yes
 @c @set config-gdigrab-indev no
 @c @set config-iec61883-indev no
 @c @set config-jack-indev no
-@c @set config-lavfi-indev no
+@set config-lavfi-indev yes
 @c @set config-openal-indev no
 @c @set config-oss-indev no
 @c @set config-pulse-indev no
 @c @set config-qtkit-indev no
 @c @set config-sndio-indev no
-@c @set config-v4l2-indev no
+@set config-v4l2-indev yes
 @c @set config-vfwcap-indev no
 @c @set config-x11grab-indev no
 @c @set config-x11grab-xcb-indev no

@@ -8,6 +8,7 @@ import com.guagua.nativeapp.jnibridge.FFmpegJavaNativeBridge;
 
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -35,7 +36,7 @@ public class NativeAudioRecorder extends BaseMediaRecorder {
             mDestDir.delete();
         }
         mDestDir.createNewFile();
-        dataOutputStream = new DataOutputStream(new FileOutputStream(mDestDir, true));
+
     }
 
     public boolean isRecording() {
@@ -74,11 +75,14 @@ public class NativeAudioRecorder extends BaseMediaRecorder {
                 @Override
                 public void run() {
                     try {
+                        dataOutputStream = new DataOutputStream(new FileOutputStream(mDestDir, true));
                         mAudioRecord.startRecording();
                     } catch (IllegalStateException e) {
                         recording=false;
                         iMediaCallback.onAudioRecordError(BaseMediaRecorder.AUDIO_RECORD_ERROR_UNKNOWN, "startRecording failed.");
                         return;
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
                     }
                     byte[] sampleBuffer = new byte[2048];
                     try {

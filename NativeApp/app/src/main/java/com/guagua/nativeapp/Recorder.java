@@ -44,8 +44,8 @@ public class Recorder extends AppCompatActivity implements View.OnClickListener,
                 break;
             case R.id.btnStop:
                 FFmpegJavaNativeBridge.endAACEncode();
-//                FFmpegJavaNativeBridge.releaseAACEncode();
                 nativeAudioRecorder.stopAudioRecord();
+//                FFmpegJavaNativeBridge.releaseAACEncode();
                 break;
         }
     }

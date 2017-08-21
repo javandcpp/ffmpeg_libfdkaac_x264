@@ -56,28 +56,29 @@ int AACEncode::flush_encoder(AVFormatContext *fmt_ctx, unsigned int stream_index
  * @return
  */
 int AACEncode::initAudioEncoder() {
-    LOG_I(DEBUG, "音频编码器初始化开始");
+    LOG_I(DEBUG,"音频编码器初始化开始");
     size_t path_length = strlen(userArguments->audio_path);
-    char *out_file = (char *) malloc(path_length + 1);
-//    char *out_file ="/mnt/sdcard/audio1.aac";
+    char *out_file=( char *)malloc(path_length+1);
 
     strcpy(out_file, userArguments->audio_path);
 
     av_register_all();
 
     //Method 1.
-//    pFormatCtx = avformat_alloc_context();
-//    fmt = av_guess_format(NULL, out_file, NULL);
-//    pFormatCtx->oformat = fmt;
+    pFormatCtx = avformat_alloc_context();
+    fmt = av_guess_format(NULL, out_file, NULL);
+    pFormatCtx->oformat = fmt;
 
 
 //    Method 2.
-    avformat_alloc_output_context2(&pFormatCtx, NULL, NULL, out_file);
-    fmt = pFormatCtx->oformat;
+//    int a=avformat_alloc_output_context2(&pFormatCtx, NULL, NULL, out_file);
+//    fmt = pFormatCtx->oformat;
+//    pCodec = avcodec_find_encoder(AV_CODEC_ID_AAC);
+//  、  pCodecCtx = avcodec_alloc_context3(pCodec);
 
     //Open output URL
     if (avio_open(&pFormatCtx->pb, out_file, AVIO_FLAG_READ_WRITE) < 0) {
-        LOG_E(DEBUG, "Failed to open output file!\n");
+        LOG_E(DEBUG,"Failed to open output file!\n");
         return -1;
     }
 //    pFormatCtx->audio_codec_id=AV_CODEC_ID_AAC;
@@ -87,25 +88,26 @@ int AACEncode::initAudioEncoder() {
         return -1;
     }
     pCodecCtx = audio_st->codec;
-    pCodecCtx->codec_id = fmt->audio_codec;
+    pCodecCtx->codec_id = AV_CODEC_ID_AAC;
     pCodecCtx->codec_type = AVMEDIA_TYPE_AUDIO;
     pCodecCtx->sample_fmt = AV_SAMPLE_FMT_S16;
     pCodecCtx->sample_rate = userArguments->audio_sample_rate;
-    pCodecCtx->channel_layout = AV_CH_LAYOUT_STEREO;
+    pCodecCtx->channel_layout = AV_CH_LAYOUT_MONO;
     pCodecCtx->channels = av_get_channel_layout_nb_channels(pCodecCtx->channel_layout);
     pCodecCtx->bit_rate = userArguments->audio_bit_rate;
 //    pCodecCtx->thread_count = 1;
 //    pCodecCtx->profile=FF_PROFILE_AAC_MAIN;
 
-    int b = av_get_channel_layout_nb_channels(pCodecCtx->channel_layout);
-    LOG_I(DEBUG, "channels:%d", b);
+    int b= av_get_channel_layout_nb_channels(pCodecCtx->channel_layout);
+    LOG_I(DEBUG,"native --channels:%d",b);
 
     //Show some information
     av_dump_format(pFormatCtx, 0, out_file, 1);
     pCodec = avcodec_find_encoder(pCodecCtx->codec_id);
+    LOG_I(DEBUG,"natvie --avcodec_open:%s",pCodec->name);
     if (!pCodec) {
 
-        LOG_E(DEBUG, "Can not find encoder!\n");
+        LOG_E(DEBUG,"natvie --Can not find encoder!\n");
         return -1;
     }
 
@@ -113,9 +115,11 @@ int AACEncode::initAudioEncoder() {
 //
 //    av_dict_set(&param, "profile", "aac_he", 0);
 
+
     int state = avcodec_open2(pCodecCtx, pCodec, NULL);
+    LOG_I(DEBUG,"natvie --avcodec_open:%d",state);
     if (state < 0) {
-        LOG_E(DEBUG, "Failed to open encoder!---%d", state);
+        LOG_E(DEBUG,"natvie --Failed to open encoder!---%d",state);
         return -1;
     }
     pFrame = av_frame_alloc();
@@ -133,10 +137,10 @@ int AACEncode::initAudioEncoder() {
     avformat_write_header(pFormatCtx, NULL);
 
     av_new_packet(&pkt, size);
-    is_end = START;
+    is_end=START;
     pthread_t thread;
     pthread_create(&thread, NULL, AACEncode::startEncode, this);
-    LOG_E(DEBUG, "音频编码器初始化完成");
+    LOG_I(DEBUG,"natvie --音频编码器初始化完成");
     return 0;
 
 }
@@ -149,6 +153,7 @@ void AACEncode::user_end() {
 }
 
 void AACEncode::release() {
+
     is_release = RELEASE;
 }
 
@@ -170,19 +175,22 @@ int AACEncode::encodeEnd() {
         LOG_E(DEBUG, "Flushing encoder failed\n");
         return -1;
     }
-
+    LOG_E(DEBUG, "Flushing encoder success\n");
     //Write Trailer
     av_write_trailer(pFormatCtx);
 
     //Clean
+    LOG_E(DEBUG, "av_write_trailer\n");
     if (audio_st) {
         avcodec_close(audio_st->codec);
         av_free(pFrame);
+        LOG_E(DEBUG, "av_free\n");
 //        av_free(frame_buf);
     }
     avio_close(pFormatCtx->pb);
+    LOG_E(DEBUG, "avio_close\n");
     avformat_free_context(pFormatCtx);
-    LOG_I(DEBUG, "音频编码完成")
+    LOG_I(DEBUG, "音频编码完成");
 //    userArguments->handler->setup_audio_state(END_STATE);
 //    arguments->handler->try_encode_over(arguments);
 
@@ -236,6 +244,7 @@ void *AACEncode::startEncode(void *obj) {
     }
     if (aac_encoder->is_end) {
         aac_encoder->encodeEnd();
+        delete aac_encoder;
     }
     return 0;
 }

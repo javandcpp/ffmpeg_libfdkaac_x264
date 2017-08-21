@@ -4,7 +4,7 @@
 
 #!/bin/bash
 basepath=.
-export TMPDIR=${basepath}/ffmpegtemp
+export TMPDIR=$basepath/ffmpegtemp
 # NDK的路径，根据自己的安装位置进行设置
 NDK=/Applications/android-ndk-r13
 # 编译针对的平台，可以根据自己的需求进行设置

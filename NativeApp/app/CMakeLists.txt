@@ -60,6 +60,18 @@ set_target_properties( fdkaac
                        PROPERTIES
                        IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libfdk-aac.so )
 
+add_library(avdevice SHARED IMPORTED)
+set_target_properties( avdevice
+                       PROPERTIES
+                       IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libavdevice.so )
+
+
+add_library(postproc SHARED IMPORTED)
+set_target_properties( postproc
+                       PROPERTIES
+                       IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libpostproc.so )
+
+
 add_library( # Sets the name of the library.
              Media
              # Sets the library as a shared library.
@@ -75,6 +87,7 @@ add_library( # Sets the name of the library.
              src/main/cpp/jni_ffmpeg_bridge.cpp
              src/main/cpp/jni_encode_aac.cpp
              src/main/cpp/jni_handler.cpp
+             src/main/cpp/threadsafe_queue.cpp
              )
 
 # Searches for a specified prebuilt library and stores the path as a
@@ -102,11 +115,11 @@ target_link_libraries( # Specifies the target library.
                        # included in the NDK.
                        ${log-lib}
                         avcodec
-                        #avdevice
+                        avdevice
                         avfilter
                         avformat
                         avutil
-                        #postproc
+                        postproc
                         swresample
                         swscale
                         fdkaac

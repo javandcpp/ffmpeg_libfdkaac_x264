@@ -61,17 +61,16 @@ Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_endAACEncode(JNIEnv *
         aacEncoder->user_end();
         aacEncoder=NULL;
     }
+    return 0;
 }
 
 
 JNIEXPORT jint JNICALL
 Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_releaseAACEncode(JNIEnv *env,
                                                                             jclass type) {
-    if (aacEncoder != NULL) {
-        aacEncoder->release();
-        aacEncoder=NULL;
-    }
 
+
+    return 0;
     // TODO
 
 }

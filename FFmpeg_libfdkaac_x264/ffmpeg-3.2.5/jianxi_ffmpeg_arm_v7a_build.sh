@@ -107,8 +107,8 @@ build_one(){
 --disable-ffprobe \
 --disable-ffplay \
 --disable-ffmpeg \
---disable-postproc \
---disable-avdevice \
+--enable-postproc \
+--enable-avdevice \
 --disable-symver \
 --disable-stripping \
 --extra-cflags="$FF_EXTRA_CFLAGS  $FF_CFLAGS" \
