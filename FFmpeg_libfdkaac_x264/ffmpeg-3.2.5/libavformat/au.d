@@ -13,4 +13,4 @@ libavformat/au.o: libavformat/au.c libavformat/avformat.h \
  libavformat/avio.h libavutil/common.h libavformat/version.h \
  libavformat/internal.h libavutil/bprint.h libavutil/avstring.h \
  libavformat/os_support.h libavformat/avio_internal.h libavformat/url.h \
- libavformat/pcm.h libavutil/avassert.h libavformat/rawenc.h
+ libavformat/pcm.h libavutil/avassert.h

@@ -15,5 +15,4 @@ libavformat/wavenc.o: libavformat/wavenc.c libavutil/avstring.h \
  libavcodec/version.h libavutil/version.h libavformat/avio.h \
  libavformat/version.h libavformat/avio_internal.h libavformat/url.h \
  libavformat/internal.h libavutil/bprint.h libavutil/avstring.h \
- libavformat/os_support.h libavformat/riff.h libavformat/metadata.h \
- libavformat/w64.h
+ libavformat/os_support.h libavformat/riff.h libavformat/metadata.h

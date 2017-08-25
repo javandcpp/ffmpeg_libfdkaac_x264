@@ -88,6 +88,7 @@ add_library( # Sets the name of the library.
              src/main/cpp/jni_encode_aac.cpp
              src/main/cpp/jni_handler.cpp
              src/main/cpp/threadsafe_queue.cpp
+             src/main/cpp/NativeCrashHandler.cpp
              )
 
 # Searches for a specified prebuilt library and stores the path as a

@@ -23,10 +23,27 @@ extern "C"{
 #include "threadsafe_queue.cpp"
 #include "arguments.h"
 #include "jni_encode_aac.h"
+#include "jni_encode_h264.h"
 
 #define START 0
 #define END 1
 #define RELEASE 1
+
+
+#define ROTATE_0_CROP_LT 0
+
+/**
+ * 旋转90度剪裁左上
+ */
+#define ROTATE_90_CROP_LT 1
+/**
+ * 暂时没处理
+ */
+#define ROTATE_180 2
+/**
+ * 旋转270(-90)裁剪左上，左右镜像
+ */
+#define ROTATE_270_CROP_LT_MIRROR_LR 3
 
 
 #endif //NATIVEAPP_BASE_INCLUDE_H
