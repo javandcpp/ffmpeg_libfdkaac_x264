@@ -203,7 +203,7 @@ Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_yuv420Image2YUV(JNIEn
      *
      */
 
-
+    free(buffer);
     fclose(y);
     fclose(u);
     fclose(v);
