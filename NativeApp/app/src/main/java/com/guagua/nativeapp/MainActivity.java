@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.guagua.nativeapp.R;
+import com.guagua.nativeapp.jnibridge.FFmpegJavaNativeBridge;
 
 import java.io.File;
 
@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private File srcfile;
     private SurfaceView surfaceView;
     private boolean surfaceCreated;
+    private File srcYUVFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView tvInfo = (TextView) findViewById(R.id.tvInfo);
         srcfile = new File(Environment.getExternalStorageDirectory(), "video_1.mkv");
         destfile = new File(Environment.getExternalStorageDirectory(), "video_2.yuv");
+        srcYUVFile = new File(Environment.getExternalStorageDirectory(), "image.yuv");
         tvInfo.setText(nativeGetVideoInfo(srcfile.getAbsolutePath()));
 
 
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnVideoDecode = ((Button) findViewById(R.id.btnVideoDecorder));
         btnPlay = ((Button) findViewById(R.id.btnPlay));
+        findViewById(R.id.btGetImageYUV).setOnClickListener(this);
         surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
         surfaceView.getHolder().addCallback(this);
         btnVideoDecode.setOnClickListener(this);
@@ -74,6 +77,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 nativePlayer(srcfile.getAbsolutePath(), surfaceView.getHolder().getSurface());
 //                    }
 //                }).start();
+                break;
+            case R.id.getYUVInfo:
+                break;
+            case R.id.btGetImageYUV:
+                FFmpegJavaNativeBridge.yuv420Image2YUV(srcYUVFile.getAbsolutePath(),500,332);
                 break;
         }
     }

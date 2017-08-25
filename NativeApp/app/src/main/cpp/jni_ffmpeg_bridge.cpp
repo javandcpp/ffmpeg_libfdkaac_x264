@@ -156,6 +156,61 @@ Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_encodeFrame2H264(JNIE
 }
 
 
+JNIEXPORT jint JNICALL
+Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_yuv420Image2YUV(JNIEnv *env, jclass type,
+                                                                           jstring path_, jint w,
+                                                                           jint h) {
+    const char *path = env->GetStringUTFChars(path_, 0);
+
+    FILE *fHandle = fopen(path, "wb+");
+    FILE *y = fopen("/mnt/sdcard/image.y", "rb");
+    FILE *u = fopen("/mnt/sdcard/image.u", "rb");
+    FILE *v = fopen("/mnt/sdcard/image.v", "rb");
+
+    if (fHandle == NULL) {
+        LOG_E(DEBUG, "file open error!");
+        return -1;
+    }
+//合并YUV
+//    unsigned char *bufferY = (unsigned char *) malloc(w * h * 3 / 2);
+//    fread(bufferY, 1, w * h, y);
+//    fread(bufferY + w * h, 1, w * h / 4, u);
+//    fread(bufferY + w * h * 5 / 4, 1, w * h / 4, v);
+//
+//    fwrite(bufferY, 1, w * h * 3 / 2, fHandle);
+
+    //提取YUV
+    unsigned char *buffer = (unsigned char *) malloc(w * h * 3 / 2);
+    fread(buffer, 1, w * h * 3 / 2, fHandle);
+    fwrite(buffer, 1, w * h, y);
+    fwrite(buffer + w * h, 1, w * h / 4, u);//write u
+    fwrite(buffer + w * h * 5 / 4, 1, w * h / 4, v);//write v
+
+    /**
+     * y=w*h;
+     * u=w*h/4;
+     * v=w*h/4;
+     *
+     *
+     * total size=y+u+v=w*h*3/2;
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     */
+
+
+    fclose(y);
+    fclose(u);
+    fclose(v);
+    fclose(fHandle);
+    return 0;
+}
+
 #ifdef __cplusplus
 }
 #endif

@@ -31,6 +31,8 @@ public class FFmpegJavaNativeBridge {
 
     public static native int releaseRecord();
 
+    public static native int yuv420Image2YUV(String path,int w,int h);
+
 
 
 
