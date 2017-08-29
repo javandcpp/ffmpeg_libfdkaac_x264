@@ -2,6 +2,7 @@
 // Created by developer on 8/18/17.
 //
 
+
 #include "base_include.h"
 
 AACEncode *aacEncoder;
@@ -9,6 +10,9 @@ H264Encode *h264Encoder;
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+
+
 
 JNIEXPORT jint JNICALL
 Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_encode2AAC(JNIEnv *env, jclass type,
@@ -163,21 +167,21 @@ Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_yuv420Image2YUV(JNIEn
     const char *path = env->GetStringUTFChars(path_, 0);
 
     FILE *fHandle = fopen(path, "wb+");
-    FILE *y = fopen("/mnt/sdcard/image.y", "rb");
-    FILE *u = fopen("/mnt/sdcard/image.u", "rb");
-    FILE *v = fopen("/mnt/sdcard/image.v", "rb");
+    FILE *y = fopen("/mnt/sdcard/image.y", "rb+");
+    FILE *u = fopen("/mnt/sdcard/image.u", "rb+");
+    FILE *v = fopen("/mnt/sdcard/image.v", "rb+");
 
     if (fHandle == NULL) {
         LOG_E(DEBUG, "file open error!");
         return -1;
     }
 //合并YUV
-//    unsigned char *bufferY = (unsigned char *) malloc(w * h * 3 / 2);
-//    fread(bufferY, 1, w * h, y);
-//    fread(bufferY + w * h, 1, w * h / 4, u);
-//    fread(bufferY + w * h * 5 / 4, 1, w * h / 4, v);
+//    unsigned char *buffer = (unsigned char *) malloc(w * h * 3 / 2);
+//    fread(buffer, 1, w * h, y);
+//    fread(buffer + w * h, 1, w * h / 4, u);
+//    fread(buffer + w * h * 5 / 4, 1, w * h / 4, v);
 //
-//    fwrite(bufferY, 1, w * h * 3 / 2, fHandle);
+//    fwrite(buffer, 1, w * h * 3 / 2, fHandle);
 
     //提取YUV
     unsigned char *buffer = (unsigned char *) malloc(w * h * 3 / 2);
@@ -210,6 +214,36 @@ Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_yuv420Image2YUV(JNIEn
     fclose(fHandle);
     return 0;
 }
+
+/**
+ * 转换为灰色图片
+ */
+JNIEXPORT jint JNICALL
+Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_yuvTOGrayYUV(JNIEnv *env, jclass type,
+                                                                        jstring path_, jint w,
+                                                                        jint h) {
+    const char *path = env->GetStringUTFChars(path_, 0);
+
+    FILE *fHandle = fopen(path, "rb+");
+    FILE *fHandleGray = fopen("/mnt/sdcard/yuvGray420p.yuv", "wb+");
+    unsigned char *buffer = NULL;
+    if (NULL != fHandle && NULL != fHandleGray) {
+        buffer = (unsigned char *) malloc(w * h * 3 / 2);
+        int ret = fread(buffer, 1, w * h * 3 / 2, fHandle);
+        if (ret > 0) {
+            memset(buffer + w * h, 128, w * h / 2);//uv 全部写为128
+            fwrite(buffer, 1, w * h * 3 / 2, fHandleGray);
+        }
+    }
+    free(buffer);
+    fclose(fHandle);
+    fclose(fHandleGray);
+
+    return 0;
+}
+
+
+
 
 #ifdef __cplusplus
 }

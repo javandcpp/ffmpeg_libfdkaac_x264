@@ -45,10 +45,8 @@ build_one(){
 --enable-cross-compile \
 --disable-runtime-cpudetect \
 --disable-asm \
---cpu=armv7-a \
 --arch=arm \
 --target-os=android \
---enable-version3 \
 --cc=$TOOLCHAIN/bin/arm-linux-androideabi-gcc \
 --cross-prefix=$TOOLCHAIN/bin/arm-linux-androideabi- \
 --disable-stripping \
@@ -80,6 +78,7 @@ build_one(){
 --enable-muxer=adts \
 --enable-muxer=h264 \
 --enable-muxer=mp4 \
+--enable-muxer=flv \
 --enable-muxer=pcm_s16le \
 --enable-parser=aac \
 --enable-parser=aac_latm \

@@ -6,17 +6,23 @@
 #ifndef NATIVEAPP_BASE_INCLUDE_H
 #define NATIVEAPP_BASE_INCLUDE_H
 
-
+#ifdef __cplusplus
 extern "C"{
+#endif
+
 #include "include/libavcodec/avcodec.h"
 #include "include/libavformat/avformat.h"
 #include "include/libavcodec/avcodec.h"
 #include "include/libavutil/opt.h"
 #include "include/libavutil/frame.h"
-}
+#include "include/libavutil/time.h"
 
+#ifdef __cplusplus
+}
+#endif
+
+#include <stdio.h>
 #include <jni.h>
-#include <iostream>
 #include <string.h>
 #include <android/log.h>
 #include "debug.h"
@@ -24,6 +30,8 @@ extern "C"{
 #include "arguments.h"
 #include "jni_encode_aac.h"
 #include "jni_encode_h264.h"
+
+
 
 #define START 0
 #define END 1

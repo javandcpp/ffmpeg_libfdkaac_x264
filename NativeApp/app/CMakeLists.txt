@@ -60,16 +60,15 @@ set_target_properties( fdkaac
                        PROPERTIES
                        IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libfdk-aac.so )
 
+add_library(avpostproc SHARED IMPORTED)
+set_target_properties( avpostproc
+                       PROPERTIES
+                       IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libpostproc.so )
+
 add_library(avdevice SHARED IMPORTED)
 set_target_properties( avdevice
                        PROPERTIES
                        IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libavdevice.so )
-
-
-add_library(postproc SHARED IMPORTED)
-set_target_properties( postproc
-                       PROPERTIES
-                       IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libpostproc.so )
 
 
 add_library( # Sets the name of the library.
@@ -89,6 +88,7 @@ add_library( # Sets the name of the library.
              src/main/cpp/jni_handler.cpp
              src/main/cpp/threadsafe_queue.cpp
              src/main/cpp/NativeCrashHandler.cpp
+             src/main/cpp/jni_push_stream.c
              )
 
 # Searches for a specified prebuilt library and stores the path as a
@@ -116,14 +116,14 @@ target_link_libraries( # Specifies the target library.
                        # included in the NDK.
                        ${log-lib}
                         avcodec
-                        avdevice
                         avfilter
                         avformat
                         avutil
-                        postproc
                         swresample
                         swscale
                         fdkaac
+                        avdevice
+                        avpostproc
                         log
                         android   #这句很重要,涉及android中库的调用
                         )

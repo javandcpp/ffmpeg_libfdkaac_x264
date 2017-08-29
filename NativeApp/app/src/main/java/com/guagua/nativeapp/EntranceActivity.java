@@ -19,6 +19,7 @@ public class EntranceActivity extends AppCompatActivity implements View.OnClickL
         findViewById(R.id.SDLActivity).setOnClickListener(this);
         findViewById(R.id.getYUVInfo).setOnClickListener(this);
         findViewById(R.id.recorder).setOnClickListener(this);
+        findViewById(R.id.btnPushStream).setOnClickListener(this);
 
     }
 
@@ -36,6 +37,9 @@ public class EntranceActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.recorder:
                 startActivity(new Intent(this, Recorder.class));
+                break;
+            case R.id.btnPushStream:
+                startActivity(new Intent(this,PushStreamActivity.class));
                 break;
         }
     }

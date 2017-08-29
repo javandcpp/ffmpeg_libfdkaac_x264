@@ -42,7 +42,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnVideoDecode = ((Button) findViewById(R.id.btnVideoDecorder));
         btnPlay = ((Button) findViewById(R.id.btnPlay));
         findViewById(R.id.btGetImageYUV).setOnClickListener(this);
+        ((EditText) findViewById(R.id.etyuvPath)).setText(srcYUVFile.getAbsolutePath());
         surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
+        findViewById(R.id.btToGrayYUV).setOnClickListener(this);
+        ((EditText) findViewById(R.id.etyuvPath1)).setText(srcYUVFile.getAbsolutePath());
         surfaceView.getHolder().addCallback(this);
         btnVideoDecode.setOnClickListener(this);
         btnPlay.setOnClickListener(this);
@@ -81,7 +84,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.getYUVInfo:
                 break;
             case R.id.btGetImageYUV:
-                FFmpegJavaNativeBridge.yuv420Image2YUV(srcYUVFile.getAbsolutePath(),500,332);
+
+                FFmpegJavaNativeBridge.yuv420Image2YUV(srcYUVFile.getAbsolutePath(), 500, 332);
+                break;
+            case R.id.btToGrayYUV:
+                FFmpegJavaNativeBridge.yuvTOGrayYUV(srcYUVFile.getAbsolutePath(), 500, 332);
                 break;
         }
     }

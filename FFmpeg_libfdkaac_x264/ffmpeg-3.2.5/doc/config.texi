@@ -1998,7 +1998,7 @@
 @c @set config-fifo-muxer no
 @c @set config-filmstrip-muxer no
 @c @set config-flac-muxer no
-@c @set config-flv-muxer no
+@set config-flv-muxer yes
 @c @set config-framecrc-muxer no
 @c @set config-framehash-muxer no
 @c @set config-framemd5-muxer no
