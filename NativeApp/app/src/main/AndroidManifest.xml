@@ -27,7 +27,8 @@
         <activity android:name=".SDLPlayerActivity" />
         <activity android:name=".YUVActivity" />
         <activity android:name=".Recorder" />
-        <activity android:name=".PushStreamActivity"></activity>
+        <activity android:name=".PushStreamActivity" />
+        <activity android:name=".PullStreamActivity"></activity>
     </application>
 
 </manifest>

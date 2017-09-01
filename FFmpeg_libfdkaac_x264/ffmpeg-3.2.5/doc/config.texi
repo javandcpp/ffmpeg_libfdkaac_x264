@@ -2166,45 +2166,45 @@
 @set config-vp3-parser yes
 @set config-vp8-parser yes
 @set config-vp9-parser yes
-@set config-async-protocol yes
+@c @set config-async-protocol no
 @c @set config-bluray-protocol no
-@set config-cache-protocol yes
-@set config-concat-protocol yes
-@set config-crypto-protocol yes
-@set config-data-protocol yes
+@c @set config-cache-protocol no
+@c @set config-concat-protocol no
+@c @set config-crypto-protocol no
+@c @set config-data-protocol no
 @c @set config-ffrtmpcrypt-protocol no
-@set config-ffrtmphttp-protocol yes
+@c @set config-ffrtmphttp-protocol no
 @set config-file-protocol yes
-@set config-ftp-protocol yes
-@set config-gopher-protocol yes
-@set config-hls-protocol yes
+@c @set config-ftp-protocol no
+@c @set config-gopher-protocol no
+@c @set config-hls-protocol no
 @set config-http-protocol yes
-@set config-httpproxy-protocol yes
+@c @set config-httpproxy-protocol no
 @c @set config-https-protocol no
-@set config-icecast-protocol yes
-@set config-mmsh-protocol yes
-@set config-mmst-protocol yes
-@set config-md5-protocol yes
-@set config-pipe-protocol yes
+@c @set config-icecast-protocol no
+@c @set config-mmsh-protocol no
+@c @set config-mmst-protocol no
+@c @set config-md5-protocol no
+@c @set config-pipe-protocol no
 @set config-rtmp-protocol yes
 @c @set config-rtmpe-protocol no
 @c @set config-rtmps-protocol no
-@set config-rtmpt-protocol yes
+@c @set config-rtmpt-protocol no
 @c @set config-rtmpte-protocol no
 @c @set config-rtmpts-protocol no
 @set config-rtp-protocol yes
 @c @set config-sctp-protocol no
-@set config-srtp-protocol yes
-@set config-subfile-protocol yes
-@set config-tee-protocol yes
+@c @set config-srtp-protocol no
+@c @set config-subfile-protocol no
+@c @set config-tee-protocol no
 @set config-tcp-protocol yes
 @c @set config-tls-gnutls-protocol no
 @c @set config-tls-schannel-protocol no
 @c @set config-tls-securetransport-protocol no
 @c @set config-tls-openssl-protocol no
 @set config-udp-protocol yes
-@set config-udplite-protocol yes
-@set config-unix-protocol yes
+@c @set config-udplite-protocol no
+@c @set config-unix-protocol no
 @c @set config-librtmp-protocol no
 @c @set config-librtmpe-protocol no
 @c @set config-librtmps-protocol no

@@ -12461,3 +12461,576 @@ BEGIN ./ffmpegtemp/ffconf.I1kiRjxj.c
     1	int x;
 END ./ffmpegtemp/ffconf.I1kiRjxj.c
 /Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -Os -fno-math-errno -fno-signed-zeros -fno-tree-vectorize -Werror=format-security -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=return-type -Werror=vla -Wformat -fdiagnostics-color=auto -Wmaybe-uninitialized -c -o ./ffmpegtemp/ffconf.Id5kWQ1w.o ./ffmpegtemp/ffconf.I1kiRjxj.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:21: fatal error: windows.h: No such file or directory
+ #include <windows.h>
+                     ^
+compilation terminated.
+check_header linux/fb.h
+check_cpp
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <linux/fb.h>
+    2	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -E -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_header linux/videodev.h
+check_cpp
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <linux/videodev.h>
+    2	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -E -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_header linux/videodev2.h
+check_cpp
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <linux/videodev2.h>
+    2	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -E -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_code cc linux/videodev2.h struct v4l2_frmsizeenum vfse; vfse.discrete.width = 0;
+check_cc
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <linux/videodev2.h>
+    2	int main(void) { struct v4l2_frmsizeenum vfse; vfse.discrete.width = 0;; return 0; }
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+In file included from ./ffmpegtemp/ffconf.VbhBnEhn.c:1:0:
+/Applications/android-ndk-r13/platforms/android-14/arch-arm/usr/include/linux/videodev2.h:270:17: error: field 'timestamp' has incomplete type
+  struct timeval timestamp;
+                 ^
+./ffmpegtemp/ffconf.VbhBnEhn.c: In function 'main':
+./ffmpegtemp/ffconf.VbhBnEhn.c:2:42: error: storage size of 'vfse' isn't known
+ int main(void) { struct v4l2_frmsizeenum vfse; vfse.discrete.width = 0;; return 0; }
+                                          ^
+./ffmpegtemp/ffconf.VbhBnEhn.c:2:42: warning: unused variable 'vfse' [-Wunused-variable]
+check_header sys/videoio.h
+check_cpp
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <sys/videoio.h>
+    2	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -E -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:25: fatal error: sys/videoio.h: No such file or directory
+ #include <sys/videoio.h>
+                         ^
+compilation terminated.
+check_code cc sys/videoio.h struct v4l2_frmsizeenum vfse; vfse.discrete.width = 0;
+check_cc
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <sys/videoio.h>
+    2	int main(void) { struct v4l2_frmsizeenum vfse; vfse.discrete.width = 0;; return 0; }
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:25: fatal error: sys/videoio.h: No such file or directory
+ #include <sys/videoio.h>
+                         ^
+compilation terminated.
+check_func_headers windows.h vfw.h capCreateCaptureWindow -lavicap32
+check_ld cc -lavicap32
+check_cc
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <windows.h>
+    2	#include <vfw.h>
+    3	#include <stdint.h>
+    4	long check_capCreateCaptureWindow(void) { return (long) capCreateCaptureWindow; }
+    5	int main(void) { int ret = 0;
+    6	 ret |= ((intptr_t)check_capCreateCaptureWindow) & 0xFFFF;
+    7	return ret; }
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:21: fatal error: windows.h: No such file or directory
+ #include <windows.h>
+                     ^
+compilation terminated.
+check_cpp_condition vfw.h WM_CAP_DRIVER_CONNECT > WM_USER
+check_cpp
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <vfw.h>
+    2	#if !(WM_CAP_DRIVER_CONNECT > WM_USER)
+    3	#error "unsatisfied condition: WM_CAP_DRIVER_CONNECT > WM_USER"
+    4	#endif
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -E -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:17: fatal error: vfw.h: No such file or directory
+ #include <vfw.h>
+                 ^
+compilation terminated.
+check_type dshow.h IBaseFilter
+check_code cc dshow.h IBaseFilter v
+check_cc
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <dshow.h>
+    2	int main(void) { IBaseFilter v; return 0; }
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:19: fatal error: dshow.h: No such file or directory
+ #include <dshow.h>
+                   ^
+compilation terminated.
+check_header dev/bktr/ioctl_meteor.h
+check_cpp
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <dev/bktr/ioctl_meteor.h>
+    2	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -E -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:35: fatal error: dev/bktr/ioctl_meteor.h: No such file or directory
+ #include <dev/bktr/ioctl_meteor.h>
+                                   ^
+compilation terminated.
+check_header machine/ioctl_meteor.h
+check_cpp
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <machine/ioctl_meteor.h>
+    2	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -E -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:34: fatal error: machine/ioctl_meteor.h: No such file or directory
+ #include <machine/ioctl_meteor.h>
+                                  ^
+compilation terminated.
+check_header dev/video/meteor/ioctl_meteor.h
+check_cpp
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <dev/video/meteor/ioctl_meteor.h>
+    2	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -E -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:43: fatal error: dev/video/meteor/ioctl_meteor.h: No such file or directory
+ #include <dev/video/meteor/ioctl_meteor.h>
+                                           ^
+compilation terminated.
+check_header dev/ic/bt8xx.h
+check_cpp
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <dev/ic/bt8xx.h>
+    2	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -E -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:26: fatal error: dev/ic/bt8xx.h: No such file or directory
+ #include <dev/ic/bt8xx.h>
+                          ^
+compilation terminated.
+check_header sndio.h
+check_cpp
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <sndio.h>
+    2	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -E -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:19: fatal error: sndio.h: No such file or directory
+ #include <sndio.h>
+                   ^
+compilation terminated.
+check_struct sys/soundcard.h audio_buf_info bytes
+check_code cc sys/soundcard.h const void *p = &((audio_buf_info *)0)->bytes
+check_cc
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <sys/soundcard.h>
+    2	int main(void) { const void *p = &((audio_buf_info *)0)->bytes; return 0; }
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:27: fatal error: sys/soundcard.h: No such file or directory
+ #include <sys/soundcard.h>
+                           ^
+compilation terminated.
+check_cc -D__BSD_VISIBLE -D__XSI_VISIBLE
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	    #include <sys/soundcard.h>
+    2	    audio_buf_info abc;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -D__BSD_VISIBLE -D__XSI_VISIBLE -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:31: fatal error: sys/soundcard.h: No such file or directory
+     #include <sys/soundcard.h>
+                               ^
+compilation terminated.
+check_header soundcard.h
+check_cpp
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <soundcard.h>
+    2	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -E -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:23: fatal error: soundcard.h: No such file or directory
+ #include <soundcard.h>
+                       ^
+compilation terminated.
+check_lib2 alsa/asoundlib.h snd_pcm_htimestamp -lasound
+check_func_headers alsa/asoundlib.h snd_pcm_htimestamp -lasound
+check_ld cc -lasound
+check_cc
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <alsa/asoundlib.h>
+    2	#include <stdint.h>
+    3	long check_snd_pcm_htimestamp(void) { return (long) snd_pcm_htimestamp; }
+    4	int main(void) { int ret = 0;
+    5	 ret |= ((intptr_t)check_snd_pcm_htimestamp) & 0xFFFF;
+    6	return ret; }
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:28: fatal error: alsa/asoundlib.h: No such file or directory
+ #include <alsa/asoundlib.h>
+                            ^
+compilation terminated.
+check_lib2 jack/jack.h jack_client_open -ljack
+check_func_headers jack/jack.h jack_client_open -ljack
+check_ld cc -ljack
+check_cc
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <jack/jack.h>
+    2	#include <stdint.h>
+    3	long check_jack_client_open(void) { return (long) jack_client_open; }
+    4	int main(void) { int ret = 0;
+    5	 ret |= ((intptr_t)check_jack_client_open) & 0xFFFF;
+    6	return ret; }
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:23: fatal error: jack/jack.h: No such file or directory
+ #include <jack/jack.h>
+                       ^
+compilation terminated.
+check_lib2 sndio.h sio_open -lsndio
+check_func_headers sndio.h sio_open -lsndio
+check_ld cc -lsndio
+check_cc
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <sndio.h>
+    2	#include <stdint.h>
+    3	long check_sio_open(void) { return (long) sio_open; }
+    4	int main(void) { int ret = 0;
+    5	 ret |= ((intptr_t)check_sio_open) & 0xFFFF;
+    6	return ret; }
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:19: fatal error: sndio.h: No such file or directory
+ #include <sndio.h>
+                   ^
+compilation terminated.
+check_lib X11/Xlib.h XOpenDisplay -lX11
+check_header X11/Xlib.h
+check_cpp
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <X11/Xlib.h>
+    2	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -E -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:22: fatal error: X11/Xlib.h: No such file or directory
+ #include <X11/Xlib.h>
+                      ^
+compilation terminated.
+check_pkg_config xcb >= 1.4 xcb/xcb.h xcb_connect
+false --exists --print-errors xcb >= 1.4
+check_func_headers windows.h CreateDIBSection -lgdi32
+check_ld cc -lgdi32
+check_cc
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <windows.h>
+    2	#include <stdint.h>
+    3	long check_CreateDIBSection(void) { return (long) CreateDIBSection; }
+    4	int main(void) { int ret = 0;
+    5	 ret |= ((intptr_t)check_CreateDIBSection) & 0xFFFF;
+    6	return ret; }
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:21: fatal error: windows.h: No such file or directory
+ #include <windows.h>
+                     ^
+compilation terminated.
+check_lib va/va.h vaInitialize -lva
+check_header va/va.h
+check_cpp
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <va/va.h>
+    2	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -E -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:19: fatal error: va/va.h: No such file or directory
+ #include <va/va.h>
+                   ^
+compilation terminated.
+check_cpp_condition vdpau/vdpau.h defined VDP_DECODER_PROFILE_MPEG4_PART2_ASP
+check_cpp
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	#include <vdpau/vdpau.h>
+    2	#if !(defined VDP_DECODER_PROFILE_MPEG4_PART2_ASP)
+    3	#error "unsatisfied condition: defined VDP_DECODER_PROFILE_MPEG4_PART2_ASP"
+    4	#endif
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -E -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:1:25: fatal error: vdpau/vdpau.h: No such file or directory
+ #include <vdpau/vdpau.h>
+                         ^
+compilation terminated.
+check_cflags -Wdeclaration-after-statement
+test_cflags -Wdeclaration-after-statement
+check_cc -Wdeclaration-after-statement
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cflags -Wall
+test_cflags -Wall
+check_cc -Wall
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cflags -Wdisabled-optimization
+test_cflags -Wdisabled-optimization
+check_cc -Wdisabled-optimization
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cflags -Wpointer-arith
+test_cflags -Wpointer-arith
+check_cc -Wpointer-arith
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cflags -Wredundant-decls
+test_cflags -Wredundant-decls
+check_cc -Wredundant-decls
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cflags -Wwrite-strings
+test_cflags -Wwrite-strings
+check_cc -Wwrite-strings
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cflags -Wtype-limits
+test_cflags -Wtype-limits
+check_cc -Wtype-limits
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cflags -Wundef
+test_cflags -Wundef
+check_cc -Wundef
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cflags -Wmissing-prototypes
+test_cflags -Wmissing-prototypes
+check_cc -Wmissing-prototypes
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cflags -Wno-pointer-to-int-cast
+test_cflags -Wno-pointer-to-int-cast
+check_cc -Wno-pointer-to-int-cast
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cflags -Wstrict-prototypes
+test_cflags -Wstrict-prototypes
+check_cc -Wstrict-prototypes
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cflags -Wempty-body
+test_cflags -Wempty-body
+check_cc -Wempty-body
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+test_cflags -Wparentheses
+check_cc -Wparentheses
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wparentheses -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+test_cflags -Wswitch
+check_cc -Wswitch
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wswitch -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+test_cflags -Wformat-zero-length
+check_cc -Wformat-zero-length
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wformat-zero-length -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+test_cflags -Wpointer-sign
+check_cc -Wpointer-sign
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wpointer-sign -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+test_cflags -Wunused-const-variable
+check_cc -Wunused-const-variable
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -Wunused-const-variable -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+arm-linux-androideabi-gcc: error: unrecognized command line option '-Wunused-const-variable'
+check_ldflags -Wl,--warn-common
+test_ldflags -Wl,--warn-common
+check_ld cc -Wl,--warn-common
+check_cc -Wl,--warn-common
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int main(void){ return 0; }
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -Wl,--warn-common -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc -L./fdk-aac-0.1.5/android/arm/lib -L./libx264/android/arm/lib --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -march=armv7-a -Wl,--as-needed -Wl,-z,noexecstack -Wl,--warn-common -o ./ffmpegtemp/ffconf.zKXK2SGQ ./ffmpegtemp/ffconf.c1B0xRKi.o -lx264 -lfdk-aac -lm -lz -pthread
+check_ldflags -Wl,-rpath-link=libpostproc:libswresample:libswscale:libavfilter:libavdevice:libavformat:libavcodec:libavutil:libavresample
+test_ldflags -Wl,-rpath-link=libpostproc:libswresample:libswscale:libavfilter:libavdevice:libavformat:libavcodec:libavutil:libavresample
+check_ld cc -Wl,-rpath-link=libpostproc:libswresample:libswscale:libavfilter:libavdevice:libavformat:libavcodec:libavutil:libavresample
+check_cc -Wl,-rpath-link=libpostproc:libswresample:libswscale:libavfilter:libavdevice:libavformat:libavcodec:libavutil:libavresample
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int main(void){ return 0; }
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -Wl,-rpath-link=libpostproc:libswresample:libswscale:libavfilter:libavdevice:libavformat:libavcodec:libavutil:libavresample -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc -L./fdk-aac-0.1.5/android/arm/lib -L./libx264/android/arm/lib --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -march=armv7-a -Wl,--as-needed -Wl,-z,noexecstack -Wl,--warn-common -Wl,-rpath-link=libpostproc:libswresample:libswscale:libavfilter:libavdevice:libavformat:libavcodec:libavutil:libavresample -o ./ffmpegtemp/ffconf.zKXK2SGQ ./ffmpegtemp/ffconf.c1B0xRKi.o -lx264 -lfdk-aac -lm -lz -pthread
+test_ldflags -Wl,-Bsymbolic
+check_ld cc -Wl,-Bsymbolic
+check_cc -Wl,-Bsymbolic
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int main(void){ return 0; }
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -Wl,-Bsymbolic -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc -L./fdk-aac-0.1.5/android/arm/lib -L./libx264/android/arm/lib --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -march=armv7-a -Wl,--as-needed -Wl,-z,noexecstack -Wl,--warn-common -Wl,-rpath-link=libpostproc:libswresample:libswscale:libavfilter:libavdevice:libavformat:libavcodec:libavutil:libavresample -Wl,-Bsymbolic -o ./ffmpegtemp/ffconf.zKXK2SGQ ./ffmpegtemp/ffconf.c1B0xRKi.o -lx264 -lfdk-aac -lm -lz -pthread
+check_stripflags -wN '..@*'
+test_stripflags -wN '..@*'
+check_cc
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int main(void) { return 0; }
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-strip -wN '..@*' ./ffmpegtemp/ffconf.c1B0xRKi.o
+check_ld cc
+check_cc
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	extern const int array[512];
+    2	static inline int func(void) { return array[0]; }
+    3	int main(void) { return 0; }
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc -L./fdk-aac-0.1.5/android/arm/lib -L./libx264/android/arm/lib --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -march=armv7-a -Wl,--as-needed -Wl,-z,noexecstack -Wl,--warn-common -Wl,-rpath-link=libpostproc:libswresample:libswscale:libavfilter:libavdevice:libavformat:libavcodec:libavutil:libavresample -o ./ffmpegtemp/ffconf.zKXK2SGQ ./ffmpegtemp/ffconf.c1B0xRKi.o -lx264 -lfdk-aac -lm -lz -pthread
+test_ldflags -Wl,--version-script,./ffmpegtemp/ffconf.KceNu19T.ver
+check_ld cc -Wl,--version-script,./ffmpegtemp/ffconf.KceNu19T.ver
+check_cc -Wl,--version-script,./ffmpegtemp/ffconf.KceNu19T.ver
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int main(void){ return 0; }
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -Wl,--version-script,./ffmpegtemp/ffconf.KceNu19T.ver -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc -L./fdk-aac-0.1.5/android/arm/lib -L./libx264/android/arm/lib --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -march=armv7-a -Wl,--as-needed -Wl,-z,noexecstack -Wl,--warn-common -Wl,-rpath-link=libpostproc:libswresample:libswscale:libavfilter:libavdevice:libavformat:libavcodec:libavutil:libavresample -Wl,--version-script,./ffmpegtemp/ffconf.KceNu19T.ver -o ./ffmpegtemp/ffconf.zKXK2SGQ ./ffmpegtemp/ffconf.c1B0xRKi.o -lx264 -lfdk-aac -lm -lz -pthread
+check_cc
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	void ff_foo(void) __asm__ ("av_foo@VERSION");
+    2	void ff_foo(void) { __asm__(""); }
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+{standard input}: Assembler messages:
+{standard input}:15: Error: unrecognized symbol type ""
+{standard input}:16: Error: bad instruction `av_foo'
+{standard input}:23: Error: expected comma after name `av_foo' in .size directive
+check_cc
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	__asm__(".symver ff_foo,av_foo@VERSION");
+    2	void ff_foo(void) {}
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+./ffmpegtemp/ffconf.VbhBnEhn.c:2:6: warning: no previous prototype for 'ff_foo' [-Wmissing-prototypes]
+ void ff_foo(void) {}
+      ^
+check_cflags -Os
+test_cflags -Os
+check_cc -Os
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -Os -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cflags -fno-math-errno
+test_cflags -fno-math-errno
+check_cc -fno-math-errno
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -Os -fno-math-errno -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cflags -fno-signed-zeros
+test_cflags -fno-signed-zeros
+check_cc -fno-signed-zeros
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -Os -fno-math-errno -fno-signed-zeros -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cc -mno-red-zone
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -Os -fno-math-errno -fno-signed-zeros -mno-red-zone -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+arm-linux-androideabi-gcc: error: unrecognized command line option '-mno-red-zone'
+check_cflags -fno-tree-vectorize
+test_cflags -fno-tree-vectorize
+check_cc -fno-tree-vectorize
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -Os -fno-math-errno -fno-signed-zeros -fno-tree-vectorize -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cflags -Werror=format-security
+test_cflags -Werror=format-security
+check_cc -Werror=format-security
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -Os -fno-math-errno -fno-signed-zeros -fno-tree-vectorize -Werror=format-security -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cflags -Werror=implicit-function-declaration
+test_cflags -Werror=implicit-function-declaration
+check_cc -Werror=implicit-function-declaration
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -Os -fno-math-errno -fno-signed-zeros -fno-tree-vectorize -Werror=format-security -Werror=implicit-function-declaration -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cflags -Werror=missing-prototypes
+test_cflags -Werror=missing-prototypes
+check_cc -Werror=missing-prototypes
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -Os -fno-math-errno -fno-signed-zeros -fno-tree-vectorize -Werror=format-security -Werror=implicit-function-declaration -Werror=missing-prototypes -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cflags -Werror=return-type
+test_cflags -Werror=return-type
+check_cc -Werror=return-type
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -Os -fno-math-errno -fno-signed-zeros -fno-tree-vectorize -Werror=format-security -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=return-type -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cflags -Werror=vla
+test_cflags -Werror=vla
+check_cc -Werror=vla
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -Os -fno-math-errno -fno-signed-zeros -fno-tree-vectorize -Werror=format-security -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=return-type -Werror=vla -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cflags -Wformat
+test_cflags -Wformat
+check_cc -Wformat
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -Os -fno-math-errno -fno-signed-zeros -fno-tree-vectorize -Werror=format-security -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=return-type -Werror=vla -Wformat -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+check_cflags -fdiagnostics-color=auto
+test_cflags -fdiagnostics-color=auto
+check_cc -fdiagnostics-color=auto
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -Os -fno-math-errno -fno-signed-zeros -fno-tree-vectorize -Werror=format-security -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=return-type -Werror=vla -Wformat -fdiagnostics-color=auto -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c
+test_cflags -Wmaybe-uninitialized
+check_cc -Wmaybe-uninitialized
+BEGIN ./ffmpegtemp/ffconf.VbhBnEhn.c
+    1	int x;
+END ./ffmpegtemp/ffconf.VbhBnEhn.c
+/Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -isysroot /Applications/android-ndk-r13/platforms/android-14/arch-arm -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -I./libx264/android/arm/include -I./fdk-aac-0.1.5/android/arm/include -DANDROID -fPIC -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300 -O3 -Wall -pipe -ffast-math -fstrict-aliasing -Werror=strict-aliasing -Wno-psabi -Wa,--noexecstack -DANDROID -march=armv7-a -std=c99 -fomit-frame-pointer -fPIC -marm -pthread -Wdeclaration-after-statement -Wall -Wdisabled-optimization -Wpointer-arith -Wredundant-decls -Wwrite-strings -Wtype-limits -Wundef -Wmissing-prototypes -Wno-pointer-to-int-cast -Wstrict-prototypes -Wempty-body -Wno-parentheses -Wno-switch -Wno-format-zero-length -Wno-pointer-sign -Os -fno-math-errno -fno-signed-zeros -fno-tree-vectorize -Werror=format-security -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=return-type -Werror=vla -Wformat -fdiagnostics-color=auto -Wmaybe-uninitialized -c -o ./ffmpegtemp/ffconf.c1B0xRKi.o ./ffmpegtemp/ffconf.VbhBnEhn.c

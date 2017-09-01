@@ -63,9 +63,9 @@ Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_pushStream(JNIEnv *en
 
     const char *inputUri = (*env)->GetStringUTFChars(env,inputUri_, 0);
     const char *outputUri = (*env)->GetStringUTFChars(env,outputUri_, 0);
-    AVOutputFormat *ofmt;
-    AVFormatContext *ifmt_ctx;
-    AVFormatContext *ofmt_ctx;
+    AVOutputFormat *ofmt=NULL;
+    AVFormatContext *ifmt_ctx=NULL;
+    AVFormatContext *ofmt_ctx=NULL;
     AVPacket pkt;
 
     int ret, i;
@@ -77,9 +77,6 @@ Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_pushStream(JNIEnv *en
     av_register_all();
     //Network
     avformat_network_init();
-
-    //Input
-    ifmt_ctx=avformat_alloc_context();
 
     ret = avformat_open_input(&ifmt_ctx, inputUri, NULL, NULL);
     if (ret < 0) {
@@ -93,7 +90,7 @@ Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_pushStream(JNIEnv *en
 
     int videoindex = -1;
     for (i = 0; i < ifmt_ctx->nb_streams; i++)
-        if (ifmt_ctx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
+        if (ifmt_ctx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
             videoindex = i;
             break;
         }

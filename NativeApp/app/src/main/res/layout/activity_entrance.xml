@@ -37,4 +37,10 @@
         android:layout_height="wrap_content"
         android:text="push stream" />
 
+    <Button
+        android:id="@+id/btnPullStream"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="pull stream" />
+
 </LinearLayout>

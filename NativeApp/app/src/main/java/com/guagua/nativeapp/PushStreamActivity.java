@@ -42,7 +42,7 @@ public class PushStreamActivity extends AppCompatActivity implements View.OnClic
         File inputFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "ffmpeg17.flv");
         Log.d("debug", inputFile.exists() + "");
         etInputUri.setText(inputFile.getAbsolutePath());
-        etOutputUri.setText("rtmp://192.168.24.153:1935/test/live");
+        etOutputUri.setText("rtmp://" + Constants.IP_ADDRESS + ":1935/test/live");
     }
 
     @Override

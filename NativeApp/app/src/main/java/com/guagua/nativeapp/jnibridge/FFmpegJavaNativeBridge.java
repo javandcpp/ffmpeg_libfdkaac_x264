@@ -34,8 +34,22 @@ public class FFmpegJavaNativeBridge {
     public static native int yuv420Image2YUV(String path,int w,int h);
     public static native int yuvTOGrayYUV(String path,int w,int h);
 
-
+    /**
+     * 推流
+     * @param inputUri
+     * @param outputUri
+     * @return
+     */
     public static native int pushStream(String inputUri,String outputUri);
+
+
+    /**
+     * 拉流
+     * @return
+     */
+    public static native int pullStream(String inputUri,String outputUri);
+
     public static native int stopPush();
+    public static native int stopPull();
 
 }
