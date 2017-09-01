@@ -2,6 +2,9 @@
 // Created by developer on 8/31/17.
 //
 
+/**
+ * 拉取rtmp流,保存本地文件
+ */
 
 #include <memory>
 #include <thread>
@@ -101,11 +104,12 @@ void CloseOutput() {
     }
 }
 void Init() {
+    av_log_set_callback(custom_pullstream_log);
+    av_log_set_level(AV_LOG_ERROR);
     av_register_all();
     avfilter_register_all();
     avformat_network_init();
     av_input_fmt = avformat_alloc_context();
-    av_log_set_level(AV_LOG_ERROR);
 }
 
 int openOutput(const char *outputUri) {
