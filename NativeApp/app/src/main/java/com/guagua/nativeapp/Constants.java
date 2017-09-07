@@ -10,5 +10,9 @@ package com.guagua.nativeapp;
  */
 
 public interface Constants {
-    String IP_ADDRESS="192.168.1.105";
+//    String IP_ADDRESS="192.168.1.105";//home
+
+    String IP_ADDRESS="192.168.24.132";//company linux
+
+//    String IP_ADDRESS="192.168.24.153";//company mac
 }

@@ -136,7 +136,7 @@ Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_pushStream(JNIEnv *en
 
     //Open output URL
     if (!(ofmt->flags & AVFMT_NOFILE)) {
-        ret = avio_open(&ofmt_ctx->pb, outputUri, AVIO_FLAG_WRITE);
+        ret = avio_open(&ofmt_ctx->pb, outputUri, AVIO_FLAG_WRITE);//avio_open 实际调用avio_open2
         if (ret < 0) {
             LOG_E(DEBUG, "Could not open output URL '%s'", outputUri);
             return -1;
