@@ -46,11 +46,11 @@ public class PullStreamActivity extends AppCompatActivity implements View.OnClic
             isPull = false;
             btnPullStream.setText("startPull");
         } else {
+            btnPullStream.setText("stopPull");
             new Thread() {
                 @Override
                 public void run() {
                     isPull = true;
-                    btnPullStream.setText("stopPull");
                     FFmpegJavaNativeBridge.pullStream(etInputUri.getText().toString().trim(), etOutputUri.getText().toString());
                 }
             }.start();

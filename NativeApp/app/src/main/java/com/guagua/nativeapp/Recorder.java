@@ -1,8 +1,8 @@
 package com.guagua.nativeapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
@@ -13,7 +13,7 @@ import com.guagua.nativeapp.jnibridge.FFmpegJavaNativeBridge;
 import com.guagua.nativeapp.recorder.IMediaCallback;
 import com.guagua.nativeapp.recorder.NativeMediaRecorder;
 
-public class Recorder extends AppCompatActivity implements View.OnClickListener, IMediaCallback {
+public class Recorder extends Activity implements View.OnClickListener, IMediaCallback {
 
     private NativeMediaRecorder nativeAudioRecorder;
     private SurfaceView surfaceView;
@@ -31,7 +31,6 @@ public class Recorder extends AppCompatActivity implements View.OnClickListener,
         findViewById(R.id.btnStop).setOnClickListener(this);
         findViewById(R.id.btnSwitchCamera).setOnClickListener(this);
         surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
-       // surfaceView.setZOrderMediaOverlay(true);
         tvAudio = ((TextView) findViewById(R.id.tvAudioInfo));
         tvVideo = ((TextView) findViewById(R.id.tvVideoInfo));
 

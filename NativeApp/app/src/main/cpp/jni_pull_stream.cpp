@@ -138,6 +138,8 @@ int openOutput(const char *outputUri) {
     }
 
     ret = avformat_write_header(av_output_fmt, NULL);
+
+
     if (ret < 0) {
         LOG_E(DEBUG, "avformat write header!");
         goto Error;
@@ -219,10 +221,6 @@ Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_pullStream(JNIEnv *en
             break;
         }
     }
-
-    CloseInput();
-    CloseOutput();
-    return ret;
 
     Error:
     CloseInput();

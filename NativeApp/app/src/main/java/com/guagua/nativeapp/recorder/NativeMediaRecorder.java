@@ -62,12 +62,12 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
 
     public NativeMediaRecorder(IMediaCallback iMediaCallback) {
         this.iMediaCallback = iMediaCallback;
-        NativeCrashHandler nativeCrashHandler=new NativeCrashHandler();
+        NativeCrashHandler nativeCrashHandler = new NativeCrashHandler();
         nativeCrashHandler.registerForNativeCrash(iMediaCallback.getContext());
     }
 
-    public void setPath(String path,String fileName) throws Exception {
-        mDestDir = new File(path,fileName);
+    public void setPath(String path, String fileName) throws Exception {
+        mDestDir = new File(path, fileName);
         if (mDestDir.exists()) {
             mDestDir.delete();
         }
@@ -107,11 +107,11 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
                 // camera.lock();
                 camera.release();
             } catch (Exception e) {
-                Log.e("jianxi", "stopPreview...");
+                Log.e("tag", "stopPreview...");
             }
             camera = null;
         }
-        mPrepared=false;
+        mPrepared = false;
         mStartPreview = false;
     }
 
@@ -128,6 +128,7 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
                 camera = Camera.open();
             else
                 camera = Camera.open(mCameraId);
+
             camera.setDisplayOrientation(90);
             try {
                 camera.setPreviewDisplay(mSurfaceHolder);
@@ -135,7 +136,7 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
                 if (iMediaCallback != null) {
                     iMediaCallback.onVideoError();
                 }
-                Log.e("jianxi", "setPreviewDisplay fail " + e.getMessage());
+                Log.e("tag", "setPreviewDisplay fail " + e.getMessage());
             }
 
             //设置摄像头参数
@@ -165,16 +166,16 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
     protected void setPreviewCallback() {
         Camera.Size size = mParameters.getPreviewSize();
         if (size != null) {
-            int buffSize = size.width * size.height * 3/2;
+            int buffSize = size.width * size.height * 3 / 2;
             try {
                 camera.addCallbackBuffer(new byte[buffSize]);
                 camera.addCallbackBuffer(new byte[buffSize]);
                 camera.addCallbackBuffer(new byte[buffSize]);
                 camera.setPreviewCallbackWithBuffer(this);
             } catch (OutOfMemoryError e) {
-                Log.e("jianxi", "startPreview...setPreviewCallback...", e);
+                Log.e("tag", "startPreview...setPreviewCallback...", e);
             }
-            Log.e("jianxi", "startPreview...setPreviewCallbackWithBuffer...width:" + size.width + " height:" + size.height);
+            Log.e("tag", "startPreview...setPreviewCallbackWithBuffer...width:" + size.width + " height:" + size.height);
         } else {
             camera.setPreviewCallback(this);
         }
@@ -212,15 +213,15 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
             if (size.height == SMALL_VIDEO_HEIGHT) {
 
                 mSupportedPreviewWidth = size.width;
-                checkFullWidth(mSupportedPreviewWidth,SMALL_VIDEO_WIDTH);
+                checkFullWidth(mSupportedPreviewWidth, SMALL_VIDEO_WIDTH);
                 findWidth = true;
                 break;
             }
         }
         if (!findWidth) {
-            Log.e(getClass().getSimpleName(), "传入高度不支持或未找到对应宽度,请按照要求重新设置，否则会出现一些严重问题");
+            Log.e("tag", "传入高度不支持或未找到对应宽度,请按照要求重新设置，否则会出现一些严重问题");
             mSupportedPreviewWidth = 640;
-            checkFullWidth(640,360);
+            checkFullWidth(640, 360);
             SMALL_VIDEO_HEIGHT = 480;
         }
         mParameters.setPreviewSize(1920, 1080);
@@ -255,8 +256,8 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
     }
 
 
-    public void setSurfaceHolder(SurfaceHolder surfaceHolder){
-        if (null!=surfaceHolder){
+    public void setSurfaceHolder(SurfaceHolder surfaceHolder) {
+        if (null != surfaceHolder) {
             surfaceHolder.addCallback(this);
             if (!DeviceUtils.hasHoneycomb()) {
                 surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
@@ -288,8 +289,8 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
                 iMediaCallback.onAudioRecordError(BaseMediaRecorder.AUDIO_RECORD_ERROR_GET_MIN_BUFFER_SIZE_NOT_SUPPORT, "parameters are not supported by the hardware.");
                 return;
             }
-            File destDir=new File(Environment.getExternalStorageDirectory().getAbsolutePath(),"media");
-            if (!destDir.exists()){
+            File destDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "media");
+            if (!destDir.exists()) {
                 destDir.mkdirs();
             }
 
@@ -307,7 +308,7 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
 //                        dataOutputStream = new DataOutputStream(new FileOutputStream(mDestDir, true));
                         mAudioRecord.startRecording();
                     } catch (IllegalStateException e) {
-                        mRecording=false;
+                        mRecording = false;
                         iMediaCallback.onAudioRecordError(BaseMediaRecorder.AUDIO_RECORD_ERROR_UNKNOWN, "startRecording failed.");
                         return;
                     }
@@ -317,7 +318,7 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
                             int result = mAudioRecord.read(sampleBuffer, 0, 2048);
                             if (result > 0) {
 //                                dataOutputStream.write(sampleBuffer, 0, result);
-                                mRecording=true;
+                                mRecording = true;
                                 iMediaCallback.receiveAudioData(sampleBuffer, result);
                             }
                         }
@@ -325,7 +326,7 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
                         String message = "";
                         if (e != null)
                             message = e.getMessage();
-                        mRecording=false;
+                        mRecording = false;
                         iMediaCallback.onAudioRecordError(BaseMediaRecorder.AUDIO_RECORD_ERROR_UNKNOWN, message);
 
                     }
@@ -337,7 +338,7 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    mRecording=false;
+                    mRecording = false;
                     mAudioRecord.release();
                     mAudioRecord = null;
 
@@ -350,34 +351,36 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        mSurfaceHolder=surfaceHolder;
-        mSurfaceCreated=true;
-        if (mPrepared&&!mStartPreview){
+        mSurfaceHolder = surfaceHolder;
+        mSurfaceCreated = true;
+        if (mPrepared && !mStartPreview) {
             startPreview();
         }
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-        this.mSurfaceHolder=surfaceHolder;
+        this.mSurfaceHolder = surfaceHolder;
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-        mSurfaceHolder=null;
-        mSurfaceCreated=false;
+        mSurfaceHolder = null;
+        mSurfaceCreated = false;
     }
 
     /**
      * 视频采集数据
+     *
      * @param data
      * @param camera
      */
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
-        if (mRecording&&null!=iMediaCallback) {
+        if (mRecording && null != iMediaCallback) {
             iMediaCallback.receiveVideoData(data);
         }
+        Log.e("tag","capture");
         camera.addCallbackBuffer(data);
     }
 
@@ -390,9 +393,9 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
 
 
     private void checkFullWidth(int trueValue, int falseValue) {
-        if(NEED_FULL_SCREEN){
-            SMALL_VIDEO_WIDTH=trueValue;
-        }else {
+        if (NEED_FULL_SCREEN) {
+            SMALL_VIDEO_WIDTH = trueValue;
+        } else {
             SMALL_VIDEO_WIDTH = falseValue;
         }
     }

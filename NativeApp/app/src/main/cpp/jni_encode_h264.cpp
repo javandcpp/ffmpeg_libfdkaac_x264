@@ -6,10 +6,13 @@
 #include "jni_encode_h264.h"
 
 
+int frame_index;
+
 H264Encode::H264Encode(UserArguments *userArguments) : arguments(userArguments) {
 
 
 }
+
 H264Encode::~H264Encode() {
 
 }
@@ -63,6 +66,7 @@ int H264Encode::initVideoEncoder() {
     strcpy(out_file, arguments->video_path);
 
     av_register_all();//注册多种音视频格式的编解码器,并注册各种文件的编解复用器
+    avformat_network_init();
     //Method1.
 //    pFormatCtx = avformat_alloc_context();
 //    //Guess Format
@@ -74,7 +78,7 @@ int H264Encode::initVideoEncoder() {
     //Method 2.
     //在基于FFmpeg的视音频编码器程序中,该函数通常是第一个调用的函数（除了组件注册函数av_register_all()）,初始化一个用于输出的AVFormatContext结构体.
     //第二个参数用于指定输出格式,如果指定为NULL，可以设定后两个参数（format_name或者filename）由FFmpeg猜测输出格式,函数执行成功的话，其返回值大于等于0。
-    avformat_alloc_output_context2(&pFormatCtx, NULL, NULL, out_file);
+    avformat_alloc_output_context2(&pFormatCtx, NULL, "flv", out_file);//rtmp推流
     fmt = pFormatCtx->oformat;
 
     //Open output URL
@@ -192,6 +196,10 @@ int H264Encode::sendOneFrame(uint8_t *buf) {
  */
 void *H264Encode::startEncode(void *obj) {
     H264Encode *h264_encoder = (H264Encode *) obj;
+    int64_t start_time = av_gettime();
+
+    AVBitStreamFilterContext *h264bsfc=av_bitstream_filter_init("h264_mp4toannexb");
+
     while (!h264_encoder->is_end || !h264_encoder->frame_queue.empty()) {
         if (h264_encoder->is_release) {
             //Write file trailer
@@ -214,7 +222,7 @@ void *H264Encode::startEncode(void *obj) {
         LOG_I(DEBUG, "send_videoframe_count:%d", h264_encoder->frame_count);
         int in_y_size = h264_encoder->arguments->in_width * h264_encoder->arguments->in_height;
         h264_encoder->custom_filter(h264_encoder, picture_buf, in_y_size,
-                      h264_encoder->arguments->v_custom_format);
+                                    h264_encoder->arguments->v_custom_format);
 
 
 //        h264_encoder->pFrame->data[0] = picture_buf;
@@ -234,16 +242,71 @@ void *H264Encode::startEncode(void *obj) {
             LOG_E(DEBUG, "Failed to encode! \n");
         }
         if (got_picture == 1) {//1表示成功编码一帧
+
+
+            if (h264_encoder->pkt.pts == AV_NOPTS_VALUE) {
+                //Write PTS
+                AVRational time_base1 = AV_TIME_BASE_Q;
+                //Duration between 2 frames (us)
+                int64_t calc_duration = (double) AV_TIME_BASE / av_q2d(time_base1);
+                //Parameters
+                h264_encoder->pkt.pts = (double) (frame_index * calc_duration) /
+                                        (double) (av_q2d(time_base1) * AV_TIME_BASE);
+                h264_encoder->pkt.dts = h264_encoder->pkt.pts;
+                h264_encoder->pkt.duration =
+                        (double) calc_duration / (double) (av_q2d(time_base1) * AV_TIME_BASE);
+            }
+
+            //Important:Delay
+//            if(h264_encoder->pkt.stream_index==videoindex){
+            AVRational time_base = AV_TIME_BASE_Q;
+            AVRational time_base_q = {1, AV_TIME_BASE};
+            int64_t pts_time = av_rescale_q(h264_encoder->pkt.dts, time_base, time_base_q);
+            int64_t now_time = av_gettime() - start_time;
+            if (pts_time > now_time)
+                av_usleep(pts_time - now_time);
+
+//            }
+
+            h264_encoder->pkt.pts = av_rescale_q_rnd(h264_encoder->pkt.pts, AV_TIME_BASE_Q,
+                                                     h264_encoder->video_st->time_base,
+                                                     (AVRounding) (AV_ROUND_NEAR_INF |
+                                                                   AV_ROUND_PASS_MINMAX));
+            h264_encoder->pkt.dts = av_rescale_q_rnd(h264_encoder->pkt.dts, AV_TIME_BASE_Q,
+                                                     h264_encoder->video_st->time_base,
+                                                     (AVRounding) (AV_ROUND_NEAR_INF |
+                                                                   AV_ROUND_PASS_MINMAX));
+            h264_encoder->pkt.duration = av_rescale_q(h264_encoder->pkt.duration, AV_TIME_BASE_Q,
+                                                      h264_encoder->video_st->time_base);
+            h264_encoder->pkt.pos = -1;
+            //Print to Screen
+//            if(pkt.stream_index==videoindex){
+            LOG_I(DEBUG, "Send %8d video frames to output URL\n", frame_index);
+            frame_index++;
+//            }
+
+
             LOG_I(DEBUG, "Succeed to encode frame: %5d\tsize:%5d\n", h264_encoder->framecnt,
                   h264_encoder->pkt.size);
             h264_encoder->framecnt++;
             h264_encoder->pkt.stream_index = h264_encoder->video_st->index;
-            ret = av_write_frame(h264_encoder->pFormatCtx, &h264_encoder->pkt);
+
+            av_bitstream_filter_filter(h264bsfc,h264_encoder->pCodecCtx,NULL,&h264_encoder->pkt.data,&h264_encoder->pkt.size,h264_encoder->pkt.data,h264_encoder->pkt.size,0);
+
+            ret = av_interleaved_write_frame(h264_encoder->pFormatCtx, &h264_encoder->pkt);
+
+
+            if (ret < 0) {
+                char *error=av_err2str(ret);
+                LOG_E(DEBUG,"error msg:%s",error);
+            }
+            LOG_I(DEBUG, "av_write_frame:%d\n", ret);
             av_free_packet(&h264_encoder->pkt);
         }
         delete (picture_buf);
     }
     if (h264_encoder->is_end) {
+        av_bitstream_filter_close(h264bsfc);
         h264_encoder->encodeEnd();
         delete h264_encoder;
     }

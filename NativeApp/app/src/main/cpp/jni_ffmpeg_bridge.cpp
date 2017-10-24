@@ -4,15 +4,19 @@
 
 
 #include "base_include.h"
+#include <pthread.h>
 
 AACEncode *aacEncoder;
 H264Encode *h264Encoder;
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-
-
+char *buf = NULL;
+int decoding = 0;
+pthread_mutex_t mutex;
 
 JNIEXPORT jint JNICALL
 Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_encode2AAC(JNIEnv *env, jclass type,
@@ -53,7 +57,9 @@ Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_prepareInitFFmpegEnco
 
 //    strcpy(audioPath)
 
-    userArguments->video_path = videoPath;
+    char *uri = "rtmp://192.168.24.132:1935/test/live";
+
+    userArguments->video_path = uri;
     userArguments->audio_path = audioPath;
     userArguments->video_bit_rate = 580000;
     userArguments->frame_rate = 20;
@@ -243,6 +249,114 @@ Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_yuvTOGrayYUV(JNIEnv *
 }
 
 
+extern "C" double r2d(AVRational rational) {
+    return rational.num / rational.den;
+}
+
+
+JNIEXPORT jint JNICALL
+Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_decode(JNIEnv *env, jclass type,
+                                                                  jstring inputuri) {
+
+    if (!decoding) {
+        const char* path=env->GetStringUTFChars(inputuri,0);
+        AVFormatContext *iformatCtx = NULL;
+        AVCodecContext *avCodecCtxTmp = NULL;
+        av_register_all();
+
+        int ret, videoIndex;
+        ret = -1;
+        videoIndex = -1;
+        //打开文件
+        if ((ret = avformat_open_input(&iformatCtx, path, NULL, NULL)) != 0) {
+            char buf[1024] = {0};
+            av_strerror(ret, buf, sizeof(buf));
+            LOG_E(DEBUG, "open error:%s", buf);
+            return 0;
+        }
+
+        //获取流信息
+        if ((ret = avformat_find_stream_info(iformatCtx, NULL)) != 0) {
+            char buf[1024] = {0};
+            av_strerror(ret, buf, sizeof(buf));
+            LOG_E(DEBUG, "find stream info error:%s", buf);
+            return 0;
+        }
+
+        //获取视频帧索引
+        for (int i = 0; i < iformatCtx->nb_streams; ++i) {
+            AVCodecContext *avCodecCxt = iformatCtx->streams[i]->codec;
+            //判断编码器类型为视频编码器
+            if (avCodecCxt->codec_type == AVMEDIA_TYPE_VIDEO) {
+                videoIndex = i;
+                avCodecCtxTmp = avCodecCxt;
+                //获取编解码器
+                AVCodec *avCodec = avcodec_find_decoder(avCodecCxt->codec_id);
+                //打开解码器
+                if (!avCodec) {
+                    return 0;
+                }
+                ret = avcodec_open2(avCodecCtxTmp, avCodec, NULL);
+                if (ret != 0) {
+                    char buf[1024] = {0};
+                    av_strerror(ret, buf, sizeof(buf));
+                    return 0;
+                }
+            }
+        }
+
+        AVFrame *avFrame = av_frame_alloc();
+        for (; ;) {
+            AVPacket avPacket;
+            ret = av_read_frame(iformatCtx, &avPacket);
+            //读取到文件结尾!=0
+            if (ret != 0) {
+                LOG_D(DEBUG, "finish");
+                break;
+            }
+
+            if (avPacket.stream_index != videoIndex) {
+                av_packet_unref(&avPacket);
+                continue;
+            }
+            int64_t pts = avPacket.pts;
+            LOG_D(DEBUG, "pts->:%lld", pts/(iformatCtx->streams[avPacket.stream_index]->time_base.den));
+            int64_t millsseondpts =
+                    avPacket.pts /(iformatCtx->streams[avPacket.stream_index]->time_base.den) *
+                    1000;
+            LOG_D(DEBUG, "millspts:%lld", millsseondpts);
+            LOG_D(DEBUG, "den:%d < ------ > num:%d",
+                  iformatCtx->streams[avPacket.stream_index]->time_base.den,
+                  iformatCtx->streams[avPacket.stream_index]->time_base.num);
+
+           // LOG_D(DEBUG,"minute:%lld seconds:%lld",pts/AV_TIME_BASE/60,pts/AV_TIME_BASE%60);
+
+            int gotPicture = 0;
+            avcodec_decode_video2(avCodecCtxTmp, avFrame, &gotPicture, &avPacket);
+            //gotPicture 等于1表示解码一帧
+            decoding = 1;
+            if (gotPicture) {
+                LOG_D(DEBUG, "decode:%d", gotPicture);
+            }
+            //释放AVPacket
+            av_packet_unref(&avPacket);
+        }
+
+        avformat_close_input(&iformatCtx);
+        avcodec_free_context(&avCodecCtxTmp);
+        av_frame_free(&avFrame);
+        avformat_free_context(iformatCtx);
+
+    } else {
+        return 0;
+    }
+    decoding = 0;
+    //成功(JNI 不写return不报错,但,会崩溃。。。。)
+    if (buf != NULL) {
+        delete buf;
+    }
+    return 0;
+}
 
 
 #ifdef __cplusplus

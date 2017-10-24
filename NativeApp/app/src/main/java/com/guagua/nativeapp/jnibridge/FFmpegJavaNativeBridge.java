@@ -42,14 +42,21 @@ public class FFmpegJavaNativeBridge {
      */
     public static native int pushStream(String inputUri,String outputUri);
 
-
     /**
      * 拉流
      * @return
      */
     public static native int pullStream(String inputUri,String outputUri);
 
+
+    public static native int transStream(String inputUri,String outputUri);
+
     public static native int stopPush();
     public static native int stopPull();
+    public static native int stopTrans();
+
+    public static native int releaseTransStream();
+
+    public static native int decode(String inputuri);
 
 }

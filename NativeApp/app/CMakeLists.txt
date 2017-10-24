@@ -90,6 +90,8 @@ add_library( # Sets the name of the library.
              src/main/cpp/NativeCrashHandler.cpp
              src/main/cpp/jni_push_stream.c
              src/main/cpp/jni_pull_stream.cpp
+             src/main/cpp/jni_trans_stream.cpp
+             src/main/cpp/jni_transstream.cpp
              )
 
 # Searches for a specified prebuilt library and stores the path as a

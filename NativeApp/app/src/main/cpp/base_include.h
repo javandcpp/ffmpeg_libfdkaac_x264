@@ -16,6 +16,8 @@ extern "C"{
 #include "include/libavutil/opt.h"
 #include "include/libavutil/frame.h"
 #include "include/libavutil/time.h"
+#include "include/libavfilter/avfilter.h"
+
 
 #ifdef __cplusplus
 }

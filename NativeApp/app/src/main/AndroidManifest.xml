@@ -28,7 +28,10 @@
         <activity android:name=".YUVActivity" />
         <activity android:name=".Recorder" />
         <activity android:name=".PushStreamActivity" />
-        <activity android:name=".PullStreamActivity"></activity>
+        <activity android:name=".PullStreamActivity" />
+        <activity android:name=".TransStreamActivity" />
+        <activity android:name=".CaptureAndPushActivity" />
+        <activity android:name=".VideoDecoderActivity"></activity>
     </application>
 
 </manifest>

@@ -5,19 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center_horizontal"
     tools:context="com.guagua.nativeapp.EntranceActivity">
 
     <Button
         android:id="@+id/MainActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="main" />
+        android:text="ffmpeg" />
 
     <Button
         android:id="@+id/SDLActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="sdl" />
+        android:text="sdl播放" />
 
     <Button
         android:id="@+id/getYUVInfo"
@@ -29,18 +30,34 @@
         android:id="@+id/recorder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="recorder" />
+        android:text="视频采集" />
 
     <Button
         android:id="@+id/btnPushStream"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="push stream" />
+        android:text="rtmp推流" />
 
     <Button
         android:id="@+id/btnPullStream"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="pull stream" />
+        android:text="拉流保存本地文件" />
 
+    <Button
+        android:id="@+id/btnTransStream"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="网络流转发" />
+
+    <Button
+        android:id="@+id/btnPushAndCapture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="视频采集与推流" />
+    <Button
+        android:id="@+id/btnDecoder"
+        android:layout_width="wrap_content"
+        android:text="解码视频帧"
+        android:layout_height="wrap_content" />
 </LinearLayout>
