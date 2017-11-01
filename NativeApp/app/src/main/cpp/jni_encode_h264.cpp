@@ -65,6 +65,7 @@ int H264Encode::initVideoEncoder() {
     char *out_file = (char *) malloc(path_length + 1);
     strcpy(out_file, arguments->video_path);
 
+    avcodec_register_all();
     av_register_all();//注册多种音视频格式的编解码器,并注册各种文件的编解复用器
     avformat_network_init();
     //Method1.
@@ -82,12 +83,13 @@ int H264Encode::initVideoEncoder() {
     fmt = pFormatCtx->oformat;
 
     //Open output URL
-    if (avio_open(&pFormatCtx->pb, out_file, AVIO_FLAG_READ_WRITE) < 0) {
+    if (avio_open(&pFormatCtx->pb, out_file, AVIO_FLAG_WRITE) < 0) {
         LOG_E(DEBUG, "_Failed to open output file! \n");
         return -1;
     }
 
-    video_st = avformat_new_stream(pFormatCtx, 0);
+    video_st = avformat_new_stream(pFormatCtx, NULL);
+    video_st->codecpar->codec_tag=0;
     //video_st->time_base.num = 1;
     //video_st->time_base.den = 25;
 
@@ -99,6 +101,7 @@ int H264Encode::initVideoEncoder() {
     //Param that must set
     pCodecCtx = video_st->codec;
     //pCodecCtx->codec_id =AV_CODEC_ID_HEVC;
+    pCodecCtx->flags |= AV_CODEC_FLAG_GLOBAL_HEADER; //全局参数
     pCodecCtx->codec_id = AV_CODEC_ID_H264;
     pCodecCtx->codec_type = AVMEDIA_TYPE_VIDEO;
     pCodecCtx->pix_fmt = AV_PIX_FMT_YUV420P;
@@ -111,12 +114,12 @@ int H264Encode::initVideoEncoder() {
         pCodecCtx->height = arguments->out_width;
     }
 
-    pCodecCtx->bit_rate = arguments->video_bit_rate;
-    pCodecCtx->gop_size = 50;
+    pCodecCtx->bit_rate = 580000;
+    pCodecCtx->gop_size = 50;//关键帧间隔
     pCodecCtx->thread_count = 12;
 
     pCodecCtx->time_base.num = 1;
-    pCodecCtx->time_base.den = arguments->frame_rate;
+    pCodecCtx->time_base.den = 25;
 //    pCodecCtx->me_pre_cmp = 1;
     //H264
     //pCodecCtx->me_range = 16;
@@ -126,7 +129,7 @@ int H264Encode::initVideoEncoder() {
     pCodecCtx->qmax = 51;
 
     //Optional Param
-    pCodecCtx->max_b_frames = 3;
+    pCodecCtx->max_b_frames = 3;//b帧最大数量
 
     // Set Option
     AVDictionary *param = 0;
@@ -147,6 +150,7 @@ int H264Encode::initVideoEncoder() {
         LOG_E(DEBUG, "Can not find encoder! \n");
         return -1;
     }
+
     if (avcodec_open2(pCodecCtx, pCodec, &param) < 0) {
         LOG_E(DEBUG, "Failed to open encoder! \n");
         return -1;
@@ -265,7 +269,7 @@ void *H264Encode::startEncode(void *obj) {
             int64_t now_time = av_gettime() - start_time;
             if (pts_time > now_time)
                 av_usleep(pts_time - now_time);
-
+//
 //            }
 
             h264_encoder->pkt.pts = av_rescale_q_rnd(h264_encoder->pkt.pts, AV_TIME_BASE_Q,

@@ -1,24 +1,26 @@
 package com.guagua.nativeapp;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.guagua.nativeapp.jnibridge.FFmpegJavaNativeBridge;
-import com.guagua.nativeapp.recorder.IMediaCallback;
 import com.guagua.nativeapp.recorder.NativeMediaRecorder;
 
-public class Recorder extends Activity implements View.OnClickListener, IMediaCallback {
+public class Recorder extends Activity implements View.OnClickListener {
 
     private NativeMediaRecorder nativeAudioRecorder;
     private SurfaceView surfaceView;
     private TextView tvVideo;
     private TextView tvAudio;
+    private PushStreamer pushStreamer;
+    private RelativeLayout videoParent;
 
 
     @Override
@@ -29,98 +31,71 @@ public class Recorder extends Activity implements View.OnClickListener, IMediaCa
         findViewById(R.id.btnFlash).setOnClickListener(this);
         findViewById(R.id.btnStart).setOnClickListener(this);
         findViewById(R.id.btnStop).setOnClickListener(this);
+        videoParent = (RelativeLayout) findViewById(R.id.rlLayout);
         findViewById(R.id.btnSwitchCamera).setOnClickListener(this);
-        surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
         tvAudio = ((TextView) findViewById(R.id.tvAudioInfo));
         tvVideo = ((TextView) findViewById(R.id.tvVideoInfo));
 
+        SurfaceView surfaceView=new SurfaceView(this);
+        pushStreamer = new PushStreamer(this,surfaceView);
+        DisplayMetrics displayMetrics=new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getRealMetrics(displayMetrics);
+        surfaceView.setLayoutParams(new RelativeLayout.LayoutParams(displayMetrics.widthPixels,displayMetrics.heightPixels));
 
-        try {
-//            nativeAudioRecorder.setPath(Environment.getExternalStorageDirectory().getAbsolutePath(), "audio.aac");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
+            @Override
+            public void surfaceCreated(SurfaceHolder surfaceHolder) {
+                pushStreamer.startSpeak();
+                Log.d("video","surfacecreate");
+            }
+
+            @Override
+            public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+
+            }
+        });
+        videoParent.addView(surfaceView);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (null == nativeAudioRecorder) {
-            nativeAudioRecorder = new NativeMediaRecorder(this);
-            nativeAudioRecorder.setSurfaceHolder(surfaceView.getHolder());
-        }
-        nativeAudioRecorder.prepare();
+        pushStreamer.onActivityResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        nativeAudioRecorder.stopPreview();
+        pushStreamer.onActivityPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        pushStreamer.destroy();
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnFlash:
+                pushStreamer.Light();
                 break;
             case R.id.btnStart:
-                nativeAudioRecorder.startRecord();
+
                 break;
             case R.id.btnSwitchCamera:
+                pushStreamer.SwitchCamera();
                 break;
             case R.id.btnStop:
-                nativeAudioRecorder.stopAudioRecord();
-                FFmpegJavaNativeBridge.endRecord();
-                FFmpegJavaNativeBridge.releaseRecord();
                 break;
         }
-    }
-
-    @Override
-    public void onAudioRecordError(int info, String error) {
-        Log.e("record", info + ":" + error);
-    }
-
-    @Override
-    public void onVideoError() {
-        Log.e("record", "video error");
-    }
-
-    @Override
-    public void receiveAudioData(byte[] data, int result) {
-        Log.d("receive audio", result + "");
-      //  tvAudio.setText("receive audio len:"+result);
-        if (nativeAudioRecorder.isRecording() && result > 0) {
-            FFmpegJavaNativeBridge.encode2AAC(data);
-        }
-    }
-
-    @Override
-    public void receiveVideoData(byte[] data) {
-        Log.d("receive video", data.length + "");
-     //   tvVideo.setText("receive video len:"+data.length);
-        if (nativeAudioRecorder.isRecording()&&data.length>0) {
-            FFmpegJavaNativeBridge.encodeFrame2H264(data);
-        }
-    }
-
-    @Override
-    public void onPrepared() {
-//        final int w = DeviceUtils.getScreenWidth(this);
-//        ((RelativeLayout.LayoutParams) surfaceView.getLayoutParams()).topMargin = (int) (w / (SMALL_VIDEO_HEIGHT / (SMALL_VIDEO_WIDTH * 1.0f)));
-//        int width = w;
-//        int height = (int) (w * ((NativeMediaRecorder.mSupportedPreviewWidth * 1.0f) / SMALL_VIDEO_HEIGHT));
-//        //
-//        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) surfaceView
-//                .getLayoutParams();
-//        lp.width = width;
-//        lp.height = height;
-//        surfaceView.setLayoutParams(lp);
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
     }
 
 }

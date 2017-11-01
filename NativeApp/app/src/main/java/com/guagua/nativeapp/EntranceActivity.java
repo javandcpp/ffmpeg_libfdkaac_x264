@@ -7,9 +7,6 @@ import android.view.View;
 
 public class EntranceActivity extends AppCompatActivity implements View.OnClickListener {
 
-    static {
-        System.loadLibrary("Media");
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +54,7 @@ public class EntranceActivity extends AppCompatActivity implements View.OnClickL
             case R.id.btnDecoder:
                 startActivity(new Intent(this,VideoDecoderActivity.class));
                 break;
+
         }
     }
 }

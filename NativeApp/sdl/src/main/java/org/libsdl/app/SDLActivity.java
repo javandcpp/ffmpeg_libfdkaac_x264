@@ -1104,7 +1104,7 @@ class SDLMain implements Runnable {
     public void run() {
         // Runs SDL_main()
         String absolutePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        File file=new File(absolutePath,"video_1.mkv");
+        File file=new File(absolutePath,"ffmpeg.flv");
         SDLActivity.nativeInit(file.getAbsolutePath());
 
         //Log.v("SDL", "SDL thread terminated");

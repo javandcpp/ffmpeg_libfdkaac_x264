@@ -250,7 +250,7 @@ Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_yuvTOGrayYUV(JNIEnv *
 
 
 extern "C" double r2d(AVRational rational) {
-    return rational.num / rational.den;
+    return rational.num==0||rational.den==0?0:(rational.num / rational.den);
 }
 
 
@@ -263,6 +263,7 @@ Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_decode(JNIEnv *env, j
         AVFormatContext *iformatCtx = NULL;
         AVCodecContext *avCodecCtxTmp = NULL;
         av_register_all();
+
 
         int ret, videoIndex;
         ret = -1;
@@ -290,6 +291,9 @@ Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_decode(JNIEnv *env, j
             if (avCodecCxt->codec_type == AVMEDIA_TYPE_VIDEO) {
                 videoIndex = i;
                 avCodecCtxTmp = avCodecCxt;
+                int totalMs=iformatCtx->duration/AV_TIME_BASE;//获取总时长(毫秒)
+                int fps=r2d(iformatCtx->streams[i]->avg_frame_rate);//获取fps
+                LOG_D(DEBUG,"duration:%d,fps:%d",totalMs,fps);
                 //获取编解码器
                 AVCodec *avCodec = avcodec_find_decoder(avCodecCxt->codec_id);
                 //打开解码器
@@ -329,9 +333,14 @@ Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_decode(JNIEnv *env, j
                   iformatCtx->streams[avPacket.stream_index]->time_base.den,
                   iformatCtx->streams[avPacket.stream_index]->time_base.num);
 
+
+
+
+
            // LOG_D(DEBUG,"minute:%lld seconds:%lld",pts/AV_TIME_BASE/60,pts/AV_TIME_BASE%60);
 
             int gotPicture = 0;
+
             avcodec_decode_video2(avCodecCtxTmp, avFrame, &gotPicture, &avPacket);
             //gotPicture 等于1表示解码一帧
             decoding = 1;
@@ -340,6 +349,8 @@ Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_decode(JNIEnv *env, j
             }
             //释放AVPacket
             av_packet_unref(&avPacket);
+            //TODO sleep fps 控制解码进度  sleep(1000ms/ps)
+
         }
 
         avformat_close_input(&iformatCtx);
@@ -357,6 +368,15 @@ Java_com_guagua_nativeapp_jnibridge_FFmpegJavaNativeBridge_decode(JNIEnv *env, j
     }
     return 0;
 }
+
+
+
+
+
+
+
+
+
 
 
 #ifdef __cplusplus

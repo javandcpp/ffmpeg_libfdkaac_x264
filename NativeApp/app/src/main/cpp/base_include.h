@@ -12,11 +12,13 @@ extern "C"{
 
 #include "include/libavcodec/avcodec.h"
 #include "include/libavformat/avformat.h"
-#include "include/libavcodec/avcodec.h"
 #include "include/libavutil/opt.h"
+#include "include/libavutil/avutil.h"
 #include "include/libavutil/frame.h"
 #include "include/libavutil/time.h"
 #include "include/libavfilter/avfilter.h"
+#include "include/libswscale/swscale.h"
+#include "include/libavutil/pixfmt.h"
 
 
 #ifdef __cplusplus
@@ -54,6 +56,8 @@ extern "C"{
  * 旋转270(-90)裁剪左上，左右镜像
  */
 #define ROTATE_270_CROP_LT_MIRROR_LR 3
+
+
 
 
 #endif //NATIVEAPP_BASE_INCLUDE_H

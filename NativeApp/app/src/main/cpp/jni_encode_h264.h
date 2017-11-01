@@ -52,6 +52,7 @@ private:
     AVFrame *pFrame;
     int picture_size;
     int out_y_size;
+    int videoIndex=0;
     int framecnt = 0;
     int frame_count = 0;
     UserArguments *arguments;

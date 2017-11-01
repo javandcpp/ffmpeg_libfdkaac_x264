@@ -52,7 +52,7 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
     private boolean mPrepared;
     private SurfaceHolder mSurfaceHolder;
     private boolean mStartPreview;
-    private int mCameraId;
+    private int mCameraId=Camera.CameraInfo.CAMERA_FACING_FRONT;
     private Camera camera;
     private Camera.Parameters mParameters;
     public List<Camera.Size> mSupportedPreviewSizes;
@@ -224,10 +224,10 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
             checkFullWidth(640, 360);
             SMALL_VIDEO_HEIGHT = 480;
         }
-        mParameters.setPreviewSize(1920, 1080);
+        mParameters.setPreviewSize(640,368);
 
         // 设置输出视频流尺寸，采样率
-        mParameters.setPreviewFormat(ImageFormat.YV12);
+        mParameters.setPreviewFormat(ImageFormat.NV21);
 
         //设置自动连续对焦
         String mode = getAutoFocusMode();
@@ -345,7 +345,7 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
 
                 }
             };
-            recordThread.start();
+//            recordThread.start();
         }
     }
 

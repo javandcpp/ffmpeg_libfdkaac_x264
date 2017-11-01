@@ -39,7 +39,7 @@ public class PushStreamActivity extends AppCompatActivity implements View.OnClic
         btnPushStream.setOnClickListener(this);
 
 
-        File inputFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "ffmpeg17.flv");
+        File inputFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "ffmpeg.flv");
         Log.d("debug", inputFile.exists() + "");
         etInputUri.setText(inputFile.getAbsolutePath());
         etOutputUri.setText("rtmp://" + Constants.IP_ADDRESS + ":1935/test/live");
@@ -50,14 +50,14 @@ public class PushStreamActivity extends AppCompatActivity implements View.OnClic
         if (isPush) {
             isPush = false;
             btnPushStream.setText("startPush");
-            FFmpegJavaNativeBridge.stopPush();
+//            FFmpegJavaNativeBridge.stopPush();
         } else {
             isPush = true;
             btnPushStream.setText("stopPush");
             new Thread() {
                 @Override
                 public void run() {
-                    FFmpegJavaNativeBridge.pushStream(etInputUri.getText().toString().trim(), etOutputUri.getText().toString().trim());
+                    FFmpegJavaNativeBridge.xpushstream(etInputUri.getText().toString().trim(), etOutputUri.getText().toString().trim());
                 }
             }.start();
         }

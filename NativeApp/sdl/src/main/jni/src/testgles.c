@@ -60,6 +60,7 @@ int main(int argc, char **argv) {
 
     //size buffer
     uint8_t *out_buffer;
+    FILE *file=fopen("/mnt/sdcard/1.pcm","rb+");
 
     static struct SwsContext *img_convert_ctx;
 
@@ -320,16 +321,16 @@ int main(int argc, char **argv) {
 
                 printf("index:%5d\t pts:%lld\t packet size:%d\n", index, packet->pts, packet->size);
 
-#if OUTPUT_PCM
+#if true
                 //Write PCM
-                fwrite(out_buffer, 1, out_buffer_size, pFile);
+                fwrite(out_buffer, 1, out_buffer_size,file);
 #endif
 
                 index++;
             }
 //SDL------------------
 #if USE_SDL
-            //Set audio buffer (PCM data)
+            //Set /*audio buffer (PCM data)
             audio_chunk = (Uint8 *) out_buffer;
             //Audio buffer length
             audio_len =out_buffer_size;
@@ -337,13 +338,15 @@ int main(int argc, char **argv) {
             audio_pos = audio_chunk;
 
             while(audio_len>0)//Wait until finish
-                SDL_Delay(1);
+                SDL_D*/elay(1);
 #endif
         }
         // Free the packet that was allocated by av_read_frame
         av_packet_unref(packet);
         av_free_packet(packet);
     }
+
+    fclose(file);
     SDL_CloseAudio();//Close SDL
     swr_free(&au_convert_ctx);
     sws_freeContext(img_convert_ctx);

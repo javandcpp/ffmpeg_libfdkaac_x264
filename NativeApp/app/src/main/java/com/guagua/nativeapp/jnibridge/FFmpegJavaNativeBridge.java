@@ -59,4 +59,7 @@ public class FFmpegJavaNativeBridge {
 
     public static native int decode(String inputuri);
 
+
+    public static native int xpushstream(String inputUri,String outputUri);
+
 }

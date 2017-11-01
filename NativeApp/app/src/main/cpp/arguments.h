@@ -29,5 +29,8 @@ typedef struct UserArguments {
     JavaVM *javaVM; //jvm指针
     jclass java_class; //java接口类的calss对象
     JXJNIHandler *handler; // 一个全局处理对象的指针
+    char *outputUrl;
+    int gop_size;
+    int max_b_frames;
 } ;
 #endif //JIANXIFFMPEG_JX_USER_ARGUMENTS_H

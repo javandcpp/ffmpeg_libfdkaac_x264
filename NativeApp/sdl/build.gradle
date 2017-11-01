@@ -10,10 +10,14 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        ndk {
-            abiFilters "armeabi-v7a"
-            ldLibs "log", "z", "m", "jnigraphics", "android"
-        }
+//        externalNativeBuild {
+//            cmake {
+//                cppFlags "-std=c++11"
+//            }
+//        }
+//        ndk {
+//            abiFilters 'armeabi-v7a'
+//        }
     }
     buildTypes {
         release {
@@ -24,16 +28,16 @@ android {
     sourceSets{
         main{
             jniLibs.srcDirs "src/main/libs"
-            jni.srcDirs = []
+            jni.srcDirs=[] //   //disable automatic ndk-build call
         }
 
     }
 
-    externalNativeBuild {
-        ndkBuild {
-            path 'src/main/jni/Android.mk'
-        }
-    }
+//    externalNativeBuild {
+//        ndkBuild {
+//            path 'src/main/jni/Android.mk'
+//        }
+//    }
 
 
     splits {//删除64位的so库
