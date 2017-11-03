@@ -108,18 +108,20 @@ JNIEXPORT jint JNICALL
 Java_com_guagua_nativeapp_MediaProcess_encodeH264(JNIEnv *env, jclass type, jbyteArray data_,
                                                   jint length, jint w, jint h, jint orientation) {
     jbyte *src = env->GetByteArrayElements(data_, NULL);
-
-    uint8_t *dst = (uint8_t *) malloc(w * h * 3 / 2);
-    //libyuv NV21 convert I420
-    NV21ToI420((const uint8_t *) src, w, (uint8_t *) src + (w * h), w, dst, w, dst + (w * h),
-               w / 2, dst + (w * h * 5 / 4), w / 2, w, h);
-
+    //I420
+    uint8_t *dstI420 = (uint8_t *) malloc(w * h * 3 / 2);
+    //I420/mirror
     uint8_t *mirror = (uint8_t *) malloc(w * h * 3 / 2);
+    //I420/mirror/rotate
     uint8_t *rotate = (uint8_t *) malloc(w * h * 3 / 2);
 
-    uint8_t *src_y = dst;
-    uint8_t *src_u = dst + w * h;
-    uint8_t *src_v = dst + (w * h * 5 / 4);
+    //libyuv NV21 convert I420
+    NV21ToI420((const uint8_t *) src, w, (uint8_t *) src + (w * h), w, dstI420, w, dstI420 + (w * h),
+               w / 2, dstI420 + (w * h * 5 / 4), w / 2, w, h);
+
+    uint8_t *src_y = dstI420;
+    uint8_t *src_u = dstI420 + w * h;
+    uint8_t *src_v = dstI420 + (w * h * 5 / 4);
 
     uint8_t *dst_y = mirror;
     uint8_t *dst_u = mirror + w * h;
