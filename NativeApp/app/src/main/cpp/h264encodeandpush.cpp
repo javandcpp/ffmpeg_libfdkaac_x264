@@ -59,15 +59,15 @@ void *EncoderH264::startEncode(void *pa) {
         memcpy(encoderH264->outputYUV->data[2], picture_buf + in_y_size * 5 / 4, in_y_size / 4);//V
 
         encoderH264->outputYUV->linesize[0] = encoderH264->arguments.in_width;
-        encoderH264->outputYUV->linesize[1] = encoderH264->arguments.in_width / 2;
-        encoderH264->outputYUV->linesize[2] = encoderH264->arguments.in_width / 2;
+        encoderH264->outputYUV->linesize[1] = (encoderH264->arguments.in_width + 1) / 2;
+        encoderH264->outputYUV->linesize[2] = (encoderH264->arguments.in_width + 1) / 2;
 
 //        fwrite(pictur_buf,1,in_y_size*3/2,encoderH264->oVideoFile);
 //        fflush(encoderH264->oVideoFile);
 
         LOG_D(DEBUG, "output write to file   w:%d,h:%d", encoderH264->arguments.in_width,
               encoderH264->arguments.in_height);
-        encoderH264->outputYUV->pts =vpts;
+        encoderH264->outputYUV->pts = vpts;
         vpts++;
 
 
@@ -101,10 +101,10 @@ void *EncoderH264::startEncode(void *pa) {
 
         AVRational time_base = AV_TIME_BASE_Q;
         AVRational time_base_q = {1, AV_TIME_BASE};
-        LOG_D(DEBUG,"pack.dts");
+        LOG_D(DEBUG, "pack.dts");
         int64_t pts_time = av_rescale_q(encoderH264->pack.dts, time_base, time_base_q);
         int64_t now_time = av_gettime() - start_time;
-        LOG_D(DEBUG,"host:%lld",pts_time- now_time);
+        LOG_D(DEBUG, "host:%lld", pts_time - now_time);
         if (pts_time > now_time)
             av_usleep(pts_time - now_time);
 
@@ -112,16 +112,19 @@ void *EncoderH264::startEncode(void *pa) {
 
         //推流
         encoderH264->pack.pts = av_rescale_q_rnd(encoderH264->pack.pts,
-                                             encoderH264->avCodecContext->time_base,
-                                             encoderH264->vs->time_base,  (AVRounding)(AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX));
+                                                 encoderH264->avCodecContext->time_base,
+                                                 encoderH264->vs->time_base,
+                                                 (AVRounding) (AV_ROUND_NEAR_INF |
+                                                               AV_ROUND_PASS_MINMAX));
         encoderH264->pack.dts = av_rescale_q_rnd(encoderH264->pack.dts,
-                                             encoderH264->avCodecContext->time_base,
-                                             encoderH264->vs->time_base,  (AVRounding)(AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX));
+                                                 encoderH264->avCodecContext->time_base,
+                                                 encoderH264->vs->time_base,
+                                                 (AVRounding) (AV_ROUND_NEAR_INF |
+                                                               AV_ROUND_PASS_MINMAX));
         encoderH264->pack.duration = av_rescale_q(encoderH264->pack.duration,
                                                   encoderH264->avCodecContext->time_base,
                                                   encoderH264->vs->time_base);
         encoderH264->pack.pos = -1;
-
 
 
         encoderH264->pack.stream_index = encoderH264->vs->index;
