@@ -7,7 +7,6 @@
 /build
 /captures
 .externalNativeBuild
-
 .idea
 gradlew.bat
 gradlew

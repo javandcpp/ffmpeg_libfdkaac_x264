@@ -12,6 +12,9 @@ cmake_minimum_required(VERSION 3.4.1)
 
 #包含头文件
 
+set(include-yuvheaders ${CMAKE_SOURCE_DIR}/src/main/cpp/libyuv_include)
+include_directories(${include-yuvheaders})
+
 set(include-headers ${CMAKE_SOURCE_DIR}/src/main/cpp/include)
 include_directories(${include-headers})
 
@@ -69,6 +72,11 @@ add_library(avdevice SHARED IMPORTED)
 set_target_properties( avdevice
                        PROPERTIES
                        IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libavdevice.so )
+
+add_library(yuv SHARED IMPORTED)
+set_target_properties( yuv
+                       PROPERTIES
+                       IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libyuv.so)
 
 
 add_library( # Sets the name of the library.
@@ -130,6 +138,7 @@ target_link_libraries( # Specifies the target library.
                         fdkaac
                         avdevice
                         avpostproc
+                        yuv
                         log
                         android   #这句很重要,涉及android中库的调用
                         )
