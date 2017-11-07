@@ -19,6 +19,7 @@ import com.guagua.nativeapp.nativehandler.NativeCrashHandler;
 
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -71,6 +72,7 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
         if (mDestDir.exists()) {
             mDestDir.delete();
         }
+
         mDestDir.createNewFile();
 
     }
@@ -305,9 +307,9 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
                 @Override
                 public void run() {
                     try {
-//                        dataOutputStream = new DataOutputStream(new FileOutputStream(mDestDir, true));
+                        dataOutputStream = new DataOutputStream(new FileOutputStream(mDestDir, true));
                         mAudioRecord.startRecording();
-                    } catch (IllegalStateException e) {
+                    } catch (Exception e) {
                         mRecording = false;
                         iMediaCallback.onAudioRecordError(BaseMediaRecorder.AUDIO_RECORD_ERROR_UNKNOWN, "startRecording failed.");
                         return;
@@ -317,7 +319,8 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
                         while (!Thread.currentThread().isInterrupted()) {
                             int result = mAudioRecord.read(sampleBuffer, 0, 2048);
                             if (result > 0) {
-//                                dataOutputStream.write(sampleBuffer, 0, result);
+                                dataOutputStream.write(sampleBuffer, 0, result);
+                                Log.d("record audio:",result+"");
                                 mRecording = true;
                                 iMediaCallback.receiveAudioData(sampleBuffer, result);
                             }
@@ -345,7 +348,7 @@ public class NativeMediaRecorder extends BaseMediaRecorder implements SurfaceHol
 
                 }
             };
-//            recordThread.start();
+            recordThread.start();
         }
     }
 

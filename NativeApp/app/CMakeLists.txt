@@ -103,6 +103,7 @@ add_library( # Sets the name of the library.
              src/main/cpp/xpush_stream.cpp
              src/main/cpp/h264encodeandpush.cpp
              src/main/cpp/h264EncodePush.cpp
+             src/main/cpp/aacencodeandpush.cpp
              )
 
 # Searches for a specified prebuilt library and stores the path as a

@@ -49,7 +49,7 @@ public class EntranceActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(new Intent(this, TransStreamActivity.class));
                 break;
             case R.id.btnPushAndCapture:
-                startActivity(new Intent(this, Recorder.class));
+                startActivity(new Intent(this, Recorder2.class));
                 break;
             case R.id.btnDecoder:
                 startActivity(new Intent(this,VideoDecoderActivity.class));

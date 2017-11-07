@@ -4,6 +4,7 @@
 
 #include "base_include.h"
 #include "h264encodeandpush.h"
+#include "aacencodeandpush.h"
 
 using namespace libyuv;
 
@@ -11,99 +12,11 @@ using namespace libyuv;
 extern "C" {
 #endif
 
-EncoderH264 *encoderH264;
-
-//
-void detailPic90(uint8_t *d, uint8_t *yuv_temp, int nw, int nh, int w, int h) {
-    int deleteW = (nw - h) / 2;
-    int deleteH = (nh - w) / 2;
-    int i, j;
-    for (i = 0; i < h; i++) {
-        for (j = 0; j < w; j++) {
-            yuv_temp[(h - i) * w - 1 - j] = d[nw * (deleteH + j) + nw - deleteW
-                                              - i];
-        }
-    }
-    int index = w * h;
-    for (i = deleteW + 1; i < nw - deleteW; i += 2)
-        for (j = nh / 2 * 3 - deleteH / 2; j > nh + deleteH / 2; j--)
-            yuv_temp[index++] = d[(j - 1) * nw + i];
-    for (i = deleteW; i < nw - deleteW; i += 2)
-        for (j = nh / 2 * 3 - deleteH / 2; j > nh + deleteH / 2; j--)
-            yuv_temp[index++] = d[(j - 1) * nw + i];
-}
-
-
-void detailPic270(uint8_t *d, uint8_t *yuv_temp, int nw, int nh, int w, int h) {
-    int deleteW = (nw - h) / 2;
-    int deleteH = (nh - w) / 2;
-    int i, j;
-//处理y 旋转加裁剪
-    for (i = 0; i < h; i++) {
-        for (j = 0; j < w; j++) {
-            yuv_temp[i * w + j] = d[nw * (deleteH + j) + nw - deleteW - i];
-        }
-    }
-//处理u 旋转裁剪加格式转换
-    int index = w * h;
-    for (i = nw - deleteW - 1; i > deleteW; i -= 2)
-        for (j = nh + deleteH / 2; j < nh / 2 * 3 - deleteH / 2; j++)
-            yuv_temp[index++] = d[(j) * nw + i];
-//处理v 旋转裁剪加格式转换
-    for (i = nw - deleteW - 2; i >= deleteW; i -= 2)
-        for (j = nh + deleteH / 2; j < nh / 2 * 3 - deleteH / 2; j++)
-            yuv_temp[index++] = d[(j) * nw + i];
-}
-
-//mirro
-void Mirror(uint8_t *yuv_temp, int nw, int nh, int w,
-            int h) {
-    int deleteW = (nw - h) / 2;
-    int deleteH = (nh - w) / 2;
-    int i, j;
-    int a, b;
-    uint8_t temp;
-//mirror y
-    for (i = 0; i < h; i++) {
-        a = i * w;
-        b = (i + 1) * w - 1;
-        while (a < b) {
-            temp = yuv_temp[a];
-            yuv_temp[a] = yuv_temp[b];
-            yuv_temp[b] = temp;
-            a++;
-            b--;
-        }
-    }
-//mirror u
-    int uindex = w * h;
-    for (i = 0; i < h / 2; i++) {
-        a = i * w / 2;
-        b = (i + 1) * w / 2 - 1;
-        while (a < b) {
-            temp = yuv_temp[a + uindex];
-            yuv_temp[a + uindex] = yuv_temp[b + uindex];
-            yuv_temp[b + uindex] = temp;
-            a++;
-            b--;
-        }
-    }
-//mirror v
-    uindex = w * h / 4 * 5;
-    for (i = 0; i < h / 2; i++) {
-        a = i * w / 2;
-        b = (i + 1) * w / 2 - 1;
-        while (a < b) {
-            temp = yuv_temp[a + uindex];
-            yuv_temp[a + uindex] = yuv_temp[b + uindex];
-            yuv_temp[b + uindex] = temp;
-            a++;
-            b--;
-        }
-    }
-}
-
-
+EncoderH264 *encoderH264 = NULL;
+EncodeAAC *encodeAAC = NULL;
+/**
+ * video
+ */
 JNIEXPORT jint JNICALL
 Java_com_guagua_nativeapp_MediaProcess_encodeH264(JNIEnv *env, jclass type, jbyteArray data_,
                                                   jint length, jint w, jint h, jint orientation) {
@@ -116,7 +29,8 @@ Java_com_guagua_nativeapp_MediaProcess_encodeH264(JNIEnv *env, jclass type, jbyt
     uint8_t *rotate = (uint8_t *) malloc(w * h * 3 / 2);
 
     //libyuv NV21 convert I420
-    NV21ToI420((const uint8_t *) src, w, (uint8_t *) src + (w * h), w, dstI420, w, dstI420 + (w * h),
+    NV21ToI420((const uint8_t *) src, w, (uint8_t *) src + (w * h), w, dstI420, w,
+               dstI420 + (w * h),
                w / 2, dstI420 + (w * h * 5 / 4), w / 2, w, h);
 
     uint8_t *src_y = dstI420;
@@ -148,12 +62,30 @@ Java_com_guagua_nativeapp_MediaProcess_encodeH264(JNIEnv *env, jclass type, jbyt
 
         fwrite(rotate, 1, w * h * 3 / 2, encoderH264->iVideoFile);
         fflush(encoderH264->iVideoFile);
-//
         encoderH264->frame_queue.push(rotate);
 
         LOG_D(DEBUG, "input write file  w:%d,h:%d", w, h);
     }
 
+    env->ReleaseByteArrayElements(data_, src, 0);
+    return 0;
+}
+
+
+/**
+ * audio
+ */
+JNIEXPORT jint JNICALL
+Java_com_guagua_nativeapp_MediaProcess_encodeAAC(JNIEnv *env, jclass type, jbyteArray data_,
+                                                 jint length) {
+    jbyte *data = env->GetByteArrayElements(data_, NULL);
+    uint8_t *buf = (uint8_t *) malloc(length);
+    memcpy(buf, (uint8_t *) data, length);
+    encodeAAC->frame_queue.push(buf);
+
+//    fwrite(buf, 1, length, encodeAAC->iAudioFile);
+//    fflush(encodeAAC->iAudioFile);
+//    LOG_D(DEBUG, "write iaudio file:%d",length);
 //    env->ReleaseByteArrayElements(data_, data, 0);
     return 0;
 }
@@ -162,16 +94,29 @@ Java_com_guagua_nativeapp_MediaProcess_encodeH264(JNIEnv *env, jclass type, jbyt
 JNIEXPORT jint JNICALL
 Java_com_guagua_nativeapp_MediaProcess_initEncoder(JNIEnv *env, jclass type) {
 
+    int ret=0;
     // TODO
-    encoderH264 = new EncoderH264();
-    encoderH264->iVideoFile = fopen("/mnt/sdcard/ivideo.yuv", "wb+");
-    int ret = encoderH264->initEncoder();
+//    encoderH264 = new EncoderH264();
+    encodeAAC = new EncodeAAC();
+//    encoderH264->iVideoFile = fopen("/mnt/sdcard/ivideo.yuv", "wb+");
+    encodeAAC->iAudioFile = fopen("/mnt/sdcard/iaudio.pcm", "wb+");
+//    int ret = 0;
+//    ret = encoderH264->initEncoder();
+//    if (ret < 0) {
+//        LOG_E(DEBUG, "initVideoEncoder failed!");
+//        delete encoderH264;
+//        return -1;
+//    }
+
+    ret = encodeAAC->initEncoder();
     if (ret < 0) {
-        LOG_E(DEBUG, "initEncoder failed!");
-        return -1;
+        LOG_E(DEBUG, "initAudioEncoder failed!");
+        delete encodeAAC;
+        return ret;
     }
-    LOG_E(DEBUG, "initEncoder success!");
-    return 0;
+//    LOG_E(DEBUG, "initVideoEncoder success!");
+    LOG_E(DEBUG, "initAudioEncoder success!");
+    return ret;
 }
 
 
@@ -186,6 +131,17 @@ Java_com_guagua_nativeapp_MediaProcess_close(JNIEnv *env, jclass type) {
         }
         encoderH264->close();
         delete encoderH264;
+    }
+
+    if (encodeAAC != NULL) {
+        if (encodeAAC->oAudioFile) {
+            fclose(encodeAAC->oAudioFile);
+        }
+        if (encodeAAC->iAudioFile) {
+            fclose(encodeAAC->iAudioFile);
+        }
+        encodeAAC->close();
+        delete encodeAAC;
     }
 
 }

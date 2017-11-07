@@ -3,6 +3,7 @@
 //
 
 #include "jni_encode_aac.h"
+#include "include/libswresample/swresample.h"
 
 
 /**
@@ -59,16 +60,13 @@ int AACEncode::initAudioEncoder() {
     LOG_I(DEBUG,"音频编码器初始化开始");
     size_t path_length = strlen(userArguments->audio_path);
     char *out_file=( char *)malloc(path_length+1);
-
     strcpy(out_file, userArguments->audio_path);
-
     av_register_all();
 
     //Method 1.
     pFormatCtx = avformat_alloc_context();
     fmt = av_guess_format(NULL, out_file, NULL);
     pFormatCtx->oformat = fmt;
-
 
 //    Method 2.
 //    int a=avformat_alloc_output_context2(&pFormatCtx, NULL, NULL, out_file);
@@ -81,6 +79,7 @@ int AACEncode::initAudioEncoder() {
         LOG_E(DEBUG,"Failed to open output file!\n");
         return -1;
     }
+
 //    pFormatCtx->audio_codec_id=AV_CODEC_ID_AAC;
 
     audio_st = avformat_new_stream(pFormatCtx, 0);
@@ -98,10 +97,12 @@ int AACEncode::initAudioEncoder() {
 //    pCodecCtx->thread_count = 1;
 //    pCodecCtx->profile=FF_PROFILE_AAC_MAIN;
 
+
     int b= av_get_channel_layout_nb_channels(pCodecCtx->channel_layout);
     LOG_I(DEBUG,"native --channels:%d",b);
 
-    //Show some information
+    //
+    // Show some information
     av_dump_format(pFormatCtx, 0, out_file, 1);
     pCodec = avcodec_find_encoder(pCodecCtx->codec_id);
     LOG_I(DEBUG,"natvie --avcodec_open:%s",pCodec->name);
@@ -119,7 +120,9 @@ int AACEncode::initAudioEncoder() {
     int state = avcodec_open2(pCodecCtx, pCodec, NULL);
     LOG_I(DEBUG,"natvie --avcodec_open:%d",state);
     if (state < 0) {
-        LOG_E(DEBUG,"natvie --Failed to open encoder!---%d",state);
+        char buf[1024]={0};
+        av_strerror(state,buf, sizeof(buf));
+        LOG_E(DEBUG,"natvie --Failed to open encoder!---%d  %s",state,buf);
         return -1;
     }
     pFrame = av_frame_alloc();

@@ -20,6 +20,7 @@ extern "C"{
 #include "include/libswscale/swscale.h"
 #include "include/libavutil/pixfmt.h"
 #include "libyuv_include/libyuv.h"
+#include "include/libswresample/swresample.h"
 
 
 #ifdef __cplusplus

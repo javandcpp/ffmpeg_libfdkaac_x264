@@ -30,7 +30,7 @@
         android:id="@+id/recorder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="视频采集" />
+        android:text="采集1" />
 
     <Button
         android:id="@+id/btnPushStream"
@@ -54,7 +54,7 @@
         android:id="@+id/btnPushAndCapture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="视频采集与推流" />
+        android:text="采集2" />
     <Button
         android:id="@+id/btnDecoder"
         android:layout_width="wrap_content"

@@ -22,6 +22,7 @@ import com.guagua.avcapture.impl.VideoCapture;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.List;
 
 import static android.hardware.Camera.CameraInfo.CAMERA_FACING_BACK;
@@ -47,6 +48,7 @@ public class PushStreamer {
 
     public final SurfaceHolder mSurfaceHolder;
     public int[] m_aiBufferLength;
+    public int requireLength = 1024 * 8;
     public AudioCaptureInterface m_oAudioCapture = new AudioCapture();
     public VideoCaptureInterface m_oVideoCapture = new VideoCapture();
     public int frameCount;
@@ -86,6 +88,10 @@ public class PushStreamer {
     private FileOutputStream audioOps;
     private final byte[] yuvBuf;
 
+    private static final Object i1 = new Object();
+    private RandomAccessFile file;
+    private final int nativeInt;
+
     public PushStreamer(Activity context, SurfaceView surfaceView) {
         mSurfaceHolder = surfaceView.getHolder();
         File externalStorageDirectory = Environment.getExternalStorageDirectory();
@@ -107,7 +113,12 @@ public class PushStreamer {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        MediaProcess.initEncoder();
+        nativeInt = MediaProcess.initEncoder();
+        if (nativeInt == 0) {
+            Log.d("tag", "native init success!");
+        } else {
+            Log.d("tag", "native init failed!");
+        }
     }
 
 
@@ -119,7 +130,9 @@ public class PushStreamer {
         if (!destroy) {
             destroy = true;
             closeCapture();
-            MediaProcess.close();
+            if (nativeInt == 0) {
+                MediaProcess.close();
+            }
             try {
                 if (videoOps != null) {
                     videoOps.close();
@@ -323,11 +336,8 @@ public class PushStreamer {
                     ret = m_oAudioCapture.GetAudioData(audioBuffer,
                             m_aiBufferLength[0], dataLength);
                     if (ret == AudioCaptureInterface.GetAudioDataReturn.RET_SUCCESS) {
-
-                        saveOriAudio(audioBuffer);
-                        Log.d("audio-------->", audioBuffer.length + "");
-
-
+                        saveOriAudio(audioBuffer, dataLength[0]);
+                        Log.d("audio-------->", dataLength[0] + "");
                     }
 
                 } catch (Exception e) {
@@ -351,123 +361,33 @@ public class PushStreamer {
     }
 
     public void saveOriVideo(byte[] videoBuffer, int length, int w, int h) {
-        synchronized (this) {
-            try {
-                //   videoOps.write(videoBuffer);
-                //  videoOps.flush();
-
-                if (curCameraType == VideoCaptureInterface.CameraDeviceType.CAMERA_FACING_FRONT) {
-                    MediaProcess.encodeH264(videoBuffer, length, w, h, 1);
-                } else if (curCameraType == VideoCaptureInterface.CameraDeviceType.CAMERA_FACING_BACK) {
-                    MediaProcess.encodeH264(videoBuffer, length, w, h, 0);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void saveOriAudio(byte[] audioBuffer) {
         try {
-            audioOps.write(audioBuffer);
-            audioOps.flush();
-        } catch (IOException e) {
+            //   videoOps.write(videoBuffer);
+            //  videoOps.flush();
+
+            if (curCameraType == VideoCaptureInterface.CameraDeviceType.CAMERA_FACING_FRONT) {
+//                    MediaProcess.encodeH264(videoBuffer, length, w, h, 1);
+            } else if (curCameraType == VideoCaptureInterface.CameraDeviceType.CAMERA_FACING_BACK) {
+//                    MediaProcess.encodeH264(videoBuffer, length, w, h, 0);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void YUV420spRotateNegative90(byte[] dst, byte[] src, int srcWidth, int height) {
 
-        int nWidth = 0, nHeight = 0;
-        int wh = 0;
-        int uvHeight = 0;
-        if (srcWidth != nWidth || height != nHeight) {
-            nWidth = srcWidth;
-            nHeight = height;
-            wh = srcWidth * height;
-            uvHeight = height >> 1;//uvHeight = height / 2
-        }
-        //旋转Y
-        int k = 0;
-        for (int i = 0; i < srcWidth; i++) {
-            int nPos = srcWidth - 1;
-            for (int j = 0; j < height; j++) {
-                dst[k] = src[nPos - i];
-                k++;
-                nPos += srcWidth;
+    public void saveOriAudio(byte[] audioBuffer, int length) {
+        try {
+//            audioOps.write(audioBuffer);
+//            audioOps.flush();
+            if (nativeInt == 0) {
+                MediaProcess.encodeAAC(audioBuffer, length);
             }
-        }
-
-        for (int i = 0; i < srcWidth; i += 2) {
-            int nPos = wh + srcWidth - 1;
-            for (int j = 0; j < uvHeight; j++) {
-                dst[k] = src[nPos - i - 1];
-                dst[k + 1] = src[nPos - i];
-                k += 2;
-                nPos += srcWidth;
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    private byte[] rotateYUV420Degree90(byte[] dst, byte[] src, int imageWidth, int imageHeight) {
-        int i = 0;
-        for (int x = 0; x < imageWidth; x++) {
-            for (int y = imageHeight - 1; y >= 0; y--) {
-                dst[i] = src[y * imageWidth + x];
-                i++;
-            }
-        }
-        i = imageWidth * imageHeight * 3 / 2 - 1;
-        for (int x = imageWidth - 1; x > 0; x = x - 2) {
-            for (int y = 0; y < imageHeight / 2; y++) {
-                dst[i] = src[(imageWidth * imageHeight) + (y * imageWidth) + x];
-                i--;
-                dst[i] = src[(imageWidth * imageHeight) + (y * imageWidth) + (x - 1)];
-                i--;
-            }
-        }
-        return yuvBuf;
-    }
-
-    private byte[] rotateYUV420Degree180(byte[] data, int imageWidth, int imageHeight) {
-        int i = 0;
-        int count = 0;
-
-        for (i = imageWidth * imageHeight - 1; i >= 0; i--) {
-            yuvBuf[count] = data[i];
-            count++;
-        }
-
-        i = imageWidth * imageHeight * 3 / 2 - 1;
-        for (i = imageWidth * imageHeight * 3 / 2 - 1; i >= imageWidth
-                * imageHeight; i -= 2) {
-            yuvBuf[count++] = data[i - 1];
-            yuvBuf[count++] = data[i];
-        }
-        return yuvBuf;
-    }
-
-    private void rotateYUV420Degree270(byte[] dst, byte[] src, int imageWidth, int imageHeight) {
-        // Rotate the Y luma
-        int i = 0;
-        for (int x = imageWidth - 1; x >= 0; x--) {
-            for (int y = 0; y < imageHeight; y++) {
-                dst[i] = src[y * imageWidth + x];
-                i++;
-            }
-        }// Rotate the U and V color components
-        i = imageWidth * imageHeight;
-        for (int x = imageWidth - 1; x > 0; x = x - 2) {
-            for (int y = 0; y < imageHeight / 2; y++) {
-                dst[i] = src[(imageWidth * imageHeight) + (y * imageWidth) + (x - 1)];
-                i++;
-                dst[i] = src[(imageWidth * imageHeight) + (y * imageWidth) + x];
-                i++;
-            }
-        }
-    }
-
-    ;
 
     // 切换摄像头
     public void switchCamera(int type, short micIndex) {

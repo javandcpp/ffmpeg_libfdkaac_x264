@@ -13,6 +13,7 @@ class JXJNIHandler;
 typedef struct UserArguments {
     const char *media_base_path; //文件储存地址
     const char *media_name; // 文件命令前缀
+    AVSampleFormat avSampleFormat;
     char *video_path; //视频储存地址
     char *audio_path; //音频储存地址
     char *media_path; //合成后的MP4储存地址
@@ -20,6 +21,10 @@ typedef struct UserArguments {
     int in_height; //输入高度
     int out_height; //输出高度
     int out_width; //输出宽度
+    int channels;
+    int channel_layout;
+    AVCodecID audio_codec_id;
+    int nb_samples;//(pcm 16bit 1024  fltp 2048)
     int frame_rate; //视频帧率控制
     long long video_bit_rate; //视频比特率控制
     int audio_bit_rate; //音频比特率控制(64000)
