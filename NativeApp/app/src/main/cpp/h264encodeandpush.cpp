@@ -120,7 +120,7 @@ void *EncoderH264::startEncode(void *pa) {
                                                  encoderH264->avCodecContext->time_base,
                                                  encoderH264->vs->time_base,
                                                  (AVRounding) (AV_ROUND_NEAR_INF |
-                                                               AV_ROUND_PASS_MINMAX));
+                                                               AV_ROUND_PASS_MINMAX));//最后一个参数需要强转,否则找不到函数
         encoderH264->pack.duration = av_rescale_q(encoderH264->pack.duration,
                                                   encoderH264->avCodecContext->time_base,
                                                   encoderH264->vs->time_base);

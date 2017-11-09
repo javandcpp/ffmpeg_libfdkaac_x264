@@ -44,7 +44,7 @@ import static android.hardware.Camera.CameraInfo.CAMERA_FACING_BACK;
  * Created by android on 10/31/17.
  */
 
-public class PushStreamer {
+public class PushStreamer implements SurfaceHolder.Callback {
 
     public final SurfaceHolder mSurfaceHolder;
     public int[] m_aiBufferLength;
@@ -90,11 +90,13 @@ public class PushStreamer {
 
     private static final Object i1 = new Object();
     private RandomAccessFile file;
-    private final int nativeInt;
+    private int nativeInt;
+    private boolean speak;
 
     public PushStreamer(Activity context, SurfaceView surfaceView) {
         mSurfaceHolder = surfaceView.getHolder();
         File externalStorageDirectory = Environment.getExternalStorageDirectory();
+        surfaceView.getHolder().addCallback(this);
 
         yuvBuf = new byte[mVideoSizeConfig.srcFrameHeight * mVideoSizeConfig.srcFrameWidth * 3 / 2];
         videoFile = new File(externalStorageDirectory, "video.yuv");
@@ -113,17 +115,14 @@ public class PushStreamer {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        nativeInt = MediaProcess.initEncoder();
-        if (nativeInt == 0) {
-            Log.d("tag", "native init success!");
-        } else {
-            Log.d("tag", "native init failed!");
-        }
     }
 
 
     public void startSpeak() {
-        createCapture((short) currentMicIndex);//开始采集
+        if (!speak) {
+            createCapture((short) currentMicIndex);//开始采集
+            speak = true;
+        }
     }
 
     public boolean destroy() {
@@ -149,7 +148,7 @@ public class PushStreamer {
 
 
     public void closeAudioVideoCapture() {
-        if (m_oAudioCapture.IsStartAudioCapture()) {
+        if (null!=m_oAudioCapture&&m_oAudioCapture.IsStartAudioCapture()) {
             if (m_oVideoThread != null) {
 
                 m_oAudioThread.stopThread();
@@ -161,7 +160,7 @@ public class PushStreamer {
                 }
             }
         }
-        if (m_oVideoCapture.IsStartVideoCapture()) {
+        if (null!=m_oVideoCapture&&m_oVideoCapture.IsStartVideoCapture()) {
             if (m_oVideoThread != null) {
                 m_oVideoThread.stopThread();
                 try {
@@ -172,8 +171,12 @@ public class PushStreamer {
                 }
             }
         }
-        m_oAudioCapture.CloseAudioDevice();
-        m_oVideoCapture.CloseVideoDevice();
+        if(null!=m_oAudioCapture) {
+            m_oAudioCapture.CloseAudioDevice();
+        }
+        if(null!=m_oVideoCapture) {
+            m_oVideoCapture.CloseVideoDevice();
+        }
     }
 
     /**
@@ -189,6 +192,7 @@ public class PushStreamer {
 
     public void onActivityResume() {
         if (!destroy) {
+
 //            createCapture(currentMicIndex);
 //            if (m_oVideoThread == null
 //                    || !m_oVideoThread.isAlive()) {
@@ -217,6 +221,13 @@ public class PushStreamer {
      * @return
      */
     public int createCapture(short micIndex) {
+
+        nativeInt = MediaProcess.initEncoder();
+        if (nativeInt == 0) {
+            Log.d("tag", "native init success!");
+        } else {
+            Log.d("tag", "native init failed!");
+        }
         m_aiBufferLength = new int[1];
         try {
             AudioCaptureInterface.OpenAudioDeviceReturn retAudio = m_oAudioCapture.OpenAudioDevice(
@@ -238,6 +249,22 @@ public class PushStreamer {
         switchCamera(curCameraType, micIndex);
 
         return 0;
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder surfaceHolder) {
+        closeAudioVideoCapture();
+        startSpeak();
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+
     }
 
 

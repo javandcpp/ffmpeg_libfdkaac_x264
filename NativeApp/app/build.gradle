@@ -65,4 +65,5 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha2'
     compile project(':sdl')
+    compile project(':avcapture')
 }

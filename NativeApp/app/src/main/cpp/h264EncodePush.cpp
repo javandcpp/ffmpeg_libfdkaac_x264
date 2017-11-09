@@ -78,15 +78,15 @@ Java_com_guagua_nativeapp_MediaProcess_encodeH264(JNIEnv *env, jclass type, jbyt
 JNIEXPORT jint JNICALL
 Java_com_guagua_nativeapp_MediaProcess_encodeAAC(JNIEnv *env, jclass type, jbyteArray data_,
                                                  jint length) {
-    jbyte *data = env->GetByteArrayElements(data_, NULL);
-    uint8_t *buf = (uint8_t *) malloc(length);
-    memcpy(buf, (uint8_t *) data, length);
-    encodeAAC->frame_queue.push(buf);
-
+    if (encodeAAC != NULL) {
+        jbyte *data = env->GetByteArrayElements(data_, NULL);
+        uint8_t *buf = (uint8_t *) malloc(length);
+        memcpy(buf, (uint8_t *) data, length);
+        encodeAAC->frame_queue.push(buf);
+        env->ReleaseByteArrayElements(data_, data, 0);
+    }
 //    fwrite(buf, 1, length, encodeAAC->iAudioFile);
 //    fflush(encodeAAC->iAudioFile);
-//    LOG_D(DEBUG, "write iaudio file:%d",length);
-//    env->ReleaseByteArrayElements(data_, data, 0);
     return 0;
 }
 
@@ -94,12 +94,12 @@ Java_com_guagua_nativeapp_MediaProcess_encodeAAC(JNIEnv *env, jclass type, jbyte
 JNIEXPORT jint JNICALL
 Java_com_guagua_nativeapp_MediaProcess_initEncoder(JNIEnv *env, jclass type) {
 
-    int ret=0;
+    int ret = 0;
     // TODO
 //    encoderH264 = new EncoderH264();
     encodeAAC = new EncodeAAC();
 //    encoderH264->iVideoFile = fopen("/mnt/sdcard/ivideo.yuv", "wb+");
-    encodeAAC->iAudioFile = fopen("/mnt/sdcard/iaudio.pcm", "wb+");
+//    encodeAAC->iAudioFile = fopen("/mnt/sdcard/iaudio.pcm", "wb+");
 //    int ret = 0;
 //    ret = encoderH264->initEncoder();
 //    if (ret < 0) {

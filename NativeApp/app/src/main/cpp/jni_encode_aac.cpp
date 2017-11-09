@@ -61,6 +61,8 @@ int AACEncode::initAudioEncoder() {
     size_t path_length = strlen(userArguments->audio_path);
     char *out_file=( char *)malloc(path_length+1);
     strcpy(out_file, userArguments->audio_path);
+
+    LOG_D(DEBUG,"path:%s",out_file);
     av_register_all();
 
     //Method 1.

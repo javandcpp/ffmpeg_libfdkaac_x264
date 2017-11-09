@@ -3,38 +3,38 @@
 //
 
 #include "aacencodeandpush.h"
-
-int EncodeAAC::size = 0;
+//int EncodeAAC::size = 0;
 
 EncodeAAC::EncodeAAC() {
-
+    pthread_mutex_init(&mutex, NULL);
 }
 
 EncodeAAC::~EncodeAAC() {
-    if (avFormatContext) {
-        avformat_free_context(avFormatContext);
-        avFormatContext = NULL;
-    }
-
-    if (avCodecContext) {
-        avcodec_free_context(&avCodecContext);
-        avCodecContext = NULL;
-    }
-    if (outputFrame) {
-        av_frame_free(&outputFrame);
-        outputFrame = NULL;
-    }
+    pthread_mutex_destroy(&mutex);
+    LOG_D(DEBUG, "~EncodeAAC");
 }
 
 void *EncodeAAC::startEncode(void *obj) {
     LOG_D(DEBUG, "audio encodec");
     EncodeAAC *encodeAAC = (EncodeAAC *) obj;
-    encodeAAC->oAudioFile = fopen("/mnt/sdcard/oaudio1.pcm", "wb+");
+    encodeAAC->oAudioFile = fopen("/mnt/sdcard/oaudio.pcm", "wb+");
     FILE *tempFile = fopen("/mnt/sdcard/oaudio.aac", "wb+");
     int ret = 0;
     int apts = 0;
-    AVPacket avPacket;
-    memset(&avPacket, 0, sizeof(avPacket));
+    ret = avio_open(&encodeAAC->avFormatContext->pb, encodeAAC->outputUrl,AVIO_FLAG_WRITE);
+    if (ret < 0) {
+        LOG_D(DEBUG, "avio_open failed");
+        return (void*)-1;
+    }
+    LOG_D(DEBUG, "avio open success");
+    ret = avformat_write_header(encodeAAC->avFormatContext, NULL);
+    if (ret < 0) {
+        LOG_D(DEBUG, "avformat_write_header failed!");
+        return (void*)-1;
+    }
+    LOG_D(DEBUG, "write header success!");
+
+    AVPacket avPacket = {0};
     for (; ;) {
         if (encodeAAC->exit) {
             break;
@@ -44,31 +44,24 @@ void *EncodeAAC::startEncode(void *obj) {
         }
         const uint8_t *indata[AV_NUM_DATA_POINTERS] = {0};
         //PCM s16
-        uint8_t *picture_buf = *encodeAAC->frame_queue.wait_and_pop().get();//PCM 16bit
-        indata[0] = picture_buf;
-
-//        fwrite(indata[0], 1, size, encodeAAC->oAudioFile);
-//        fflush(encodeAAC->oAudioFile);
-//        LOG_D(DEBUG, "write file size:%d", size);
-
-
+        uint8_t *buf = *encodeAAC->frame_queue.wait_and_pop().get();//PCM 16bit
+#ifdef FDK_CODEC
+        ret = avcodec_fill_audio_frame(encodeAAC->outputFrame, encodeAAC->avCodecContext->channels,
+                                       encodeAAC->avCodecContext->sample_fmt, buf, BUFFER_SIZE, 0);
+        if (ret < 0) {
+            LOG_D(DEBUG, "fill frame failed!");
+            continue;
+        }
+#else
+        //重采样为AM_SAMPLE_FMT_FLTP
+        indata[0] = buf;
         swr_convert(encodeAAC->swrContext, encodeAAC->outputFrame->data,
-                    encodeAAC->outputFrame->nb_samples, indata, encodeAAC->outputFrame->nb_samples);
-        encodeAAC->outputFrame;
-
-        LOG_D(DEBUG, "data[0] line size:%d", encodeAAC->outputFrame->linesize[0]);
-        LOG_D(DEBUG, "data[1] line size:%d", encodeAAC->outputFrame->linesize[0]);
-
-        //PCM FLTP
-//        fwrite(encodeAAC->outputFrame->data[0], encodeAAC->outputFrame->linesize[0], size,
-//               encodeAAC->oAudioFile);
-//        fwrite(encodeAAC->outputFrame->data[1], 1, encodeAAC->outputFrame->linesize[0],
-//               encodeAAC->oAudioFile);
-//        fflush(encodeAAC->oAudioFile);
-
-        LOG_D(DEBUG, "nb_smpales:%d", encodeAAC->outputFrame->nb_samples);
+                    encodeAAC->outputFrame->nb_samples, indata,
+                    encodeAAC->outputFrame->nb_samples);
+#endif
         encodeAAC->outputFrame->pts = apts;
-        apts += av_rescale_q(encodeAAC->outputFrame->nb_samples, {1, 48000},
+        apts += av_rescale_q(encodeAAC->outputFrame->nb_samples,
+                             (AVRational) {1, 48000},
                              encodeAAC->avCodecContext->time_base);
 
         ret = avcodec_send_frame(encodeAAC->avCodecContext, encodeAAC->outputFrame);
@@ -81,66 +74,80 @@ void *EncodeAAC::startEncode(void *obj) {
             LOG_D(DEBUG, "receive packet failed!");
             continue;
         }
-        LOG_D(DEBUG, "aac encode size:%d", avPacket.size);
-        fwrite(avPacket.data, 1, avPacket.size, tempFile);
-        fflush(tempFile);
-//
-        LOG_D(DEBUG, "write file size:%d", avPacket.size);
-        avPacket.pts = av_rescale_q(avPacket.pts, encodeAAC->avCodecContext->time_base,
-                                    encodeAAC->avStream->time_base);
-        avPacket.dts = av_rescale_q(avPacket.dts, encodeAAC->avCodecContext->time_base,
-                                    encodeAAC->avStream->time_base);
+//        fwrite(avPacket.data, 1, avPacket.size, tempFile);
+//        fflush(tempFile);
+        LOG_D(DEBUG, "frame size:%d", encodeAAC->avCodecContext->frame_size);
+        LOG_D(DEBUG, "packet pts:%lld", avPacket.pts);
+
+        avPacket.pts = av_rescale_q_rnd(avPacket.pts, encodeAAC->avCodecContext->time_base,
+                                        encodeAAC->avStream->time_base,
+                                        (AVRounding) (AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX));
+        avPacket.dts = av_rescale_q_rnd(avPacket.dts, encodeAAC->avCodecContext->time_base,
+                                        encodeAAC->avStream->time_base,
+                                        (AVRounding) (AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX));
         avPacket.duration = av_rescale_q(avPacket.duration, encodeAAC->avCodecContext->time_base,
                                          encodeAAC->avStream->time_base);
 
+        avPacket.stream_index = encodeAAC->avStream->index;
+        LOG_D(DEBUG, "as timebase  %d,%d", encodeAAC->avStream->time_base.num,
+              encodeAAC->avStream->time_base.den);
+        LOG_D(DEBUG, "av timebase  %d,%d", encodeAAC->avCodecContext->time_base.num,
+              encodeAAC->avCodecContext->time_base.den);
+
         ret = av_interleaved_write_frame(encodeAAC->avFormatContext, &avPacket);
-//        av_packet_unref(&avPacket);
         if (ret == 0) {
-            LOG_D(DEBUG, "av write frame success!");
+            LOG_D(DEBUG, "write frame success!");
         }
+        av_packet_unref(&avPacket);
     }
+
     av_write_trailer(encodeAAC->avFormatContext);
+    LOG_D(DEBUG, "av_write_trailer");
     avio_close(encodeAAC->avFormatContext->pb);
+    if (encodeAAC->avFormatContext) {
+        avformat_free_context(encodeAAC->avFormatContext);
+        encodeAAC->avFormatContext = NULL;
+    }
+    if (encodeAAC->avCodecContext) {
+        avcodec_close(encodeAAC->avCodecContext);
+        avcodec_free_context(&encodeAAC->avCodecContext);
+        encodeAAC->avCodecContext = NULL;
+    }
+    if (encodeAAC->outputFrame) {
+        av_frame_free(&encodeAAC->outputFrame);
+        encodeAAC->outputFrame = NULL;
+    }
+    LOG_D(DEBUG, "avio_close");
+    LOG_D(DEBUG, "end encode");
     return 0;
 }
 
-
 void EncodeAAC::close() {
     exit = true;
+    LOG_D(DEBUG, "close");
 }
 
 int EncodeAAC::initEncoder() {
-    //输入参数:
-    input_arguments.audio_bit_rate = 40000;
-    input_arguments.audio_sample_rate = 48000;//采样率
-    input_arguments.avSampleFormat = AV_SAMPLE_FMT_S16;
-    input_arguments.nb_samples = 1024;
-    input_arguments.channels = av_get_channel_layout_nb_channels(AV_CH_LAYOUT_STEREO);
-    input_arguments.channel_layout = av_get_default_channel_layout(input_arguments.channels);
-
-    //输出参数:
-    output_arguments.audio_sample_rate = 48000;//采样率
-    output_arguments.audio_bit_rate = 40000;
-    output_arguments.audio_codec_id = AV_CODEC_ID_AAC;
-    output_arguments.channels = av_get_channel_layout_nb_channels(AV_CH_LAYOUT_STEREO);
-    output_arguments.channel_layout = av_get_default_channel_layout(output_arguments.channels);
-    output_arguments.avSampleFormat = AV_SAMPLE_FMT_FLTP;
-
-    const char *url = "rtmp://192.168.24.132:1935/test/live";
-    char *url_space = (char *) malloc(strlen(url) + 1);
-    output_arguments.outputUrl = strcpy(url_space, url);
+    struct timeval start;
+    struct timeval end;
+    gettimeofday(&start, NULL);
+    outputUrl = "rtmp://192.168.24.132:1935/test/live";
     av_register_all();
-    avcodec_register_all();
     avformat_network_init();
     int ret = 0;
 
-    ret = avformat_alloc_output_context2(&avFormatContext, NULL, "flv", output_arguments.outputUrl);
-    if (ret < 0) {
-        LOG_D(DEBUG, "avformat alloc output context2 failed");
-        return -1;
-    }
+#ifdef FDK_CODEC
+    //fdk_aac
+    aVcodec = avcodec_find_encoder_by_name("libfdk_aac");
+#else
+    //ffmpeg aac
+    aVcodec = avcodec_find_encoder(AV_CODEC_ID_AAC);
+#endif
 
-    aVcodec = avcodec_find_encoder(output_arguments.audio_codec_id);
+#if DEBUG
+    LOG_D(DEBUG, "configure:%s", avcodec_configuration());
+#endif
+
     if (!aVcodec) {
         LOG_D(DEBUG, "avcodec find encoder NULL");
         return -1;
@@ -151,14 +158,16 @@ int EncodeAAC::initEncoder() {
         return -1;
     }
     avCodecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
-    avCodecContext->sample_fmt = AV_SAMPLE_FMT_FLTP;
+#ifdef FDK_CODEC
+    avCodecContext->sample_fmt = AV_SAMPLE_FMT_S16;
+#else
+    avCodecContext->sample_fmt=AV_SAMPLE_FMT_FLTP;
+#endif
     avCodecContext->sample_rate = 48000;
-    avCodecContext->bit_rate = 40000;
-    avCodecContext->codec_id = aVcodec->id;
-    avCodecContext->channel_layout = AV_CH_LAYOUT_STEREO;
-    avCodecContext->channels = 2;
-    avCodecContext->frame_size = 1024;
-    avCodecContext->codec_type = AVMEDIA_TYPE_AUDIO;
+    avCodecContext->thread_count = 8;
+    avCodecContext->bit_rate = 64000;
+    avCodecContext->channels = CHANNELS;
+    avCodecContext->channel_layout = av_get_default_channel_layout(avCodecContext->channels);
 
     ret = avcodec_open2(avCodecContext, aVcodec, NULL);
     if (ret < 0) {
@@ -168,66 +177,52 @@ int EncodeAAC::initEncoder() {
         return -1;
     }
 
+    ret = avformat_alloc_output_context2(&avFormatContext, NULL, "flv",
+                                         outputUrl);
+    if (ret < 0) {
+        LOG_D(DEBUG, "avformat alloc output context2 failed");
+        return -1;
+    }
+    LOG_D(DEBUG, "avformat alloc output context2 success!");
 
     avStream = avformat_new_stream(avFormatContext, aVcodec);
     if (!avStream) {
         LOG_D(DEBUG, "avformat new stream error");
         return -1;
     }
+    LOG_D(DEBUG, "avformat new stream success");
     avcodec_parameters_from_context(avStream->codecpar, avCodecContext);
     avStream->codecpar->codec_tag = 0;
 
-//    int buf_size = av_samples_get_buffer_size(NULL, avCodecContext->channels,
-//                                              avCodecContext->frame_size,
-//                                              avCodecContext->sample_fmt, 0);
-//    frame_buf = (uint8_t *) av_malloc(buf_size);
-
-
-
-    swrContext = swr_alloc_set_opts(swrContext, AV_CH_LAYOUT_STEREO,
+    //FFMPEG AAC需要重采样
+#ifdef AAC_CODEC
+    swrContext = swr_alloc_set_opts(swrContext, av_get_default_channel_layout(CHANNELS),
                                     AV_SAMPLE_FMT_FLTP,
                                     48000,
-                                    AV_CH_LAYOUT_STEREO,
+                                    av_get_default_channel_layout(CHANNELS),
                                     AV_SAMPLE_FMT_S16,
                                     48000, 0, NULL);
+      ret = swr_init(swrContext);
 
-    ret = swr_init(swrContext);
     if (ret != 0) {
         LOG_D(DEBUG, "swr_init failed!");
         return -1;
     }
-
+#endif
     outputFrame = av_frame_alloc();
-    outputFrame->channels = 2;
-    outputFrame->channel_layout = AV_CH_LAYOUT_STEREO;
+    outputFrame->channels = CHANNELS;
+    outputFrame->channel_layout = av_get_default_channel_layout(outputFrame->channels);
+    outputFrame->format = avCodecContext->sample_fmt;
     outputFrame->nb_samples = 1024;
-    outputFrame->sample_rate = 48000;
-    outputFrame->format = AV_SAMPLE_FMT_FLTP;
-
     ret = av_frame_get_buffer(outputFrame, 0);
     if (ret != 0) {
         LOG_D(DEBUG, "av_frame_get_buffer failed!");
         return -1;
     }
+    LOG_D(DEBUG, "av_frame_get_buffer success!");
 
-    size = av_samples_get_buffer_size(NULL, avCodecContext->channels, avCodecContext->frame_size,
-                                      avCodecContext->sample_fmt, 1);
-//    uint8_t *frame_buf = (uint8_t *) av_malloc(size);
-//    avcodec_fill_audio_frame(outputFrame, avCodecContext->channels, avCodecContext->sample_fmt,
-//                             (const uint8_t *) frame_buf, size, 1);
-
-
-    ret = avio_open(&avFormatContext->pb, output_arguments.outputUrl, AVIO_FLAG_WRITE);
-    if (ret < 0) {
-        LOG_D(DEBUG, "avio_open failed");
-        return -1;
-    }
-
-    ret = avformat_write_header(avFormatContext, NULL);
-    if (ret < 0) {
-        LOG_D(DEBUG, "avformat_write_header failed!");
-        return -1;
-    }
+    gettimeofday(&end, NULL);
+    LOG_D(DEBUG, "host time millseconds:%d", end.tv_usec / 1000);
     pthread_t id1;
     pthread_create(&id1, NULL, EncodeAAC::startEncode, this);
     return 0;

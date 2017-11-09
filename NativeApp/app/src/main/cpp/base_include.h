@@ -22,7 +22,6 @@ extern "C"{
 #include "libyuv_include/libyuv.h"
 #include "include/libswresample/swresample.h"
 
-
 #ifdef __cplusplus
 }
 #endif
