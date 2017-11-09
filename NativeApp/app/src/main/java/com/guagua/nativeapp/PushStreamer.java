@@ -14,10 +14,10 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.guagua.avcapture.AudioCaptureInterface;
-import com.guagua.avcapture.VideoCaptureInterface;
-import com.guagua.avcapture.impl.AudioCapture;
-import com.guagua.avcapture.impl.VideoCapture;
+import com.capture.avcapture.AudioCaptureInterface;
+import com.capture.avcapture.VideoCaptureInterface;
+import com.capture.avcapture.impl.AudioCapture;
+import com.capture.avcapture.impl.VideoCapture;
 
 import java.io.File;
 import java.io.FileOutputStream;

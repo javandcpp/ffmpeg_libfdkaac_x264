@@ -1,4 +1,4 @@
-package com.guagua.avcapture.impl;
+package com.capture.avcapture.impl;
 
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -8,7 +8,7 @@ import android.media.audiofx.NoiseSuppressor;
 import android.os.Build;
 import android.util.Log;
 
-import com.guagua.avcapture.AudioCaptureInterface;
+import com.capture.avcapture.AudioCaptureInterface;
 
 import java.util.LinkedList;
 import java.util.Queue;

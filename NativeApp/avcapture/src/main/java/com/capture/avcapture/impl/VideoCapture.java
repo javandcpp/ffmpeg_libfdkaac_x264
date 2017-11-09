@@ -1,13 +1,4 @@
-package com.guagua.avcapture.impl;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Vector;
+package com.capture.avcapture.impl;
 
 import android.annotation.SuppressLint;
 import android.graphics.ImageFormat;
@@ -24,7 +15,17 @@ import android.opengl.GLES11Ext;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-import com.guagua.avcapture.VideoCaptureInterface;
+import com.capture.avcapture.VideoCaptureInterface;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Vector;
+
 
 public class VideoCapture implements Comparator<Size>, PreviewCallback,
 		VideoCaptureInterface {

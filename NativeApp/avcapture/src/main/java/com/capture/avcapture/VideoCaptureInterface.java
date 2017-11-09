@@ -1,4 +1,4 @@
-package com.guagua.avcapture;
+package com.capture.avcapture;
 
 import java.util.List;
 
