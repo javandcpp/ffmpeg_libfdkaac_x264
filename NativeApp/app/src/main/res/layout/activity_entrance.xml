@@ -4,60 +4,86 @@
     android:id="@+id/activity_entrance"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context="com.guagua.nativeapp.EntranceActivity">
 
-    <Button
-        android:id="@+id/MainActivity"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ffmpeg" />
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/SDLActivity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="sdl播放" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/getYUVInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="yuvInfo" />
+            <Button
+                android:id="@+id/MainActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ffmpeg" />
 
-    <Button
-        android:id="@+id/recorder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="采集1" />
+            <Button
+                android:id="@+id/SDLActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="sdl播放" />
 
-    <Button
-        android:id="@+id/btnPushStream"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="rtmp推流" />
+            <Button
+                android:id="@+id/getYUVInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="yuvInfo" />
 
-    <Button
-        android:id="@+id/btnPullStream"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="拉流保存本地文件" />
+            <Button
+                android:id="@+id/recorder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Live" />
 
-    <Button
-        android:id="@+id/btnTransStream"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="网络流转发" />
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/btnPushAndCapture"
-        android:layout_width="wrap_content"
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="采集2" />
-    <Button
-        android:id="@+id/btnDecoder"
-        android:layout_width="wrap_content"
-        android:text="解码视频帧"
-        android:layout_height="wrap_content" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnPushStream"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="rtmp推流" />
+
+        <Button
+            android:id="@+id/btnPullStream"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="拉流保存本地文件" />
+
+
+        <Button
+            android:id="@+id/btnTransStream"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="网络流转发" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnDecoder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="解码视频帧" />
+
+    </LinearLayout>
+
+
 </LinearLayout>

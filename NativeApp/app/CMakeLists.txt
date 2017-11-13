@@ -12,6 +12,9 @@ cmake_minimum_required(VERSION 3.4.1)
 
 #包含头文件
 
+set(include-opencvheaders ${CMAKE_SOURCE_DIR}/src/main/cpp/opencv_include)
+include_directories(${include-opencvheaders})
+
 set(include-yuvheaders ${CMAKE_SOURCE_DIR}/src/main/cpp/libyuv_include)
 include_directories(${include-yuvheaders})
 
@@ -78,7 +81,13 @@ set_target_properties( yuv
                        PROPERTIES
                        IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libyuv.so)
 
+add_library(opencv SHARED IMPORTED)
+set_target_properties( opencv
+                       PROPERTIES
+                       IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libopencv.so)
 
+
+file(GLOB native_srcs "src/main/cpp/v2/*.cpp")
 add_library( # Sets the name of the library.
              Media
              # Sets the library as a shared library.
@@ -104,6 +113,8 @@ add_library( # Sets the name of the library.
              src/main/cpp/h264encodeandpush.cpp
              src/main/cpp/h264EncodePush.cpp
              src/main/cpp/aacencodeandpush.cpp
+             src/main/cpp/Jni_Live_Manage.cpp
+             ${native_srcs}
              )
 
 # Searches for a specified prebuilt library and stores the path as a
@@ -140,6 +151,7 @@ target_link_libraries( # Specifies the target library.
                         avdevice
                         avpostproc
                         yuv
+                        opencv
                         log
                         android   #这句很重要,涉及android中库的调用
                         )

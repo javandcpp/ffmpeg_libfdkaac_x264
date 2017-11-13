@@ -14,11 +14,52 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_height="wrap_content"
+        android:textColor="#FF0000"
+        android:text="REC •"/>
+
+
+    <LinearLayout
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="100dp"
+        android:orientation="vertical">
+
+
+        <Switch
+            android:id="@+id/swBeauty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:checked="false"
+            android:switchPadding="5dp"
+            android:text="美颜"
+            android:textColor="@color/colorAccent"
+            android:textSize="12sp" />
+
+
+        <Switch
+            android:layout_marginTop="10dp"
+            android:id="@+id/swFlash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:textColor="@color/colorAccent"
+            android:switchPadding="5dp"
+            android:text="闪光灯"
+            android:textSize="12sp" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#FFFFFF"
+        android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
         <Button
@@ -27,16 +68,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="start_record"
-            android:textSize="7sp" />
-
-        <Button
-            android:id="@+id/btnStop"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="stop_record"
+            android:text="开始直播"
             android:textSize="7sp" />
 
         <Button
@@ -45,17 +77,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="switch_camera"
+            android:text="切换相机"
             android:textSize="7sp" />
 
-        <Button
-            android:id="@+id/btnFlash"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="switch_flash"
-            android:textSize="7sp" />
+
     </LinearLayout>
 
 
@@ -74,4 +99,5 @@
         android:layout_below="@id/tvAudioInfo"
         android:textColor="#FF0000"
         android:textSize="15sp" />
+
 </RelativeLayout>

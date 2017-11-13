@@ -179,6 +179,9 @@ CMAKE_STRIP:FILEPATH=/Applications/Xcode.app/Contents/Developer/Toolchains/Xcode
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//Dependencies for the target
+Media_LIB_DEPENDS:STATIC=general;log-lib-NOTFOUND;general;avcodec;general;avfilter;general;avformat;general;avutil;general;swresample;general;swscale;general;fdkaac;general;avdevice;general;avpostproc;general;yuv;general;opencv;general;log;general;android;
+
 //Value Computed by CMake
 Project_BINARY_DIR:STATIC=/Users/loneswordman/Downloads/ffmpeg_libfdkaac_x264/NativeApp/app
 

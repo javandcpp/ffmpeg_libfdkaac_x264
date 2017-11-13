@@ -59,9 +59,6 @@ public class PushStreamer implements SurfaceHolder.Callback {
     public int currentZoomLevel;
     public boolean isLight;
     public short m_sCameraID = 0;
-    public int meibaiValue = 40;//美白
-    public int mopiValue = 40;//磨皮
-    public int FTHandle = 0;
     public boolean destroy = false;
     public boolean mBeautyRelease;
     public int FTHandler;
@@ -90,7 +87,7 @@ public class PushStreamer implements SurfaceHolder.Callback {
 
     private static final Object i1 = new Object();
     private RandomAccessFile file;
-    private int nativeInt;
+    private boolean nativeInt;
     private boolean speak;
 
     public PushStreamer(Activity context, SurfaceView surfaceView) {
@@ -115,23 +112,76 @@ public class PushStreamer implements SurfaceHolder.Callback {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if (!InitNative()) {
+            Log.e("init native", "init failed!");
+        }
+    }
+
+    /**
+     * 初始化底层采集与编码器
+     */
+    private boolean InitNative() {
+        int ret = 0;
+        ret = LiveManager.InitCapture();
+        if (ret < 0) {
+            Log.e("initNative", "init capture failed!");
+            return false;
+        }
+        ret = LiveManager.InitAudioEncoder(2, 48000, 16);
+        if (ret < 0) {
+            Log.e("initNative", "init AudioEncoder failed!");
+            return false;
+        }
+        ret = LiveManager.InitVideoEncoder(mVideoSizeConfig.srcFrameWidth, mVideoSizeConfig.srcFrameHeight, mVideoSizeConfig.srcFrameHeight, mVideoSizeConfig.srcFrameWidth, 25, true);
+        if (ret < 0) {
+            Log.e("initNative", "init VideoEncoder failed!");
+            return false;
+        }
+        Log.d("initNative", "native init success!");
+        nativeInt = true;
+        return nativeInt;
+    }
+
+    private boolean startPushStream(String pushUrl) {
+        if (nativeInt) {
+            int ret = 0;
+            ret = LiveManager.StartPush(pushUrl);
+            if (ret < 0) {
+                Log.d("initNative", "native push failed!");
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
 
 
     public void startSpeak() {
         if (!speak) {
-            createCapture((short) currentMicIndex);//开始采集
-            speak = true;
+            if (startPushStream("rtmp://192.168.24.153:1935/test/live")) {
+                speak = true;
+            }
         }
     }
+
+    public boolean isSpeak() {
+        return speak;
+    }
+
+
+    public void stopSpeak() {
+        if (speak) {
+            speak = false;
+            LiveManager.Close();
+        }
+    }
+
 
     public boolean destroy() {
         if (!destroy) {
             destroy = true;
             closeCapture();
-            if (nativeInt == 0) {
-                MediaProcess.close();
-            }
+            LiveManager.Release();
             try {
                 if (videoOps != null) {
                     videoOps.close();
@@ -148,7 +198,7 @@ public class PushStreamer implements SurfaceHolder.Callback {
 
 
     public void closeAudioVideoCapture() {
-        if (null!=m_oAudioCapture&&m_oAudioCapture.IsStartAudioCapture()) {
+        if (null != m_oAudioCapture && m_oAudioCapture.IsStartAudioCapture()) {
             if (m_oVideoThread != null) {
 
                 m_oAudioThread.stopThread();
@@ -160,7 +210,7 @@ public class PushStreamer implements SurfaceHolder.Callback {
                 }
             }
         }
-        if (null!=m_oVideoCapture&&m_oVideoCapture.IsStartVideoCapture()) {
+        if (null != m_oVideoCapture && m_oVideoCapture.IsStartVideoCapture()) {
             if (m_oVideoThread != null) {
                 m_oVideoThread.stopThread();
                 try {
@@ -171,10 +221,10 @@ public class PushStreamer implements SurfaceHolder.Callback {
                 }
             }
         }
-        if(null!=m_oAudioCapture) {
+        if (null != m_oAudioCapture) {
             m_oAudioCapture.CloseAudioDevice();
         }
-        if(null!=m_oVideoCapture) {
+        if (null != m_oVideoCapture) {
             m_oVideoCapture.CloseVideoDevice();
         }
     }
@@ -185,6 +235,9 @@ public class PushStreamer implements SurfaceHolder.Callback {
      * @return
      */
     public int closeCapture() {
+        if (nativeInt) {
+            LiveManager.Close();
+        }
         closeAudioVideoCapture();
         return 0;
     }
@@ -221,13 +274,6 @@ public class PushStreamer implements SurfaceHolder.Callback {
      * @return
      */
     public int createCapture(short micIndex) {
-
-        nativeInt = MediaProcess.initEncoder();
-        if (nativeInt == 0) {
-            Log.d("tag", "native init success!");
-        } else {
-            Log.d("tag", "native init failed!");
-        }
         m_aiBufferLength = new int[1];
         try {
             AudioCaptureInterface.OpenAudioDeviceReturn retAudio = m_oAudioCapture.OpenAudioDevice(
@@ -247,14 +293,12 @@ public class PushStreamer implements SurfaceHolder.Callback {
             return 0;
         }
         switchCamera(curCameraType, micIndex);
-
         return 0;
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        closeAudioVideoCapture();
-        startSpeak();
+        createCapture((short) 0);
     }
 
     @Override
@@ -312,13 +356,8 @@ public class PushStreamer implements SurfaceHolder.Callback {
                         m_nv21Data.length);
                 if (ret == VideoCaptureInterface.GetFrameDataReturn.RET_SUCCESS) {
                     frameCount++;
-//                    if (curCameraType == VideoCaptureInterface.CameraDeviceType.CAMERA_FACING_FRONT) {//前置旋转270
-//                        YUV420spRotateNegative90(m_RoatepData, m_nv21Data, mVideoSizeConfig.srcFrameWidth, mVideoSizeConfig.srcFrameHeight);
-//                    } else if (curCameraType == VideoCaptureInterface.CameraDeviceType.CAMERA_FACING_BACK) {//90
-//                        rotateYUV420Degree90(m_RoatepData, m_nv21Data, mVideoSizeConfig.srcFrameWidth, mVideoSizeConfig.srcFrameHeight);
-//                    }
-                    saveOriVideo(m_nv21Data, m_nv21Data.length, mVideoSizeConfig.srcFrameWidth, mVideoSizeConfig.srcFrameHeight);
-                    Log.d("video------>index:", frameCount + "");
+                    encodeVideo(m_nv21Data, m_nv21Data.length, mVideoSizeConfig.srcFrameWidth, mVideoSizeConfig.srcFrameHeight);
+                    Log.d("video size:-------->", m_nv21Data.length + "");
                 }
             }
         }
@@ -363,8 +402,8 @@ public class PushStreamer implements SurfaceHolder.Callback {
                     ret = m_oAudioCapture.GetAudioData(audioBuffer,
                             m_aiBufferLength[0], dataLength);
                     if (ret == AudioCaptureInterface.GetAudioDataReturn.RET_SUCCESS) {
-                        saveOriAudio(audioBuffer, dataLength[0]);
-                        Log.d("audio-------->", dataLength[0] + "");
+                        encodeAudio(audioBuffer, dataLength[0]);
+                        Log.d("audio size:-------->", dataLength[0] + "");
                     }
 
                 } catch (Exception e) {
@@ -387,15 +426,14 @@ public class PushStreamer implements SurfaceHolder.Callback {
         }
     }
 
-    public void saveOriVideo(byte[] videoBuffer, int length, int w, int h) {
+    public void encodeVideo(byte[] videoBuffer, int length, int w, int h) {
         try {
             //   videoOps.write(videoBuffer);
             //  videoOps.flush();
-
             if (curCameraType == VideoCaptureInterface.CameraDeviceType.CAMERA_FACING_FRONT) {
-//                    MediaProcess.encodeH264(videoBuffer, length, w, h, 1);
+                LiveManager.EncodeH264(videoBuffer, length, 1);
             } else if (curCameraType == VideoCaptureInterface.CameraDeviceType.CAMERA_FACING_BACK) {
-//                    MediaProcess.encodeH264(videoBuffer, length, w, h, 0);
+                LiveManager.EncodeH264(videoBuffer, length, 0);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -403,13 +441,11 @@ public class PushStreamer implements SurfaceHolder.Callback {
     }
 
 
-    public void saveOriAudio(byte[] audioBuffer, int length) {
+    public void encodeAudio(byte[] audioBuffer, int length) {
         try {
 //            audioOps.write(audioBuffer);
 //            audioOps.flush();
-            if (nativeInt == 0) {
-                MediaProcess.encodeAAC(audioBuffer, length);
-            }
+            LiveManager.EncodeAAC(audioBuffer, length);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -478,11 +514,15 @@ public class PushStreamer implements SurfaceHolder.Callback {
      *
      * @param
      */
-    public void Light() {
+    public boolean Light() {
+        if (curCameraType == VideoCaptureInterface.CameraDeviceType.CAMERA_FACING_FRONT) {
+            return false;
+        }
         if (null != m_oVideoCapture) {
             isLight = !isLight;
             m_oVideoCapture.TurnFlash(isLight);
         }
+        return true;
 
     }
 

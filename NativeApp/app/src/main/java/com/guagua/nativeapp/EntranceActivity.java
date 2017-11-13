@@ -7,7 +7,6 @@ import android.view.View;
 
 public class EntranceActivity extends AppCompatActivity implements View.OnClickListener {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,7 +18,6 @@ public class EntranceActivity extends AppCompatActivity implements View.OnClickL
         findViewById(R.id.btnPushStream).setOnClickListener(this);
         findViewById(R.id.btnPullStream).setOnClickListener(this);
         findViewById(R.id.btnTransStream).setOnClickListener(this);
-        findViewById(R.id.btnPushAndCapture).setOnClickListener(this);
         findViewById(R.id.btnDecoder).setOnClickListener(this);
 
     }
@@ -47,9 +45,6 @@ public class EntranceActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.btnTransStream:
                 startActivity(new Intent(this, TransStreamActivity.class));
-                break;
-            case R.id.btnPushAndCapture:
-                startActivity(new Intent(this, Recorder2.class));
                 break;
             case R.id.btnDecoder:
                 startActivity(new Intent(this,VideoDecoderActivity.class));

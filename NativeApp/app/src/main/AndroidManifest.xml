@@ -28,13 +28,11 @@
         <activity android:name=".SDLPlayerActivity" />
         <activity android:name=".YUVActivity" />
         <activity android:name=".Recorder" />
-        <activity android:name=".Recorder2" />
         <activity android:name=".PushStreamActivity" />
         <activity android:name=".PullStreamActivity" />
         <activity android:name=".TransStreamActivity" />
         <activity android:name=".CaptureAndPushActivity" />
         <activity android:name=".VideoDecoderActivity"/>
-        <activity android:name="com.guagua.nativeapp.XPushStreamActivity"/>
     </application>
 
 </manifest>
