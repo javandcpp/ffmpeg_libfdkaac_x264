@@ -22,7 +22,8 @@ AudioEncoder *audioEncoder = NULL;
 /**
  * 初始化采集数据接收
  */
-bool captureInit = false;
+bool audioCaptureInit=false;
+bool videoCaptureInit=false;
 bool isClose = true;
 bool isRelease = false;
 bool startStream;

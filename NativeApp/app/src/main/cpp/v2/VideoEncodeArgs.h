@@ -9,12 +9,12 @@
 using namespace std;
 struct VideoEncodeArgs{
 
-    uint32_t in_width;
-    uint32_t in_height;
-    uint32_t out_width;
-    uint32_t out_height;
-    uint8_t mirror;
-    uint32_t fps;
+    int in_width;
+    int in_height;
+    int out_width;
+    int out_height;
+    int mirror;
+    int fps;
 
 };
 

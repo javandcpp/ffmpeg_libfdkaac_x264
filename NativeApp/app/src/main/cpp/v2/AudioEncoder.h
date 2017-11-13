@@ -12,7 +12,7 @@ class AudioEncoder : public MediaEncoder {
 
 private:
     AudioCapture *audioCapture = NULL;
-    AudioEncodeArgs *audioEncodeArgs = NULL;
+
 public:
     AVCodec *avCodec = NULL;
     AVStream *outStream = NULL;
@@ -20,6 +20,11 @@ public:
     AVCodecContext *avCodecContext = NULL;
 
     static AudioEncoder *Get();
+
+
+    bool isEncoding=false;
+
+    static void* EncodeTask(void *p);
 
     /**
       * 音频已编码数据队列
@@ -55,11 +60,12 @@ public:
      */
     void SetAudioCapture(AudioCapture *audioCapture);
 
-    /**
-     * 设置编码参数
-     */
-    void SetAudioEncodeArgs(AudioEncodeArgs *audioEncodeArgs);
 
+
+    /**
+    * 获取编码器状态
+    */
+    bool GetEncodeState();
 
 };
 

@@ -17,7 +17,9 @@ public:
     int64_t pts;
     AVFrame *frame=NULL;
     uint8_t *data=NULL;
-    uint32_t size;
+    int size;
+    void Drop();
+
 };
 
 #endif //NATIVEAPP_ORIGINDATA_H

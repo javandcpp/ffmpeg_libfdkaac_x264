@@ -9,19 +9,22 @@ AudioCapture::AudioCapture() {
 }
 
 AudioCapture::~AudioCapture() {
-
+    if(NULL!=audioEncodeArgs){
+        delete audioEncodeArgs;
+    }
 }
 
 AudioCapture *AudioCapture::Get() {
     static AudioCapture audioCapture;
     return &audioCapture;
 }
+
 /**
  * 资源回收
  */
 int AudioCapture::Release() {
 
-    LOG_D(DEBUG,"Release Audio Capture!");
+    LOG_D(DEBUG, "Release Audio Capture!");
     return 0;
 }
 
@@ -32,16 +35,16 @@ bool AudioCapture::CloseCapture() {
     mMutex.lock();
     ExitCapture = true;
     mMutex.unlock();
-    LOG_D(DEBUG,"Close Audio Capture");
+    LOG_D(DEBUG, "Close Audio Capture");
     return ExitCapture;
 }
 
 
 bool AudioCapture::StartCapture() {
     mMutex.lock();
-    ExitCapture=false;
+    ExitCapture = false;
     mMutex.unlock();
-    LOG_D(DEBUG,"Start Audio Capture");
+    LOG_D(DEBUG, "Start Audio Capture");
     return !ExitCapture;
 }
 
@@ -51,8 +54,22 @@ bool AudioCapture::StartCapture() {
 int AudioCapture::PushAudioData(OriginData *originData) {
     if (ExitCapture)
         return 0;
+    originData->pts = av_gettime();
+//    LOG_D(DEBUG,"audio pts:%lld  , data size:%d",originData->pts,originData->size);
     frame_queue.push(originData);
     return originData->size;
+}
+
+void AudioCapture::SetAudioEncodeArgs(AudioEncodeArgs *audioEncodeArgs) {
+    this->audioEncodeArgs = audioEncodeArgs;
+}
+
+AudioEncodeArgs* AudioCapture::GetAudioEncodeArgs() {
+    return this->audioEncodeArgs;
+}
+
+bool AudioCapture::GetCaptureState() {
+    return ExitCapture;
 }
 
 OriginData *AudioCapture::GetAudioData() {

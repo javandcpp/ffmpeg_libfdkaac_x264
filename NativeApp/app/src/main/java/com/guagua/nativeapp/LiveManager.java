@@ -18,16 +18,26 @@ public class LiveManager {
 
     /**
      * 初始化音频编码器
+     */
+    public static native int InitAudioEncoder();
+
+    /**
+     * 初始化视频编码器
+     */
+    public static native int InitVideoEncoder();
+
+    /**
+     * 初始化音频采集
      *
      * @param channles
      * @param SampleRate
      * @param SampleBitRate
      * @return
      */
-    public static native int InitAudioEncoder(int channles, int SampleRate, int SampleBitRate);
+    public static native int InitAudioCapture(int channles, int SampleRate, int SampleBitRate);
 
     /**
-     * 初始化视频编码器
+     * 初始化视频采集
      *
      * @param inWidth
      * @param inHeight
@@ -37,14 +47,7 @@ public class LiveManager {
      * @param mirror
      * @return
      */
-    public static native int InitVideoEncoder(int inWidth, int inHeight, int outWidth, int outHeight, int fps, boolean mirror);
-
-    /**
-     * 初始化音视频采集
-     *
-     * @return
-     */
-    public static native int InitCapture();
+    public static native int InitVideoCapture(int inWidth, int inHeight, int outWidth, int outHeight, int fps, boolean mirror);
 
     /**
      * 开启推流
@@ -99,6 +102,7 @@ public class LiveManager {
 
     /**
      * 设置摄像头
+     *
      * @param cameraID
      */
     public static native void SetCameraID(int cameraID);

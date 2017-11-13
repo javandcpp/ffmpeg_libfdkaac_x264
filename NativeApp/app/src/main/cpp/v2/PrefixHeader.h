@@ -12,6 +12,11 @@
 #include "../base_include.h"
 #include "AudioEncodeArgs.h"
 
+//测试数据写入文件
+#if 0
+#define WRITE_YUV_TO_FILE
+#define WRITE_PCM_TO_FILE
+#endif
 
 using namespace std;
 

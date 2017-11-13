@@ -122,17 +122,22 @@ public class PushStreamer implements SurfaceHolder.Callback {
      */
     private boolean InitNative() {
         int ret = 0;
-        ret = LiveManager.InitCapture();
+        ret = LiveManager.InitAudioCapture(2, 48000, 16);
         if (ret < 0) {
-            Log.e("initNative", "init capture failed!");
+            Log.e("initNative", "init audio capture failed!");
             return false;
         }
-        ret = LiveManager.InitAudioEncoder(2, 48000, 16);
+        ret = LiveManager.InitVideoCapture(mVideoSizeConfig.srcFrameWidth, mVideoSizeConfig.srcFrameHeight, mVideoSizeConfig.srcFrameHeight, mVideoSizeConfig.srcFrameWidth, 25, true);
+        if (ret < 0) {
+            Log.e("initNative", "init video capture failed!");
+            return false;
+        }
+        ret = LiveManager.InitAudioEncoder();
         if (ret < 0) {
             Log.e("initNative", "init AudioEncoder failed!");
             return false;
         }
-        ret = LiveManager.InitVideoEncoder(mVideoSizeConfig.srcFrameWidth, mVideoSizeConfig.srcFrameHeight, mVideoSizeConfig.srcFrameHeight, mVideoSizeConfig.srcFrameWidth, 25, true);
+        ret = LiveManager.InitVideoEncoder();
         if (ret < 0) {
             Log.e("initNative", "init VideoEncoder failed!");
             return false;

@@ -11,3 +11,9 @@ OriginData::OriginData() {
 OriginData::~OriginData() {
 
 }
+
+void OriginData::Drop() {
+    if (NULL != data) {
+        delete data;
+    }
+}

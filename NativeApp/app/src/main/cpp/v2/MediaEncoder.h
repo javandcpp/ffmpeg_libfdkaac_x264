@@ -27,12 +27,8 @@ protected:
 
     static bool first;
 
-    bool ExitFlag;
-
     mutex mMutex;
 
-    AudioEncodeArgs audioEncodeArgs;
-    VideoEncodeArgs videoEncodeArgs;
 
 };
 

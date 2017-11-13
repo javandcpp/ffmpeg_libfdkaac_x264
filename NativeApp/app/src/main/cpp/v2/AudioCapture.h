@@ -17,7 +17,7 @@ class AudioCapture : public MediaCapture {
 private:
     AudioCapture();
 
-
+    AudioEncodeArgs *audioEncodeArgs = NULL;
 public :
     ~AudioCapture();
 
@@ -32,6 +32,18 @@ public :
     int PushAudioData(OriginData *originData);
 
     OriginData *GetAudioData();
+
+    /**
+   * 设置编码参数
+   */
+    void SetAudioEncodeArgs(AudioEncodeArgs *audioEncodeArgs);
+
+    AudioEncodeArgs *GetAudioEncodeArgs();
+
+    /**
+     * 获取音频采集状态
+     */
+    bool GetCaptureState();
 
     mutex mMutex;
 };
