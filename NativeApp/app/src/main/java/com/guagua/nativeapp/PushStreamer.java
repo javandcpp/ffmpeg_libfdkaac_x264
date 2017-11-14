@@ -117,21 +117,23 @@ public class PushStreamer implements SurfaceHolder.Callback {
         }
     }
 
-    /**
-     * 初始化底层采集与编码器
-     */
-    private boolean InitNative() {
+    private boolean initCapture() {
         int ret = 0;
         ret = LiveManager.InitAudioCapture(2, 48000, 16);
         if (ret < 0) {
             Log.e("initNative", "init audio capture failed!");
             return false;
         }
-        ret = LiveManager.InitVideoCapture(mVideoSizeConfig.srcFrameWidth, mVideoSizeConfig.srcFrameHeight, mVideoSizeConfig.srcFrameHeight, mVideoSizeConfig.srcFrameWidth, 25, true);
+        ret = LiveManager.InitVideoCapture(mVideoSizeConfig.srcFrameWidth, mVideoSizeConfig.srcFrameHeight, 640, 480, 25, true);
         if (ret < 0) {
             Log.e("initNative", "init video capture failed!");
             return false;
         }
+        return true;
+    }
+
+    private boolean initEncoder() {
+        int ret = 0;
         ret = LiveManager.InitAudioEncoder();
         if (ret < 0) {
             Log.e("initNative", "init AudioEncoder failed!");
@@ -140,6 +142,19 @@ public class PushStreamer implements SurfaceHolder.Callback {
         ret = LiveManager.InitVideoEncoder();
         if (ret < 0) {
             Log.e("initNative", "init VideoEncoder failed!");
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 初始化底层采集与编码器
+     */
+    private boolean InitNative() {
+        if(!initCapture()){
+            return false;
+        }
+        if(!initEncoder()){
             return false;
         }
         Log.d("initNative", "native init success!");
@@ -540,8 +555,10 @@ public class PushStreamer implements SurfaceHolder.Callback {
         }
         if (curCameraType == VideoCaptureInterface.CameraDeviceType.CAMERA_FACING_FRONT) {
             curCameraType = CAMERA_FACING_BACK;
+            LiveManager.SetCameraID(LiveManager.CameraID.BACK.ordinal());
         } else {
             curCameraType = VideoCaptureInterface.CameraDeviceType.CAMERA_FACING_FRONT;
+            LiveManager.SetCameraID(LiveManager.CameraID.FRONT.ordinal());
         }
         switchCamera(curCameraType, currentMicIndex);
     }

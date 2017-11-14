@@ -20,7 +20,8 @@ public:
     AVStream *outStream = NULL;
     AVFrame *vOutFrame = NULL;
     AVCodecContext *avCodecContext = NULL;
-    AVFrame *inputYUVFrame = NULL;
+    AVFrame *outputYUVFrame = NULL;
+    AVPacket videoPacket={0};
 
     bool isEncoding = false;
 

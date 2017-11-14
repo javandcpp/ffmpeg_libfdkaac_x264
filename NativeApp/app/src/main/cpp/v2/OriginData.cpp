@@ -13,7 +13,7 @@ OriginData::~OriginData() {
 }
 
 void OriginData::Drop() {
-    if (NULL != data) {
-        delete data;
+    if (data) {
+        free(data);
     }
 }

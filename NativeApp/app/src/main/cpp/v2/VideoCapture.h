@@ -56,7 +56,8 @@ public:
     /**
    * nv21源数据处理(旋转)
    */
-    void NV21ProcessYUV420P(int w, int h, uint8_t *src, uint8_t *dst);
+    uint8_t *NV21ProcessYUV420P(int in_width, int in_height, int out_width, int out_heigth,
+                                uint8_t *src,uint8_t *dst, CameraID cameraID, int needMirror);
 };
 
 #endif //NATIVEAPP_VIDEOCAPTURE_H

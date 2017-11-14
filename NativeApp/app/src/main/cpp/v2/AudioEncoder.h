@@ -16,8 +16,10 @@ private:
 public:
     AVCodec *avCodec = NULL;
     AVStream *outStream = NULL;
-    AVFrame *vOutFrame = NULL;
+    AVFrame *outputFrame = NULL;
     AVCodecContext *avCodecContext = NULL;
+    AVPacket avPacket={0};
+
 
     static AudioEncoder *Get();
 

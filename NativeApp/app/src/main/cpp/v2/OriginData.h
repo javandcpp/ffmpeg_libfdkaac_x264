@@ -16,6 +16,7 @@ public:
 
     int64_t pts;
     AVFrame *frame=NULL;
+    AVPacket *avPacket=NULL;
     uint8_t *data=NULL;
     int size;
     void Drop();

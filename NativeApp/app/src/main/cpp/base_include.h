@@ -19,6 +19,7 @@ extern "C"{
 #include "include/libavfilter/avfilter.h"
 #include "include/libswscale/swscale.h"
 #include "include/libavutil/pixfmt.h"
+#include "include/libavutil/imgutils.h"
 #include "libyuv.h"
 #include "include/libswresample/swresample.h"
 

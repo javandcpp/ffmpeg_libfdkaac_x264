@@ -2,8 +2,8 @@
 // Created by developer on 11/13/17.
 //
 
-#include "VideoEncoder.h"
 
+#include "VideoEncoder.h"
 
 
 VideoEncoder *VideoEncoder::Get() {
@@ -29,9 +29,6 @@ void VideoEncoder::SetVideoCapture(VideoCapture *videoCapture) {
 }
 
 
-
-
-
 void VideoEncoder::YUVProcessMirror() {
 
     return;
@@ -42,13 +39,16 @@ void *VideoEncoder::EncodeTask(void *obj) {
     VideoEncoder *videoEncoder = (VideoEncoder *) obj;
     videoEncoder->isEncoding = true;
     VideoEncodeArgs *args = videoEncoder->videoCapture->GetVideoEncodeArgs();
-    int totalSize = args->in_height * args->in_width * 3 / 2;
-    LOG_D(DEBUG, "in_height %d,int_width %d", args->in_height, args->in_width);
+    int totalSize = args->out_width * args->out_height * 3 / 2;
+    int ySize = args->out_width * args->out_height;
+    LOG_D(DEBUG, "in_height %d,int_width %d", args->out_height, args->out_width);
 
 #ifdef WRITE_YUV_TO_FILE
-    FILE *NV21 = fopen("/mnt/sdcard/ivideo.yuv", "wb+");
+    FILE *I420 = fopen("/mnt/sdcard/ivideo.yuv", "wb+");
 #endif
-    int64_t startTime = av_gettime();
+
+    videoEncoder->videoCapture->frame_queue.clear();
+    int64_t beginTime = av_gettime();
     LOG_D(DEBUG, "begin video encode");
     while (true) {
         if (videoEncoder->videoCapture->GetCaptureState()) {
@@ -57,23 +57,81 @@ void *VideoEncoder::EncodeTask(void *obj) {
         if (videoEncoder->videoCapture->frame_queue.empty()) {
             continue;
         }
-        OriginData *srcData = *(videoEncoder->videoCapture->frame_queue.wait_and_pop().get());
-        if (!srcData->size > 0) {
+        OriginData *srcData = *videoEncoder->videoCapture->frame_queue.wait_and_pop().get();
+        if (srcData->size <= 0 || !srcData->data) {
             continue;
         }
-        //处理转换
+
+        /**
+         * 方式一：
+         * I420手动填充AVFrame,需要注意ySize =width*height;
+         */
+//        memcpy(videoEncoder->outputYUVFrame->data[0], srcData->data, ySize);//Y
+//        memcpy(videoEncoder->outputYUVFrame->data[1], srcData->data + ySize, ySize / 4);//U
+//        memcpy(videoEncoder->outputYUVFrame->data[2], srcData->data + (ySize * 5 / 4),
+//               ySize / 4);
+//        videoEncoder->outputYUVFrame->linesize[0] = videoEncoder->avCodecContext->width;
+//        videoEncoder->outputYUVFrame->linesize[1] = videoEncoder->avCodecContext->width / 2;
+//        videoEncoder->outputYUVFrame->linesize[2] = videoEncoder->avCodecContext->width / 2;
+
+        /**
+         * 方式二:  deprecated
+         */
+
+//        avpicture_fill((AVPicture *) videoEncoder->outputYUVFrame, srcData->data, AV_PIX_FMT_YUV420P, videoEncoder->avCodecContext->width,
+//                       videoEncoder->avCodecContext->height);
+
+        /**
+         * 方式三:
+         */
+        av_image_fill_arrays(videoEncoder->outputYUVFrame->data,
+                             videoEncoder->outputYUVFrame->linesize, srcData->data,
+                             AV_PIX_FMT_YUV420P, videoEncoder->avCodecContext->width,
+                             videoEncoder->avCodecContext->height, 1);
+#ifdef ENCODE_INFO
+        LOG_D(DEBUG, "linesize[0]=%d", videoEncoder->outputYUVFrame->linesize[0]);
+        LOG_D(DEBUG, "linesize[1]=%d", videoEncoder->outputYUVFrame->linesize[1]);
+        LOG_D(DEBUG, "linesize[2]=%d", videoEncoder->outputYUVFrame->linesize[2]);
+#endif
+#ifdef PTS_INFO
+        videoEncoder->outputYUVFrame->pts = srcData->pts - beginTime;
+        LOG_D(DEBUG, "video pts:%lld", videoEncoder->outputYUVFrame->pts);
+#endif
+        //编码
+        int ret = 0;
+        ret = avcodec_send_frame(videoEncoder->avCodecContext, videoEncoder->outputYUVFrame);
+        if (ret != 0) {
+            LOG_D(DEBUG, "avcodec send frame failed");
+            continue;
+        }
+        ret = avcodec_receive_packet(videoEncoder->avCodecContext, &videoEncoder->videoPacket);
+        if (ret != 0) {
+            LOG_D(DEBUG, "avcodec recieve packet failed");
+            continue;
+        }
+        srcData->Drop();
+
+        //TODO 编码完成(数据传递问题不知道有没有问题)
+        srcData->avPacket = &videoEncoder->videoPacket;
+        srcData->pts = videoEncoder->outputYUVFrame->pts;
+        srcData->size = videoEncoder->videoPacket.size;
+        videoEncoder->vframeQueue.push(srcData);
+        LOG_D(DEBUG, "Video frame encode success!");
+
 
 #ifdef WRITE_YUV_TO_FILE
-        fwrite(srcData->data, 1, totalSize, NV21);
-        fflush(NV21);
+        fwrite(videoEncoder->outputYUVFrame->data[0], 1, ySize, I420);//Y
+        fwrite(videoEncoder->outputYUVFrame->data[1], 1, ySize / 4, I420);//U
+        fwrite(videoEncoder->outputYUVFrame->data[2], 1, ySize / 4, I420);//V
+        fflush(I420);
 #endif
-        srcData->Drop();
-        LOG_D(DEBUG, "encode video data size:%d", totalSize);
     }
 
 #ifdef WRITE_YUV_TO_FILE
-    fclose(NV21);
+    fclose(I420);
 #endif
+
+
     return 0;
 }
 
@@ -101,18 +159,17 @@ int VideoEncoder::InitEncode() {
         return -1;
     }
     LOG_D(DEBUG, "avcodec alloc context success!");
-
-
     if (NULL != videoCapture->GetVideoEncodeArgs()) {
         avCodecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER; //全局参数
         avCodecContext->codec_id = avCodec->id;
         avCodecContext->thread_count = 8;
         avCodecContext->bit_rate = 50 * 1024 * 8;//压缩后每秒视频的bit位大小 50kB
-        avCodecContext->width = videoCapture->GetVideoEncodeArgs()->in_width;
-        avCodecContext->height = videoCapture->GetVideoEncodeArgs()->in_height;
+        avCodecContext->width = videoCapture->GetVideoEncodeArgs()->out_height;
+        avCodecContext->height = videoCapture->GetVideoEncodeArgs()->out_width;
         avCodecContext->time_base = {1, videoCapture->GetVideoEncodeArgs()->fps};
         avCodecContext->framerate = {videoCapture->GetVideoEncodeArgs()->fps, 1};
         avCodecContext->gop_size = 50;
+        avCodecContext->time_base = {1, 1000000};//AUDIO VIDEO 两边时间基数要相同
         avCodecContext->pix_fmt = AV_PIX_FMT_YUV420P;
 
     }
@@ -129,14 +186,13 @@ int VideoEncoder::InitEncode() {
     AVDictionary *opts = NULL;
     av_dict_set(&opts, "profile", "baseline", NULL);//I/P帧
 
-    inputYUVFrame = av_frame_alloc();
-    inputYUVFrame->format = AV_PIX_FMT_NV21;
-    inputYUVFrame->width = videoCapture->GetVideoEncodeArgs()->in_width;
-    inputYUVFrame->height = videoCapture->GetVideoEncodeArgs()->in_height;
-    inputYUVFrame->pts = 0;
+    outputYUVFrame = av_frame_alloc();
+    outputYUVFrame->format = AV_PIX_FMT_YUV420P;
+    outputYUVFrame->width = avCodecContext->width;//480
+    outputYUVFrame->height = avCodecContext->height;//640
 
     //分配yuv空间
-    ret = av_frame_get_buffer(inputYUVFrame, 32);
+    ret = av_frame_get_buffer(outputYUVFrame, 32);
     if (ret != 0) {
         char buf[1024] = {0};
         av_strerror(ret, buf, sizeof(buf) - 1);

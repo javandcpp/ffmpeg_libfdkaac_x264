@@ -1,4 +1,3 @@
-
 /**
  * Created by jianxi on 2017/5/31.
  * https://github.com/mabeijianxi
@@ -12,6 +11,7 @@
 #include <memory>
 #include <mutex>
 #include <condition_variable>
+
 /**
  * 一个安全的队列
  */
@@ -22,7 +22,7 @@ private:
     std::queue<T> data_queue;
     std::condition_variable data_cond;
 public:
-    threadsafe_queue() {}
+    threadsafe_queue() { }
 
     threadsafe_queue(threadsafe_queue const &other) {
         std::lock_guard<std::mutex> lk(other.mut);
@@ -73,6 +73,12 @@ public:
 
     bool empty() const {
         return data_queue.empty();
+    }
+
+    void clear() {
+        std::lock_guard<std::mutex> lk(mut);
+        std::queue<T> empty;
+        std::swap(data_queue, empty);
     }
 };
 

@@ -13,9 +13,18 @@
 #include "AudioEncodeArgs.h"
 
 //测试数据写入文件
-#if 0
+#if 1
 #define WRITE_YUV_TO_FILE
 #define WRITE_PCM_TO_FILE
+#endif
+
+
+#if 0
+#define ENCODE_INFO
+#endif
+
+#if 1
+#define PTS_INFO
 #endif
 
 using namespace std;
