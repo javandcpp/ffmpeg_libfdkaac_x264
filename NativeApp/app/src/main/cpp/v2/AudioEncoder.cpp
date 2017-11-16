@@ -21,6 +21,10 @@ void AudioEncoder::SetAudioCapture(AudioCapture *audioCapture) {
     this->audioCapture = audioCapture;
 }
 
+AudioCapture *AudioEncoder::GetAudioCapture() {
+    return this->audioCapture;
+}
+
 
 void *AudioEncoder::EncodeTask(void *p) {
     AudioEncoder *audioEncoder = (AudioEncoder *) p;
@@ -29,45 +33,75 @@ void *AudioEncoder::EncodeTask(void *p) {
 
     FILE *PCM = fopen("/mnt/sdcard/iaudio.pcm", "wb+");
     LOG_D(DEBUG, "begin audio encode");
-    audioEncoder->audioCapture->frame_queue.clear();
+    audioEncoder->audioCapture->audioCaputureframeQueue.clear();
     int64_t beginTime = av_gettime();
+    int64_t lastPts = 0;
     while (true) {
         //线程中断标记
         if (audioEncoder->audioCapture->GetCaptureState()) {
             break;
         }
         //获取音频采集中的对列中的数据
-        if (audioEncoder->audioCapture->frame_queue.empty()) {
+        if (audioEncoder->audioCapture->audioCaputureframeQueue.empty()) {
             continue;
         }
-        OriginData *srcData = *audioEncoder->audioCapture->frame_queue.wait_and_pop().get();
-        if (srcData->size <= 0 || !srcData->data) {
+        OriginData *srcData = audioEncoder->audioCapture->GetAudioData();
+        if (NULL == srcData) {
+#ifdef SHOW_DEBUG_INFO
+            LOG_D(DEBUG, "audio data NULL");
+#endif
             continue;
         }
+        if (NULL == srcData->data) {
+#ifdef SHOW_DEBUG_INFO
+            LOG_D(DEBUG, "audio src data NULL");
+#endif
+            continue;
+        }
+        audioEncoder->outputFrame->pts = srcData->pts - beginTime;
+        if (lastPts == audioEncoder->outputFrame->pts) {
+            audioEncoder->outputFrame->pts += 1300;
+        }
+        lastPts = audioEncoder->outputFrame->pts;
+
         int ret = 0;
         ret = avcodec_fill_audio_frame(audioEncoder->outputFrame,
-                                       audioEncoder->avCodecContext->channels,
-                                       audioEncoder->avCodecContext->sample_fmt, srcData->data,
-                                       4096, 0);
+                                       audioEncoder->audioCodecContext->channels,
+                                       audioEncoder->audioCodecContext->sample_fmt, srcData->data,
+                                       8192, 0);
         if (ret < 0) {
             LOG_D(DEBUG, "fill frame failed!");
             continue;
         }
+
 #ifdef PTS_INFO
-        audioEncoder->outputFrame->pts = srcData->pts - beginTime;
         LOG_D(DEBUG, "audio pts:%lld", audioEncoder->outputFrame->pts);
 #endif
-        ret = avcodec_send_frame(audioEncoder->avCodecContext, audioEncoder->outputFrame);
+        ret = avcodec_send_frame(audioEncoder->audioCodecContext, audioEncoder->outputFrame);
         if (ret != 0) {
+#ifdef SHOW_DEBUG_INFO
             LOG_D(DEBUG, "send frame failed!");
+#endif
             continue;
         }
-        ret = avcodec_receive_packet(audioEncoder->avCodecContext, &audioEncoder->avPacket);
+        av_packet_unref(&audioEncoder->audioPacket);
+
+        ret = avcodec_receive_packet(audioEncoder->audioCodecContext, &audioEncoder->audioPacket);
         if (ret != 0) {
+#ifdef SHOW_DEBUG_INFO
             LOG_D(DEBUG, "receive packet failed!");
+#endif
             continue;
         }
+        srcData->Drop();
+//        //TODO 编码完成(数据传递问题不知道有没有问题)
+        srcData->avPacket = &audioEncoder->audioPacket;
+#ifdef SHOW_DEBUG_INFO
+        LOG_D(DEBUG, "encode audio packet size:%d pts:%lld", srcData->avPacket->size,
+              srcData->avPacket->pts);
         LOG_D(DEBUG, "Audio frame encode success!");
+#endif
+        audioEncoder->aframeQueue.push(srcData);
 
 #ifdef WRITE_PCM_TO_FILE
         fwrite(audioEncoder->outputFrame->data[0], 1, 4096, PCM);//V
@@ -81,43 +115,42 @@ void *AudioEncoder::EncodeTask(void *p) {
 }
 
 int AudioEncoder::StartEncode() {
-    mMutex.lock();
+    std::lock_guard<std::mutex> lk(mut);
     pthread_t t1;
     pthread_create(&t1, NULL, AudioEncoder::EncodeTask, this);
-    mMutex.unlock();
     LOG_D(DEBUG, "Start Audio Encode task!")
     return 0;
 }
 
 
 int AudioEncoder::InitEncode() {
-    mMutex.lock();
+    std::lock_guard<std::mutex> lk(mut);
     avCodec = avcodec_find_encoder_by_name("libfdk_aac");
     int ret = 0;
     if (!avCodec) {
         LOG_D(DEBUG, "aac encoder not found!")
         return -1;
     }
-    avCodecContext = avcodec_alloc_context3(avCodec);
-    if (!avCodecContext) {
+    audioCodecContext = avcodec_alloc_context3(avCodec);
+    if (!audioCodecContext) {
         LOG_D(DEBUG, "avcodec alloc context3 failed!");
         return -1;
     }
-    avCodecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
-    avCodecContext->sample_fmt = AV_SAMPLE_FMT_S16;
-    avCodecContext->sample_rate = audioCapture->GetAudioEncodeArgs()->sampleRate;
-    avCodecContext->thread_count = 8;
-    avCodecContext->bit_rate = audioCapture->GetAudioEncodeArgs()->bitRate;
-    avCodecContext->channels = audioCapture->GetAudioEncodeArgs()->channels;
-    avCodecContext->frame_size = audioCapture->GetAudioEncodeArgs()->nb_samples;
-    avCodecContext->time_base = {1, 1000000};//AUDIO VIDEO 两边时间基数要相同
-    avCodecContext->channel_layout = av_get_default_channel_layout(avCodecContext->channels);
+    audioCodecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
+    audioCodecContext->sample_fmt = AV_SAMPLE_FMT_S16;
+    audioCodecContext->sample_rate = audioCapture->GetAudioEncodeArgs()->sampleRate;
+    audioCodecContext->thread_count = 8;
+    audioCodecContext->bit_rate = 40000;
+    audioCodecContext->channels = audioCapture->GetAudioEncodeArgs()->channels;
+    audioCodecContext->frame_size = audioCapture->GetAudioEncodeArgs()->nb_samples;
+    audioCodecContext->time_base = {1, 1000000};//AUDIO VIDEO 两边时间基数要相同
+    audioCodecContext->channel_layout = av_get_default_channel_layout(audioCodecContext->channels);
 
 
     outputFrame = av_frame_alloc();
-    outputFrame->channels = avCodecContext->channels;
+    outputFrame->channels = audioCodecContext->channels;
     outputFrame->channel_layout = av_get_default_channel_layout(outputFrame->channels);
-    outputFrame->format = avCodecContext->sample_fmt;
+    outputFrame->format = audioCodecContext->sample_fmt;
     outputFrame->nb_samples = 1024;
     ret = av_frame_get_buffer(outputFrame, 0);
     if (ret != 0) {
@@ -126,7 +159,7 @@ int AudioEncoder::InitEncode() {
     }
     LOG_D(DEBUG, "av_frame_get_buffer success!");
 
-    ret = avcodec_open2(avCodecContext, NULL, NULL);
+    ret = avcodec_open2(audioCodecContext, NULL, NULL);
     if (ret != 0) {
         char buf[1024] = {0};
         av_strerror(ret, buf, sizeof(buf));
@@ -134,7 +167,6 @@ int AudioEncoder::InitEncode() {
         return -1;
     }
     LOG_D(DEBUG, "open audio codec success!");
-    mMutex.unlock();
     LOG_D(DEBUG, "Complete init Audio Encode!")
     return 0;
 }
@@ -145,10 +177,11 @@ int AudioEncoder::Release() {
 }
 
 int AudioEncoder::CloseEncode() {
-    mMutex.lock();
-    isEncoding = false;
-    mMutex.unlock();
-    LOG_D(DEBUG, "Close Audio Encode!")
+    std::lock_guard<std::mutex> lk(mut);
+    if (isEncoding) {
+        isEncoding = false;
+        LOG_D(DEBUG, "Close Audio Encode!")
+    }
     return 0;
 }
 

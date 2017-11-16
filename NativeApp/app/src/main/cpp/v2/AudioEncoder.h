@@ -7,6 +7,9 @@
 
 #include "MediaEncoder.h"
 #include "AudioCapture.h"
+#include <list>
+
+using namespace std;
 
 class AudioEncoder : public MediaEncoder {
 
@@ -17,21 +20,24 @@ public:
     AVCodec *avCodec = NULL;
     AVStream *outStream = NULL;
     AVFrame *outputFrame = NULL;
-    AVCodecContext *avCodecContext = NULL;
-    AVPacket avPacket={0};
+    AVCodecContext *audioCodecContext = NULL;
+    AVPacket audioPacket = {0};
 
 
     static AudioEncoder *Get();
 
 
-    bool isEncoding=false;
+    bool isEncoding = false;
 
-    static void* EncodeTask(void *p);
+    static void *EncodeTask(void *p);
 
     /**
       * 音频已编码数据队列
       */
     threadsafe_queue<OriginData *> aframeQueue;
+
+
+//    list<OriginData *> AudioDatalist;
 
     AudioEncoder();
 
@@ -62,13 +68,13 @@ public:
      */
     void SetAudioCapture(AudioCapture *audioCapture);
 
+    AudioCapture *GetAudioCapture();
 
 
     /**
     * 获取编码器状态
     */
     bool GetEncodeState();
-
 };
 
 

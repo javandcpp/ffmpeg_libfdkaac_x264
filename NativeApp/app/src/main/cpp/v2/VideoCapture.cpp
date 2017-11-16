@@ -31,7 +31,6 @@ CameraID VideoCapture::GetCameraID() {
 
 
 int VideoCapture::Release() {
-
     LOG_D(DEBUG, "Release Video Capture!");
     return 0;
 }
@@ -40,18 +39,18 @@ int VideoCapture::Release() {
  * 关闭采集数据输入
  */
 bool VideoCapture::CloseCapture() {
-    mMutex.lock();
-    ExitCapture = true;
-    mMutex.unlock();
+    std::lock_guard<std::mutex> lk(mut);
+    if (!ExitCapture) {
+        ExitCapture = true;
+    }
     LOG_D(DEBUG, "Close Video Capture");
     return ExitCapture;
 }
 
 
 bool VideoCapture::StartCapture() {
-    mMutex.lock();
+    std::lock_guard<std::mutex> lk(mut);
     ExitCapture = false;
-    mMutex.unlock();
     LOG_D(DEBUG, "Start Video Capture");
     return !ExitCapture;
 }
@@ -60,16 +59,14 @@ bool VideoCapture::StartCapture() {
  * 往队列中添加视频原数据
  */
 int VideoCapture::PushVideoData(OriginData *originData) {
-    if (ExitCapture)
+    if (ExitCapture) {
         return 0;
-    originData->pts = av_gettime();
+    }
+    originData->pts = av_gettime();;
 //    LOG_D(DEBUG,"video pts:%lld  , data size:%d",originData->pts,originData->size);
     //处理转换NV21->YUV420P
-    timeval startTime;
-    timeval endTime;
 
     if (NULL != videoEncodeArgs) {
-        gettimeofday(&startTime, 0);
         int totalSize = videoEncodeArgs->out_width * videoEncodeArgs->out_height * 3 / 2;
         uint8_t *dst = (uint8_t *) malloc(totalSize);
         NV21ProcessYUV420P(videoEncodeArgs->in_width, videoEncodeArgs->in_height,
@@ -78,11 +75,10 @@ int VideoCapture::PushVideoData(OriginData *originData) {
                            originData->data, dst, mCameraId, videoEncodeArgs->mirror);
         originData->data = NULL;
         originData->data = dst;
-        originData->size = sizeof(dst);
-        gettimeofday(&endTime, 0);
-        LOG_D(DEBUG, "video process host time:%d", endTime.tv_usec - startTime.tv_usec);
+        originData->size = totalSize;
+//        LOG_D(DEBUG, "video process host time:%d", endTime.tv_usec - startTime.tv_usec);
 //        originData->pts=originData->pts-(endTime.tv_usec-startTime.tv_usec);
-        frame_queue.push(originData);
+        videoCaputureframeQueue.push(originData);
     }
     //处理旋转及镜像
     return originData->size;
@@ -100,9 +96,15 @@ VideoEncodeArgs *VideoCapture::GetVideoEncodeArgs() {
  *从队列中获取视频原数据
  */
 OriginData *VideoCapture::GetVideoData() {
-    if (ExitCapture)
+    if (ExitCapture) {
         return NULL;
-    return frame_queue.empty() ? NULL : *(frame_queue.wait_and_pop().get());
+    }
+    if (videoCaputureframeQueue.empty()) {
+        return NULL;
+    } else {
+        OriginData *pData = *videoCaputureframeQueue.wait_and_pop().get();
+        return pData;
+    }
 }
 
 
@@ -236,8 +238,8 @@ uint8_t *VideoCapture::NV21ProcessYUV420P(int w, int h, int out_width, int out_h
     RotationMode rotationMode;
     if (cameraID == FRONT) {
         //libyuv 前置镜像
-        LOG_D(DEBUG, "camera face front");
-        LOG_D(DEBUG, "need mirror %d", needMirror);
+//        LOG_D(DEBUG, "camera face front");
+//        LOG_D(DEBUG, "need mirror %d", needMirror);
         rotationMode = kRotate90;
         if (needMirror == 1) {
             I420Mirror(src_y, w, src_u, w / 2, src_v, w / 2, dst_y,
@@ -253,7 +255,7 @@ uint8_t *VideoCapture::NV21ProcessYUV420P(int w, int h, int out_width, int out_h
         }
     } else if (cameraID == BACK) {
         //后置  旋转90
-        LOG_D(DEBUG, "camera face back");
+//        LOG_D(DEBUG, "camera face back");
         rotationMode = kRotate90;
         I420Rotate(src_y, w, src_u, w / 2, src_v, w / 2, rotate, h,
                    rotate + (w * h), h / 2, rotate + (w * h * 5 / 4), h / 2, w, h,

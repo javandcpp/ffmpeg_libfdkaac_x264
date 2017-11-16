@@ -9,6 +9,9 @@
 
 class MediaEncoder {
 protected:
+
+    mutable mutex mut;
+
     MediaEncoder();
 
     virtual ~MediaEncoder();
@@ -23,11 +26,9 @@ protected:
 
     virtual int CloseEncode() = 0;
 
-    virtual int Release()=0;
+    virtual int Release() = 0;
 
     static bool first;
-
-    mutex mMutex;
 
 
 };

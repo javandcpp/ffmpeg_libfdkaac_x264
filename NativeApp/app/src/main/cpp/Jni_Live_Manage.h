@@ -12,12 +12,15 @@
 #include "v2/PrefixHeader.h"
 #include "v2/VideoEncoder.h"
 #include "v2/AudioEncoder.h"
+#include "v2/RtmpStreamer.h"
 
 AudioCapture *audioCapture = NULL;
 VideoCapture *videoCapture = NULL;
 
 VideoEncoder *videoEncoder = NULL;
 AudioEncoder *audioEncoder = NULL;
+
+RtmpStreamer *rtmpStreamer=NULL;
 
 /**
  * 初始化采集数据接收
@@ -27,5 +30,6 @@ bool videoCaptureInit=false;
 bool isClose = true;
 bool isRelease = false;
 bool startStream;
+
 mutex mMutex;
 #endif

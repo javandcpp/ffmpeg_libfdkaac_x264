@@ -9,7 +9,7 @@ AudioCapture::AudioCapture() {
 }
 
 AudioCapture::~AudioCapture() {
-    if(NULL!=audioEncodeArgs){
+    if (NULL != audioEncodeArgs) {
         delete audioEncodeArgs;
     }
 }
@@ -23,7 +23,6 @@ AudioCapture *AudioCapture::Get() {
  * 资源回收
  */
 int AudioCapture::Release() {
-
     LOG_D(DEBUG, "Release Audio Capture!");
     return 0;
 }
@@ -32,39 +31,28 @@ int AudioCapture::Release() {
  * 
  */
 bool AudioCapture::CloseCapture() {
-    mMutex.lock();
-    ExitCapture = true;
-    mMutex.unlock();
-    LOG_D(DEBUG, "Close Audio Capture");
+    std::lock_guard<std::mutex> lk(mut);
+    if (!ExitCapture) {
+        ExitCapture = true;
+        LOG_D(DEBUG, "Close Audio Capture");
+    }
     return ExitCapture;
 }
 
 
 bool AudioCapture::StartCapture() {
-    mMutex.lock();
+    std::lock_guard<std::mutex> lk(mut);
     ExitCapture = false;
-    mMutex.unlock();
     LOG_D(DEBUG, "Start Audio Capture");
     return !ExitCapture;
 }
 
-/**
- * 往除列添加音频原数据
- */
-int AudioCapture::PushAudioData(OriginData *originData) {
-    if (ExitCapture)
-        return 0;
-    originData->pts = av_gettime();
-//    LOG_D(DEBUG,"audio pts:%lld  , data size:%d",originData->pts,originData->size);
-    frame_queue.push(originData);
-    return originData->size;
-}
 
 void AudioCapture::SetAudioEncodeArgs(AudioEncodeArgs *audioEncodeArgs) {
     this->audioEncodeArgs = audioEncodeArgs;
 }
 
-AudioEncodeArgs* AudioCapture::GetAudioEncodeArgs() {
+AudioEncodeArgs *AudioCapture::GetAudioEncodeArgs() {
     return this->audioEncodeArgs;
 }
 
@@ -72,9 +60,28 @@ bool AudioCapture::GetCaptureState() {
     return ExitCapture;
 }
 
+/**
+ * 往除列添加音频原数据
+ */
+int AudioCapture::PushAudioData(OriginData *originData) {
+    if (ExitCapture) {
+        return 0;
+    }
+    av_usleep(5000);
+    originData->pts = av_gettime();
+    audioCaputureframeQueue.push(originData);
+    return 0;
+}
+
 OriginData *AudioCapture::GetAudioData() {
-    if (ExitCapture)
+    if (ExitCapture) {
         return NULL;
-    return frame_queue.empty() ? NULL : *(frame_queue.wait_and_pop().get());
+    }
+    if (audioCaputureframeQueue.empty()) {
+        return NULL;
+    } else {
+        OriginData *pData = *audioCaputureframeQueue.wait_and_pop().get();
+        return pData;
+    }
 }
 

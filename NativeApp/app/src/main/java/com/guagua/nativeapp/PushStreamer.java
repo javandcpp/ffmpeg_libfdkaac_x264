@@ -151,10 +151,10 @@ public class PushStreamer implements SurfaceHolder.Callback {
      * 初始化底层采集与编码器
      */
     private boolean InitNative() {
-        if(!initCapture()){
+        if (!initCapture()) {
             return false;
         }
-        if(!initEncoder()){
+        if (!initEncoder()) {
             return false;
         }
         Log.d("initNative", "native init success!");
@@ -377,7 +377,7 @@ public class PushStreamer implements SurfaceHolder.Callback {
                 if (ret == VideoCaptureInterface.GetFrameDataReturn.RET_SUCCESS) {
                     frameCount++;
                     encodeVideo(m_nv21Data, m_nv21Data.length, mVideoSizeConfig.srcFrameWidth, mVideoSizeConfig.srcFrameHeight);
-                    Log.d("video size:-------->", m_nv21Data.length + "");
+//                    Log.d("video size:-------->", m_nv21Data.length + "");
                 }
             }
         }
@@ -423,7 +423,7 @@ public class PushStreamer implements SurfaceHolder.Callback {
                             m_aiBufferLength[0], dataLength);
                     if (ret == AudioCaptureInterface.GetAudioDataReturn.RET_SUCCESS) {
                         encodeAudio(audioBuffer, dataLength[0]);
-                        Log.d("audio size:-------->", dataLength[0] + "");
+//                        Log.d("audio size:-------->", dataLength[0] + "");
                     }
 
                 } catch (Exception e) {

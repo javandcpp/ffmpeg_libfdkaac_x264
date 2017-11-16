@@ -6,8 +6,10 @@
 #ifndef NATIVEAPP_AUDIOCAPTURE_H
 #define NATIVEAPP_AUDIOCAPTURE_H
 
+#include <list>
 #include "MediaCapture.h"
 #include "PrefixHeader.h"
+using namespace std;
 
 /**
  * 音频数据接收
@@ -21,6 +23,10 @@ private:
 public :
     ~AudioCapture();
 
+//    list<OriginData *> AudioCaptureDatalist;
+
+    threadsafe_queue<OriginData *> audioCaputureframeQueue;
+
     static AudioCapture *Get();
 
     bool CloseCapture();
@@ -32,7 +38,6 @@ public :
     int PushAudioData(OriginData *originData);
 
     OriginData *GetAudioData();
-
     /**
    * 设置编码参数
    */
@@ -45,7 +50,8 @@ public :
      */
     bool GetCaptureState();
 
-    mutex mMutex;
+
+
 };
 
 #endif //NATIVEAPP_AUDIOCAPTURE_H

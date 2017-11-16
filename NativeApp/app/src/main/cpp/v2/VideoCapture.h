@@ -5,8 +5,10 @@
 #ifndef NATIVEAPP_VIDEOCAPTURE_H
 #define NATIVEAPP_VIDEOCAPTURE_H
 
+#include <list>
 #include "MediaCapture.h"
 #include "PrefixHeader.h"
+using namespace std;
 
 
 /**
@@ -37,7 +39,7 @@ public:
 
     OriginData *GetVideoData();
 
-    mutex mMutex;
+
     CameraID mCameraId;
 
 
@@ -48,6 +50,10 @@ public:
 
     VideoEncodeArgs *GetVideoEncodeArgs();
 
+
+//    list<OriginData *> VideoCaptureDatalist;
+
+    threadsafe_queue<OriginData *> videoCaputureframeQueue;
     /**
      * 获取视频采集状态
      */
@@ -57,7 +63,7 @@ public:
    * nv21源数据处理(旋转)
    */
     uint8_t *NV21ProcessYUV420P(int in_width, int in_height, int out_width, int out_heigth,
-                                uint8_t *src,uint8_t *dst, CameraID cameraID, int needMirror);
+                                uint8_t *src, uint8_t *dst, CameraID cameraID, int needMirror);
 };
 
 #endif //NATIVEAPP_VIDEOCAPTURE_H

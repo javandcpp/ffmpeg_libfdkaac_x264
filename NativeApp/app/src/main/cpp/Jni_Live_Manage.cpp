@@ -6,6 +6,7 @@
  */
 #include <jni.h>
 #include "jni_Live_Manage.h"
+#include "v2/RtmpStreamer.h"
 
 
 #ifdef __cplusplus
@@ -17,12 +18,18 @@ extern "C" {
  */
 JNIEXPORT jint JNICALL
 Java_com_guagua_nativeapp_LiveManager_Close(JNIEnv *env, jclass type) {
+    mMutex.lock();
+
     //关闭采集
     if (NULL != audioCapture) {
         audioCapture->CloseCapture();
     }
     if (NULL != videoCapture) {
         videoCapture->CloseCapture();
+    }
+    //关闭推流
+    if (NULL != rtmpStreamer) {
+        rtmpStreamer->ClosePushStream();
     }
     //关闭编码
     if (NULL != videoEncoder) {
@@ -31,10 +38,12 @@ Java_com_guagua_nativeapp_LiveManager_Close(JNIEnv *env, jclass type) {
     if (NULL != audioEncoder) {
         audioEncoder->CloseEncode();
     }
-    //关闭推流
+
+
     isClose = true;
     startStream = false;
     LOG_D(DEBUG, "jni close");
+    mMutex.unlock();
     return 0;
 }
 
@@ -43,18 +52,9 @@ Java_com_guagua_nativeapp_LiveManager_Close(JNIEnv *env, jclass type) {
  */
 JNIEXPORT jint JNICALL
 Java_com_guagua_nativeapp_LiveManager_Release(JNIEnv *env, jclass type) {
+    mMutex.lock();
     isRelease = true;
-    if (NULL != audioEncoder) {
-
-    }
-    if (NULL != videoEncoder) {
-    }
-
-    if (NULL != audioCapture) {
-    }
-    if (NULL != videoCapture) {
-    }
-
+    mMutex.unlock();
     return 0;
 }
 
@@ -64,7 +64,7 @@ Java_com_guagua_nativeapp_LiveManager_Release(JNIEnv *env, jclass type) {
 JNIEXPORT jint JNICALL
 Java_com_guagua_nativeapp_LiveManager_EncodeAAC(JNIEnv *env, jclass type, jbyteArray audioBuffer_,
                                                 jint length) {
-    if (audioCaptureInit&&!isClose) {
+    if (audioCaptureInit && !isClose) {
         jbyte *audioSrc = env->GetByteArrayElements(audioBuffer_, 0);
         uint8_t *audioDstData = (uint8_t *) malloc(length);
         memcpy(audioDstData, audioSrc, length);
@@ -82,7 +82,7 @@ Java_com_guagua_nativeapp_LiveManager_EncodeAAC(JNIEnv *env, jclass type, jbyteA
 JNIEXPORT jint JNICALL
 Java_com_guagua_nativeapp_LiveManager_EncodeH264(JNIEnv *env, jclass type, jbyteArray videoBuffer_,
                                                  jint length, jint i) {
-    if (videoCaptureInit&&!isClose) {
+    if (videoCaptureInit && !isClose) {
         jbyte *videoSrc = env->GetByteArrayElements(videoBuffer_, 0);
         uint8_t *videoDstData = (uint8_t *) malloc(length);
         memcpy(videoDstData, videoSrc, length);
@@ -101,14 +101,16 @@ Java_com_guagua_nativeapp_LiveManager_EncodeH264(JNIEnv *env, jclass type, jbyte
  */
 JNIEXPORT jint JNICALL
 Java_com_guagua_nativeapp_LiveManager_InitAudioEncoder(JNIEnv *env, jclass type) {
-
+    mMutex.lock();
     if (audioCaptureInit) {
         audioEncoder = AudioEncoder::Get();
         audioEncoder->SetAudioCapture(audioCapture);
+        mMutex.unlock();
         return audioEncoder->InitEncode();
 
     }
     LOG_D(DEBUG, "jni InitAudioEncoder failed!");
+    mMutex.unlock();
     return -1;
 }
 /**
@@ -116,12 +118,15 @@ Java_com_guagua_nativeapp_LiveManager_InitAudioEncoder(JNIEnv *env, jclass type)
  */
 JNIEXPORT jint JNICALL
 Java_com_guagua_nativeapp_LiveManager_InitVideoEncoder(JNIEnv *env, jclass type) {
+    mMutex.lock();
     if (videoCaptureInit) {
         videoEncoder = VideoEncoder::Get();
         videoEncoder->SetVideoCapture(videoCapture);
+        mMutex.unlock();
         return videoEncoder->InitEncode();
     }
     LOG_D(DEBUG, "jni InitVideoEncoder failed!");
+    mMutex.unlock();
     return -1;
 }
 
@@ -131,6 +136,7 @@ Java_com_guagua_nativeapp_LiveManager_InitVideoEncoder(JNIEnv *env, jclass type)
 JNIEXPORT jint JNICALL
 Java_com_guagua_nativeapp_LiveManager_InitAudioCapture(JNIEnv *env, jclass type, jint channles,
                                                        jint SampleRate, jint SampleBitRate) {
+    mMutex.lock();
     audioCapture = AudioCapture::Get();
     AudioEncodeArgs *audioEncodeArgs = (AudioEncodeArgs *) malloc(sizeof(AudioEncodeArgs));
     audioEncodeArgs->avSampleFormat = AV_SAMPLE_FMT_S16;
@@ -146,6 +152,7 @@ Java_com_guagua_nativeapp_LiveManager_InitAudioCapture(JNIEnv *env, jclass type,
     audioCapture->SetAudioEncodeArgs(audioEncodeArgs);
     audioCaptureInit = true;
     isRelease = false;
+    mMutex.unlock();
     return 0;
 }
 
@@ -156,6 +163,7 @@ JNIEXPORT jint JNICALL
 Java_com_guagua_nativeapp_LiveManager_InitVideoCapture(JNIEnv *env, jclass type, jint inWidth,
                                                        jint inHeight, jint outWidth, jint outHeight,
                                                        jint fps, jboolean mirror) {
+    mMutex.lock();
     videoCapture = VideoCapture::Get();
     VideoEncodeArgs *videoEncodeArgs = (VideoEncodeArgs *) malloc(sizeof(VideoEncodeArgs));
     videoEncodeArgs->fps = fps;
@@ -167,6 +175,7 @@ Java_com_guagua_nativeapp_LiveManager_InitVideoCapture(JNIEnv *env, jclass type,
     videoCapture->SetVideoEncodeArgs(videoEncodeArgs);
     videoCaptureInit = true;
     isRelease = false;
+    mMutex.unlock();
     return 0;
 }
 
@@ -176,6 +185,7 @@ Java_com_guagua_nativeapp_LiveManager_InitVideoCapture(JNIEnv *env, jclass type,
  */
 JNIEXPORT jint JNICALL
 Java_com_guagua_nativeapp_LiveManager_StartPush(JNIEnv *env, jclass type, jstring url_) {
+    mMutex.lock();
     if (videoCaptureInit && audioCaptureInit) {
         startStream = true;
         isClose = false;
@@ -189,8 +199,24 @@ Java_com_guagua_nativeapp_LiveManager_StartPush(JNIEnv *env, jclass type, jstrin
         if (NULL != audioEncoder) {
             audioEncoder->StartEncode();
         }
+        rtmpStreamer = RtmpStreamer::Get();
+        //初始化推流器
+        if (rtmpStreamer->InitStreamer(url) != 0) {
+            LOG_D(DEBUG, "jni initStreamer success!");
+            mMutex.unlock();
+            return -1;
+        }
+        rtmpStreamer->SetVideoEncoder(videoEncoder);
+        rtmpStreamer->SetAudioEncoder(audioEncoder);
+        if (rtmpStreamer->StartPushStream() != 0) {
+            LOG_D(DEBUG, "jni push stream failed!");
+            mMutex.unlock();
+            return -1;
+        }
+        LOG_D(DEBUG, "jni push stream success!");
         env->ReleaseStringUTFChars(url_, url);
     }
+    mMutex.unlock();
     return 0;
 }
 

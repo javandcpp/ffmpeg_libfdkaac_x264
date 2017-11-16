@@ -12,6 +12,9 @@
 class MediaCapture {
 
 protected:
+
+    mutable mutex mut;
+
     MediaCapture();
 
     virtual ~MediaCapture();
@@ -22,7 +25,7 @@ protected:
 
     bool ExitCapture;
 public:
-    threadsafe_queue<OriginData *> frame_queue;
+
 };
 
 #endif //NATIVEAPP_MEDIACAPTURE_H

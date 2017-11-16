@@ -1,8 +1,0 @@
-//
-// Created by developer on 11/14/17.
-//
-
-#ifndef NATIVEAPP_MEDIARTMPSTREAMER_H
-#define NATIVEAPP_MEDIARTMPSTREAMER_H
-
-#endif //NATIVEAPP_MEDIARTMPSTREAMER_H
