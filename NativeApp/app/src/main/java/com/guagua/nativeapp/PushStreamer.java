@@ -6,18 +6,16 @@
 package com.guagua.nativeapp;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Environment;
 import android.os.Handler;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.capture.avcapture.AudioCaptureInterface;
-import com.capture.avcapture.VideoCaptureInterface;
-import com.capture.avcapture.impl.AudioCapture;
-import com.capture.avcapture.impl.VideoCapture;
+import com.capture.AudioCaptureInterface;
+import com.capture.VideoCaptureInterface;
+import com.capture.impl.AudioCapture;
+import com.capture.impl.VideoCapture;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,19 +25,6 @@ import java.util.List;
 
 import static android.hardware.Camera.CameraInfo.CAMERA_FACING_BACK;
 
-//obj.m_byCodeType = (byte) mediaCacheConfig.getInt(MediaConstants.AUDIO_CODE_TYPE, 7);
-//        obj.m_dwSamplesPerSec = mediaCacheConfig.getInt(MediaConstants.AUDIO_SAMPLE_RATE, 48000);
-//        obj.m_wBandWidth = (short) mediaCacheConfig.getInt(MediaConstants.AUDIO_BANDWIDTH, 24);
-//        obj.m_wBitsPerSample = ((short) mediaCacheConfig.getInt(MediaConstants.AUDIO_BITSPERSAMPLE, 16));
-//        obj.m_wChannels = ((short) mediaCacheConfig.getInt(MediaConstants.AUDIO_CHANNELS, 2));
-//        obj.m_wPerPackTimes = ((short) mediaCacheConfig.getInt(MediaConstants.AUDIO_PER_PACKTIMES, 80));
-//
-//
-//        videoConfig.m_byCodeType = ((byte) mediaCacheConfig.getInt(MediaConstants.VIDEO_CODE_TYPE, 26));
-//        videoConfig.m_byVideoQuality = ((byte) mediaCacheConfig.getInt(MediaConstants.VIDEO_QUALITY, 100));
-//        videoConfig.m_sColorSpace = ((short) mediaCacheConfig.getInt(MediaConstants.VIDEO_COLOR_SPACE, 24));
-//        videoConfig.m_sFramesPerSec = ((short) mediaCacheConfig.getInt(MediaConstants.VIDEO_Frames_PS, 15));
-
 /**
  * Created by android on 10/31/17.
  */
@@ -48,9 +33,8 @@ public class PushStreamer implements SurfaceHolder.Callback {
 
     public final SurfaceHolder mSurfaceHolder;
     public int[] m_aiBufferLength;
-    public int requireLength = 1024 * 8;
-    public AudioCaptureInterface m_oAudioCapture = new AudioCapture();
-    public VideoCaptureInterface m_oVideoCapture = new VideoCapture();
+    public AudioCaptureInterface mAudioCapture = new AudioCapture();
+    public VideoCaptureInterface mVideoCapture = new VideoCapture();
     public int frameCount;
     public List<VideoCaptureInterface.CameraDeviceInfo> s_lCameraInfoList;
     public AudioThread m_oAudioThread = null;
@@ -60,22 +44,9 @@ public class PushStreamer implements SurfaceHolder.Callback {
     public boolean isLight;
     public short m_sCameraID = 0;
     public boolean destroy = false;
-    public boolean mBeautyRelease;
-    public int FTHandler;
-    //默认为前
     public int curCameraType = VideoCaptureInterface.CameraDeviceType.CAMERA_FACING_FRONT;
-    public boolean isChangeEffect = true;
-    public String TAG = this.getClass().getSimpleName();
-
     public short currentMicIndex;
-    public SharedPreferences mediaCacheConfig;
     public FileOutputStream stream;
-    public long pauseTime;
-    public int currentPhoneState = TelephonyManager.CALL_STATE_IDLE;
-    public byte currentDevType;
-    public long mBeautyHandler;
-    public boolean mBeautyGpuUseful;
-    public boolean mBeautyInit;
     public boolean singleCamera;
     public VideoSizeConfig mVideoSizeConfig = new VideoSizeConfig();
     private Handler handler = new Handler();
@@ -83,9 +54,6 @@ public class PushStreamer implements SurfaceHolder.Callback {
     private final File audioFile;
     private FileOutputStream videoOps;
     private FileOutputStream audioOps;
-    private final byte[] yuvBuf;
-
-    private static final Object i1 = new Object();
     private RandomAccessFile file;
     private boolean nativeInt;
     private boolean speak;
@@ -95,7 +63,6 @@ public class PushStreamer implements SurfaceHolder.Callback {
         File externalStorageDirectory = Environment.getExternalStorageDirectory();
         surfaceView.getHolder().addCallback(this);
 
-        yuvBuf = new byte[mVideoSizeConfig.srcFrameHeight * mVideoSizeConfig.srcFrameWidth * 3 / 2];
         videoFile = new File(externalStorageDirectory, "video.yuv");
         audioFile = new File(externalStorageDirectory, "audio.pcm");
         try {
@@ -218,7 +185,7 @@ public class PushStreamer implements SurfaceHolder.Callback {
 
 
     public void closeAudioVideoCapture() {
-        if (null != m_oAudioCapture && m_oAudioCapture.IsStartAudioCapture()) {
+        if (null != mAudioCapture && mAudioCapture.IsStartAudioCapture()) {
             if (m_oVideoThread != null) {
 
                 m_oAudioThread.stopThread();
@@ -230,22 +197,21 @@ public class PushStreamer implements SurfaceHolder.Callback {
                 }
             }
         }
-        if (null != m_oVideoCapture && m_oVideoCapture.IsStartVideoCapture()) {
+        if (null != mVideoCapture && mVideoCapture.IsStartVideoCapture()) {
             if (m_oVideoThread != null) {
                 m_oVideoThread.stopThread();
                 try {
                     m_oVideoThread.join();
                 } catch (Exception e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
         }
-        if (null != m_oAudioCapture) {
-            m_oAudioCapture.CloseAudioDevice();
+        if (null != mAudioCapture) {
+            mAudioCapture.CloseAudioDevice();
         }
-        if (null != m_oVideoCapture) {
-            m_oVideoCapture.CloseVideoDevice();
+        if (null != mVideoCapture) {
+            mVideoCapture.CloseVideoDevice();
         }
     }
 
@@ -296,7 +262,7 @@ public class PushStreamer implements SurfaceHolder.Callback {
     public int createCapture(short micIndex) {
         m_aiBufferLength = new int[1];
         try {
-            AudioCaptureInterface.OpenAudioDeviceReturn retAudio = m_oAudioCapture.OpenAudioDevice(
+            AudioCaptureInterface.OpenAudioDeviceReturn retAudio = mAudioCapture.OpenAudioDevice(
                     48000,
                     2,
                     16, m_aiBufferLength);
@@ -304,7 +270,7 @@ public class PushStreamer implements SurfaceHolder.Callback {
             if (retAudio == AudioCaptureInterface.OpenAudioDeviceReturn.OPEN_DEVICE_SUCCESS) {
                 if (null == m_oAudioThread || m_oAudioThread.isAlive() == false) {
                     m_oAudioThread = new AudioThread();
-                    m_oAudioCapture.StartAudioCapture();
+                    mAudioCapture.StartAudioCapture();
                     m_oAudioThread.start();
                 }
             }
@@ -338,23 +304,14 @@ public class PushStreamer implements SurfaceHolder.Callback {
     class VideoThread extends Thread {
 
         public volatile boolean m_bExit = false;
-        public int scalePix = 0;
         byte[] m_nv21Data = new byte[mVideoSizeConfig.srcFrameWidth
                 * mVideoSizeConfig.srcFrameHeight * 3 / 2];
-        byte[] m_CutData = new byte[(mVideoSizeConfig.desWidth + scalePix)
-                * (mVideoSizeConfig.desHeight) * 3 / 2];
-        //        byte[] m_ScaleData = new byte[mVideoSizeConfig.desWidth
-//                * mVideoSizeConfig.desHeight * 3 / 2];
-        byte[] m_RoatepData = new byte[mVideoSizeConfig.srcFrameWidth
+        byte[] m_I420Data = new byte[mVideoSizeConfig.srcFrameWidth
                 * mVideoSizeConfig.srcFrameHeight * 3 / 2];
-        byte[] m_MirrorData = new byte[(mVideoSizeConfig.desWidth + scalePix)
-                * mVideoSizeConfig.desHeight * 3 / 2];
-        byte[] m_420pData = new byte[(mVideoSizeConfig.desWidth + scalePix)
-                * mVideoSizeConfig.desHeight * 3 / 2];
-        //        byte[] argbBuf = new byte[(mVideoSizeConfig.desWidth + scalePix)
-//                * mVideoSizeConfig.desHeight * 4];
-        byte[] smallCut = new byte[368 * 640 * 3 / 2];
-
+        byte[] m_RotateData = new byte[mVideoSizeConfig.srcFrameWidth
+                * mVideoSizeConfig.srcFrameHeight * 3 / 2];
+        byte[] m_MirrorData = new byte[mVideoSizeConfig.srcFrameWidth
+                * mVideoSizeConfig.srcFrameHeight * 3 / 2];
 
         @Override
         public void run() {
@@ -371,13 +328,18 @@ public class PushStreamer implements SurfaceHolder.Callback {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
-                ret = m_oVideoCapture.GetFrameData(m_nv21Data,
+                ret = mVideoCapture.GetFrameData(m_nv21Data,
                         m_nv21Data.length);
                 if (ret == VideoCaptureInterface.GetFrameDataReturn.RET_SUCCESS) {
                     frameCount++;
-                    encodeVideo(m_nv21Data, m_nv21Data.length, mVideoSizeConfig.srcFrameWidth, mVideoSizeConfig.srcFrameHeight);
-//                    Log.d("video size:-------->", m_nv21Data.length + "");
+                    LibVideoProcess.NV21TOI420(mVideoSizeConfig.srcFrameWidth, mVideoSizeConfig.srcFrameHeight, m_nv21Data, m_I420Data);
+                    if (curCameraType == VideoCaptureInterface.CameraDeviceType.CAMERA_FACING_FRONT) {
+                          LibVideoProcess.MirrorI420(mVideoSizeConfig.srcFrameWidth, mVideoSizeConfig.srcFrameHeight, m_I420Data, m_MirrorData);
+                        LibVideoProcess.RotateI420(mVideoSizeConfig.srcFrameWidth, mVideoSizeConfig.srcFrameHeight, m_MirrorData, m_RotateData, 90);
+                    } else if (curCameraType == VideoCaptureInterface.CameraDeviceType.CAMERA_FACING_BACK) {
+                        LibVideoProcess.RotateI420(mVideoSizeConfig.srcFrameWidth, mVideoSizeConfig.srcFrameHeight, m_I420Data, m_RotateData, 90);
+                    }
+                    encodeVideo(m_RotateData, m_RotateData.length);
                 }
             }
         }
@@ -419,11 +381,11 @@ public class PushStreamer implements SurfaceHolder.Callback {
                     e.printStackTrace();
                 }
                 try {
-                    ret = m_oAudioCapture.GetAudioData(audioBuffer,
+                    ret = mAudioCapture.GetAudioData(audioBuffer,
                             m_aiBufferLength[0], dataLength);
                     if (ret == AudioCaptureInterface.GetAudioDataReturn.RET_SUCCESS) {
                         encodeAudio(audioBuffer, dataLength[0]);
-//                        Log.d("audio size:-------->", dataLength[0] + "");
+
                     }
 
                 } catch (Exception e) {
@@ -446,15 +408,9 @@ public class PushStreamer implements SurfaceHolder.Callback {
         }
     }
 
-    public void encodeVideo(byte[] videoBuffer, int length, int w, int h) {
+    public void encodeVideo(byte[] videoBuffer, int length) {
         try {
-            //   videoOps.write(videoBuffer);
-            //  videoOps.flush();
-            if (curCameraType == VideoCaptureInterface.CameraDeviceType.CAMERA_FACING_FRONT) {
-                LiveManager.EncodeH264(videoBuffer, length, 1);
-            } else if (curCameraType == VideoCaptureInterface.CameraDeviceType.CAMERA_FACING_BACK) {
-                LiveManager.EncodeH264(videoBuffer, length, 0);
-            }
+            LiveManager.EncodeH264(videoBuffer, length);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -463,8 +419,6 @@ public class PushStreamer implements SurfaceHolder.Callback {
 
     public void encodeAudio(byte[] audioBuffer, int length) {
         try {
-//            audioOps.write(audioBuffer);
-//            audioOps.flush();
             LiveManager.EncodeAAC(audioBuffer, length);
         } catch (Exception e) {
             e.printStackTrace();
@@ -476,7 +430,7 @@ public class PushStreamer implements SurfaceHolder.Callback {
     public void switchCamera(int type, short micIndex) {
         try {
             if (s_lCameraInfoList == null) {
-                s_lCameraInfoList = m_oVideoCapture.EnumerateCameraDevice();
+                s_lCameraInfoList = mVideoCapture.EnumerateCameraDevice();
             }
             int[] iBufferLen = new int[1];
             int[] iOpenResult = new int[1];
@@ -502,9 +456,9 @@ public class PushStreamer implements SurfaceHolder.Callback {
 
 
     public boolean openCamera(int[] iBufferLen, int i) {
-        m_oVideoCapture.CloseVideoDevice();
+        mVideoCapture.CloseVideoDevice();
         VideoCaptureInterface.OpenVideoDeviceReturn retVideo = null;
-        retVideo = m_oVideoCapture
+        retVideo = mVideoCapture
                 .OpenVideoDevice(
                         i,
                         mVideoSizeConfig.srcFrameWidth,
@@ -517,8 +471,8 @@ public class PushStreamer implements SurfaceHolder.Callback {
             currentZoomLevel = 0;
             isLight = false;
             m_sCameraID = (short) i;
-            m_oVideoCapture.SetSurfaceHolder(mSurfaceHolder);
-            m_oVideoCapture.StartVideoCapture();
+            mVideoCapture.SetSurfaceHolder(mSurfaceHolder);
+            mVideoCapture.StartVideoCapture();
             if (m_oVideoThread == null
                     || m_oVideoThread.isAlive() == false) {
                 m_oVideoThread = new VideoThread();
@@ -538,9 +492,9 @@ public class PushStreamer implements SurfaceHolder.Callback {
         if (curCameraType == VideoCaptureInterface.CameraDeviceType.CAMERA_FACING_FRONT) {
             return false;
         }
-        if (null != m_oVideoCapture) {
+        if (null != mVideoCapture) {
             isLight = !isLight;
-            m_oVideoCapture.TurnFlash(isLight);
+            mVideoCapture.TurnFlash(isLight);
         }
         return true;
 

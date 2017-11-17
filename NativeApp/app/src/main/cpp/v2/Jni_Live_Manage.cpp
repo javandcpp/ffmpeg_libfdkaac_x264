@@ -6,7 +6,7 @@
  */
 #include <jni.h>
 #include "jni_Live_Manage.h"
-#include "v2/RtmpStreamer.h"
+#include "RtmpStreamer.h"
 
 
 #ifdef __cplusplus
@@ -193,12 +193,12 @@ Java_com_guagua_nativeapp_LiveManager_StartPush(JNIEnv *env, jclass type, jstrin
         audioCapture->StartCapture();
         const char *url = env->GetStringUTFChars(url_, 0);
         LOG_D(DEBUG, "stream URL:%s", url);
-        if (NULL != videoEncoder) {
-            videoEncoder->StartEncode();
-        }
-        if (NULL != audioEncoder) {
-            audioEncoder->StartEncode();
-        }
+//        if (NULL != videoEncoder) {
+//            videoEncoder->StartEncode();
+//        }
+//        if (NULL != audioEncoder) {
+//            audioEncoder->StartEncode();
+//        }
         rtmpStreamer = RtmpStreamer::Get();
         //初始化推流器
         if (rtmpStreamer->InitStreamer(url) != 0) {

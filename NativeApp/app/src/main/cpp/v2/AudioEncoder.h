@@ -58,6 +58,9 @@ public:
     */
     int CloseEncode();
 
+
+     int EncodeAAC(OriginData **originData);
+
     /**
      * 资源回收
      */
@@ -69,7 +72,6 @@ public:
     void SetAudioCapture(AudioCapture *audioCapture);
 
     AudioCapture *GetAudioCapture();
-
 
     /**
     * 获取编码器状态

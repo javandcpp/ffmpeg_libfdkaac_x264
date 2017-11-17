@@ -1,4 +1,4 @@
-package com.capture.avcapture.impl;
+package com.capture.impl;
 
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -8,7 +8,7 @@ import android.media.audiofx.NoiseSuppressor;
 import android.os.Build;
 import android.util.Log;
 
-import com.capture.avcapture.AudioCaptureInterface;
+import com.capture.AudioCaptureInterface;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -179,7 +179,6 @@ public class AudioCapture implements AudioCaptureInterface {
         return GetAudioDataReturn.RET_SUCCESS;
     }
 
-    // 音频采集线程
     class AudioRecordThread extends Thread {
 
         @Override
@@ -192,9 +191,6 @@ public class AudioCapture implements AudioCaptureInterface {
                     continue;
                 }
                 synchronized (m_syncLockObject) {
-//                    if (m_qAudioData.size() == 2) {
-//                        m_qAudioData.poll();
-//                    }
                     m_data = new AudioData();
                     m_data.baAudioData = m_baAudioDataBuffer;
                     m_data.iLength = m_iBufferSize;

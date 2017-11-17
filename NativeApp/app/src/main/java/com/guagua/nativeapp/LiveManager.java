@@ -94,10 +94,9 @@ public class LiveManager {
      *
      * @param videoBuffer
      * @param length
-     * @param i
      * @return
      */
-    public static native int EncodeH264(byte[] videoBuffer, int length, int i);
+    public static native int EncodeH264(byte[] videoBuffer, int length);
 
 
     /**

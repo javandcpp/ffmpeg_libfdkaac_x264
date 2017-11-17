@@ -68,6 +68,37 @@ void VideoEncoder::YUVProcessMirror() {
     return;
 }
 
+int VideoEncoder::EncodeH264(OriginData **originData) {
+    av_image_fill_arrays(outputYUVFrame->data,
+                         outputYUVFrame->linesize, (*originData)->data,
+                         AV_PIX_FMT_YUV420P, videoCodecContext->width,
+                         videoCodecContext->height, 1);
+    outputYUVFrame->pts = (*originData)->pts;
+    int ret = 0;
+    ret = avcodec_send_frame(videoCodecContext, outputYUVFrame);
+    if (ret != 0) {
+#ifdef SHOW_DEBUG_INFO
+        LOG_D(DEBUG, "avcodec video send frame failed");
+#endif
+    }
+    av_packet_unref(&videoPacket);
+    ret = avcodec_receive_packet(videoCodecContext, &videoPacket);
+    if (ret != 0) {
+#ifdef SHOW_DEBUG_INFO
+        LOG_D(DEBUG, "avcodec video recieve packet failed");
+#endif
+    }
+    (*originData)->Drop();
+    (*originData)->avPacket = &videoPacket;
+#ifdef SHOW_DEBUG_INFO
+    LOG_D(DEBUG, "encode video packet size:%d   pts:%lld", (*originData)->avPacket->size,
+          (*originData)->avPacket->pts);
+    LOG_D(DEBUG, "Video frame encode success!");
+#endif
+    (*originData)->avPacket->size;
+    return videoPacket.size;
+}
+
 
 void *VideoEncoder::EncodeTask(void *obj) {
     VideoEncoder *videoEncoder = (VideoEncoder *) obj;
@@ -85,7 +116,7 @@ void *VideoEncoder::EncodeTask(void *obj) {
     int64_t beginTime = av_gettime();
     int lastPts = 0;
     LOG_D(DEBUG, "begin video encode");
-    int vpts=0;
+    int vpts = 0;
     while (true) {
         if (videoEncoder->videoCapture->GetCaptureState()) {
             break;
@@ -155,11 +186,10 @@ void *VideoEncoder::EncodeTask(void *obj) {
             continue;
         }
 
-
         srcData->Drop();
         //TODO 编码完成(数据传递问题不知道有没有问题)
         srcData->avPacket = &videoEncoder->videoPacket;
-        srcData->pts=videoEncoder->outputYUVFrame->pts;
+        srcData->pts = videoEncoder->outputYUVFrame->pts;
 #ifdef SHOW_DEBUG_INFO
         LOG_D(DEBUG, "encode video packet size:%d   pts:%lld", srcData->avPacket->size,
               srcData->avPacket->pts);
@@ -210,18 +240,23 @@ int VideoEncoder::InitEncode() {
     if (NULL != videoCapture->GetVideoEncodeArgs()) {
         videoCodecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER; //全局参数
         videoCodecContext->codec_id = avCodec->id;
-        videoCodecContext->thread_count = 8;
-        videoCodecContext->bit_rate = 70 * 1024 * 8;//压缩后每秒视频的bit位大小 50kB
+        videoCodecContext->bit_rate = 50 * 1024 * 8;//压缩后每秒视频的bit位大小 50kB
         videoCodecContext->width = videoCapture->GetVideoEncodeArgs()->out_height;
         videoCodecContext->height = videoCapture->GetVideoEncodeArgs()->out_width;
         videoCodecContext->framerate = {videoCapture->GetVideoEncodeArgs()->fps, 1};
-        videoCodecContext->gop_size = 20;
+        videoCodecContext->gop_size = 50;
         videoCodecContext->max_b_frames = 0;
+        videoCodecContext->qmin = 10;
+        videoCodecContext->qmax = 50;
         videoCodecContext->time_base = {1, 1000000};//AUDIO VIDEO 两边时间基数要相同
         videoCodecContext->pix_fmt = AV_PIX_FMT_YUV420P;
+
+        videoCodecContext->level=41;
+        videoCodecContext->me_method=ME_HEX;
+        videoCodecContext->refs=1;
+        videoCodecContext->chromaoffset=2;
     }
-//    av_opt_set(videoCodecContext->priv_data, "preset", "medium", 0);//preset 与编码速度和质量相关
-//    av_opt_set(videoCodecContext->priv_data, "tune", "zerolatency", NULL);
+
     /**
      *选项: ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow and placebo.
      * 固定码率150K,
@@ -231,8 +266,9 @@ int VideoEncoder::InitEncode() {
      */
 
     AVDictionary *opts = NULL;
-
-    av_dict_set(&opts, "profile", "baseline", NULL);//I/P帧
+    av_dict_set(&opts, "preset", "faster", 0);//编码器的速度会影响推流音视频同步,所以这里需要设置下
+//    av_dict_set(&opts, "tune", "zerolatency", 0);//如果开0延迟可能会影响视频质量
+    av_dict_set(&opts, "profile", "baseline", 0);//I/P帧
 
     outputYUVFrame = av_frame_alloc();
     outputYUVFrame->format = AV_PIX_FMT_YUV420P;

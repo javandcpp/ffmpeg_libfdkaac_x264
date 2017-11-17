@@ -113,7 +113,6 @@ add_library( # Sets the name of the library.
              src/main/cpp/h264encodeandpush.cpp
              src/main/cpp/h264EncodePush.cpp
              src/main/cpp/aacencodeandpush.cpp
-             src/main/cpp/Jni_Live_Manage.cpp
              ${native_srcs}
              )
 

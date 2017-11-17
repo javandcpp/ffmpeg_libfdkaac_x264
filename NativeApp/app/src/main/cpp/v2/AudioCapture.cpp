@@ -67,8 +67,8 @@ int AudioCapture::PushAudioData(OriginData *originData) {
     if (ExitCapture) {
         return 0;
     }
-    av_usleep(5000);
     originData->pts = av_gettime();
+    LOG_D(DEBUG,"audio capture pts :%lld",originData->pts);
     audioCaputureframeQueue.push(originData);
     return 0;
 }
@@ -80,8 +80,8 @@ OriginData *AudioCapture::GetAudioData() {
     if (audioCaputureframeQueue.empty()) {
         return NULL;
     } else {
-        OriginData *pData = *audioCaputureframeQueue.wait_and_pop().get();
-        return pData;
+        const shared_ptr<OriginData *> &ptr = audioCaputureframeQueue.try_pop();
+        return NULL == ptr ? NULL : *ptr.get();
     }
 }
 

@@ -25,6 +25,39 @@ AudioCapture *AudioEncoder::GetAudioCapture() {
     return this->audioCapture;
 }
 
+int AudioEncoder::EncodeAAC(OriginData **originData) {
+
+    int ret = 0;
+    ret = avcodec_fill_audio_frame(outputFrame,
+                                   audioCodecContext->channels,
+                                   audioCodecContext->sample_fmt, (*originData)->data,
+                                   8192, 0);
+    outputFrame->pts = (*originData)->pts;
+    ret = avcodec_send_frame(audioCodecContext, outputFrame);
+    if (ret != 0) {
+#ifdef SHOW_DEBUG_INFO
+        LOG_D(DEBUG, "send frame failed!");
+#endif
+    }
+    av_packet_unref(&audioPacket);
+
+    ret = avcodec_receive_packet(audioCodecContext, &audioPacket);
+    if (ret != 0) {
+#ifdef SHOW_DEBUG_INFO
+        LOG_D(DEBUG, "receive packet failed!");
+#endif
+    }
+    (*originData)->Drop();
+    (*originData)->avPacket = &audioPacket;
+
+#ifdef SHOW_DEBUG_INFO
+    LOG_D(DEBUG, "encode audio packet size:%d pts:%lld", (*originData)->avPacket->size,
+          (*originData)->avPacket->pts);
+    LOG_D(DEBUG, "Audio frame encode success!");
+#endif
+    (*originData)->avPacket->size;
+    return audioPacket.size;
+}
 
 void *AudioEncoder::EncodeTask(void *p) {
     AudioEncoder *audioEncoder = (AudioEncoder *) p;
@@ -140,7 +173,7 @@ int AudioEncoder::InitEncode() {
     audioCodecContext->sample_fmt = AV_SAMPLE_FMT_S16;
     audioCodecContext->sample_rate = audioCapture->GetAudioEncodeArgs()->sampleRate;
     audioCodecContext->thread_count = 8;
-    audioCodecContext->bit_rate = 40000;
+    audioCodecContext->bit_rate = 50*1024*8;
     audioCodecContext->channels = audioCapture->GetAudioEncodeArgs()->channels;
     audioCodecContext->frame_size = audioCapture->GetAudioEncodeArgs()->nb_samples;
     audioCodecContext->time_base = {1, 1000000};//AUDIO VIDEO 两边时间基数要相同

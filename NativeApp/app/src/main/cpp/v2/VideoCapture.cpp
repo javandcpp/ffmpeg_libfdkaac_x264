@@ -62,25 +62,9 @@ int VideoCapture::PushVideoData(OriginData *originData) {
     if (ExitCapture) {
         return 0;
     }
-    originData->pts = av_gettime();;
-//    LOG_D(DEBUG,"video pts:%lld  , data size:%d",originData->pts,originData->size);
-    //处理转换NV21->YUV420P
-
-    if (NULL != videoEncodeArgs) {
-        int totalSize = videoEncodeArgs->out_width * videoEncodeArgs->out_height * 3 / 2;
-        uint8_t *dst = (uint8_t *) malloc(totalSize);
-        NV21ProcessYUV420P(videoEncodeArgs->in_width, videoEncodeArgs->in_height,
-                           videoEncodeArgs->out_width,
-                           videoEncodeArgs->out_height,
-                           originData->data, dst, mCameraId, videoEncodeArgs->mirror);
-        originData->data = NULL;
-        originData->data = dst;
-        originData->size = totalSize;
-//        LOG_D(DEBUG, "video process host time:%d", endTime.tv_usec - startTime.tv_usec);
-//        originData->pts=originData->pts-(endTime.tv_usec-startTime.tv_usec);
-        videoCaputureframeQueue.push(originData);
-    }
-    //处理旋转及镜像
+    originData->pts = av_gettime();
+    LOG_D(DEBUG,"video capture pts :%lld",originData->pts);
+    videoCaputureframeQueue.push(originData);
     return originData->size;
 }
 
@@ -102,8 +86,8 @@ OriginData *VideoCapture::GetVideoData() {
     if (videoCaputureframeQueue.empty()) {
         return NULL;
     } else {
-        OriginData *pData = *videoCaputureframeQueue.wait_and_pop().get();
-        return pData;
+        const shared_ptr<OriginData *> &ptr = videoCaputureframeQueue.try_pop();
+        return NULL == ptr ? NULL : *ptr.get();
     }
 }
 

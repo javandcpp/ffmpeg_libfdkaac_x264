@@ -11,6 +11,8 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+
+
         externalNativeBuild {
             cmake {
                 cppFlags "-std=c++11"
@@ -28,6 +30,11 @@ android {
         debug {
             jniDebuggable true
         }
+    }
+
+
+    lintOptions {
+        abortOnError false
     }
     externalNativeBuild {
         cmake {
@@ -53,6 +60,13 @@ android {
 
 }
 
+repositories{
+    flatDir{
+        dirs 'libs'
+    }
+}
+
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -66,5 +80,8 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha2'
     compile project(':sdl')
-    compile project(':avcapture')
+    compile (name:'avcapture-release',ext:'aar')
 }
+
+
+

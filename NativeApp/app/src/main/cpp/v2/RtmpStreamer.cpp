@@ -172,21 +172,46 @@ int RtmpStreamer::SendVideoFrame(OriginData *originData, int streamIndex) {
 void *RtmpStreamer::PushAudioStreamTask(void *pObj) {
     RtmpStreamer *rtmpStreamer = (RtmpStreamer *) pObj;
     rtmpStreamer->isPushStream = true;
+
+    if (NULL == rtmpStreamer->audioEncoder) {
+        return 0;
+    }
+    AudioCapture *pAudioCapture = rtmpStreamer->audioEncoder->GetAudioCapture();
+//    VideoCapture *pVideoCapture = rtmpStreamer->videoEncoder->GetVideoCapture();
+
+    if (NULL == pAudioCapture) {
+        return 0;
+    }
+    int64_t beginTime = av_gettime();
+    int64_t lastAudioPts = 0;
     while (true) {
+
         if (!rtmpStreamer->isPushStream ||
-            rtmpStreamer->audioEncoder->GetAudioCapture()->GetCaptureState()) {
+            pAudioCapture->GetCaptureState()) {
             break;
         }
-        if (rtmpStreamer->audioEncoder->aframeQueue.empty()) {
-            continue;
+        OriginData *pAudioData = pAudioCapture->GetAudioData();
+//        OriginData *pVideoData = pVideoCapture->GetVideoData();
+
+        if (pAudioData != NULL && pAudioData->data) {
+//            if(pVideoData!=NULL&&pAudioData->pts<pVideoData->pts){
+//                int64_t subPtsValue = pVideoData->pts - pAudioData->pts;
+//                pAudioData->pts+=subPtsValue;
+//            }
+            pAudioData->pts = pAudioData->pts - beginTime;
+//            if (pAudioData->pts == lastAudioPts) {
+//                pAudioData->pts += 1300;
+//            }
+//            lastAudioPts = pAudioData->pts;
+            LOG_D(DEBUG, "before audio encode pts:%lld", pAudioData->pts);
+            rtmpStreamer->audioEncoder->EncodeAAC(&pAudioData);
+            LOG_D(DEBUG, "after audio encode pts:%lld", pAudioData->avPacket->pts);
         }
-
-        OriginData *audioOriginData = *rtmpStreamer->audioEncoder->aframeQueue.wait_and_pop().get();
-
-        if (audioOriginData->avPacket->size > 0) {
-            rtmpStreamer->SendAudioFrame(audioOriginData, rtmpStreamer->audioStreamIndex);
+        if (pAudioData != NULL && pAudioData->avPacket->size > 0) {
+            rtmpStreamer->SendFrame(pAudioData, rtmpStreamer->audioStreamIndex);
         }
     }
+
     return 0;
 }
 
@@ -196,18 +221,111 @@ void *RtmpStreamer::PushAudioStreamTask(void *pObj) {
 void *RtmpStreamer::PushVideoStreamTask(void *pObj) {
     RtmpStreamer *rtmpStreamer = (RtmpStreamer *) pObj;
     rtmpStreamer->isPushStream = true;
+
+    if (NULL == rtmpStreamer->videoEncoder) {
+        return 0;
+    }
+    VideoCapture *pVideoCapture = rtmpStreamer->videoEncoder->GetVideoCapture();
+    AudioCapture *pAudioCapture = rtmpStreamer->audioEncoder->GetAudioCapture();
+
+    if (NULL == pVideoCapture) {
+        return 0;
+    }
+    int64_t beginTime = av_gettime();
+    int64_t lastAudioPts = 0;
     while (true) {
+
         if (!rtmpStreamer->isPushStream ||
-            rtmpStreamer->videoEncoder->GetVideoCapture()->GetCaptureState()) {
+            pVideoCapture->GetCaptureState()) {
             break;
         }
-        if (rtmpStreamer->videoEncoder->vframeQueue.empty()) {
-            continue;
+        
+        OriginData *pVideoData = pVideoCapture->GetVideoData();
+//        OriginData *pAudioData = pAudioCapture->GetAudioData();
+        //h264 encode
+        if (pVideoData != NULL && pVideoData->data) {
+//            if(pAudioData&&pAudioData->pts>pVideoData->pts){
+//                int64_t overValue=pAudioData->pts-pVideoData->pts;
+//                pVideoData->pts+=overValue+1000;
+//                LOG_D(DEBUG, "synchronized video audio pts  videoPts:%lld   audioPts:%lld", pVideoData->pts,pAudioData->pts);
+//            }
+            pVideoData->pts = pVideoData->pts - beginTime;
+            LOG_D(DEBUG, "before video encode pts:%lld", pVideoData->pts);
+            rtmpStreamer->videoEncoder->EncodeH264(&pVideoData);
+            LOG_D(DEBUG, "after video encode pts:%lld", pVideoData->avPacket->pts);
         }
-        OriginData *videoOriginData = *rtmpStreamer->videoEncoder->vframeQueue.wait_and_pop().get();
-        if (videoOriginData->avPacket->size > 0) {
-            rtmpStreamer->SendVideoFrame(videoOriginData, rtmpStreamer->videoStreamIndex);
+
+        if (pVideoData != NULL && pVideoData->avPacket->size > 0) {
+            rtmpStreamer->SendFrame(pVideoData, rtmpStreamer->videoStreamIndex);
         }
+    }
+    return 0;
+}
+
+/**
+* 音视频同时推流任务
+*/
+void *RtmpStreamer::PushStreamTask(void *pObj) {
+    RtmpStreamer *rtmpStreamer = (RtmpStreamer *) pObj;
+    rtmpStreamer->isPushStream = true;
+
+    if (NULL == rtmpStreamer->videoEncoder || NULL == rtmpStreamer->audioEncoder) {
+        return 0;
+    }
+    VideoCapture *pVideoCapture = rtmpStreamer->videoEncoder->GetVideoCapture();
+    AudioCapture *pAudioCapture = rtmpStreamer->audioEncoder->GetAudioCapture();
+
+    if (NULL == pVideoCapture || NULL == pAudioCapture) {
+        return 0;
+    }
+    int64_t beginTime = av_gettime();
+    if (NULL != pVideoCapture) {
+        pVideoCapture->videoCaputureframeQueue.clear();
+    }
+    if (NULL != pAudioCapture) {
+        pAudioCapture->audioCaputureframeQueue.clear();
+    }
+    int64_t lastAudioPts = 0;
+    while (true) {
+
+        if (!rtmpStreamer->isPushStream ||
+            pVideoCapture->GetCaptureState() ||
+            pAudioCapture->GetCaptureState()) {
+            break;
+        }
+        OriginData *pVideoData = pVideoCapture->GetVideoData();
+        OriginData *pAudioData = pAudioCapture->GetAudioData();
+
+        if (pAudioData != NULL && pAudioData->data) {
+            pAudioData->pts = pAudioData->pts - beginTime;
+//            if (pAudioData->pts == lastAudioPts) {
+//                pAudioData->pts += 1300;
+//            }
+            lastAudioPts = pAudioData->pts;
+            LOG_D(DEBUG, "before audio encode pts:%lld", pAudioData->pts);
+            rtmpStreamer->audioEncoder->EncodeAAC(&pAudioData);
+            LOG_D(DEBUG, "after audio encode pts:%lld", pAudioData->avPacket->pts);
+        }
+
+
+        if (pAudioData != NULL && pAudioData->avPacket->size > 0) {
+            rtmpStreamer->SendFrame(pAudioData, rtmpStreamer->audioStreamIndex);
+        }
+
+        //h264 encode
+        if (pVideoData != NULL && pVideoData->data) {
+            pVideoData->pts = pVideoData->pts - beginTime;
+            LOG_D(DEBUG, "before video encode pts:%lld", pVideoData->pts);
+            rtmpStreamer->videoEncoder->EncodeH264(&pVideoData);
+            LOG_D(DEBUG, "after video encode pts:%lld", pVideoData->avPacket->pts);
+        }
+
+        if (pVideoData != NULL && pVideoData->avPacket->size > 0) {
+            rtmpStreamer->SendFrame(pVideoData, rtmpStreamer->videoStreamIndex);
+        }
+
+        //aac encode
+
     }
     return 0;
 }
@@ -217,15 +335,24 @@ int RtmpStreamer::StartPushStream() {
     audioStreamIndex = AddStream(audioEncoder->audioCodecContext);
     pthread_create(&t3, NULL, RtmpStreamer::WriteHead, this);
     pthread_join(t3, NULL);
+
+    VideoCapture *pVideoCapture = videoEncoder->GetVideoCapture();
+    AudioCapture *pAudioCapture = audioEncoder->GetAudioCapture();
+    pVideoCapture->videoCaputureframeQueue.clear();
+    pAudioCapture->audioCaputureframeQueue.clear();
+
     pthread_create(&t1, NULL, RtmpStreamer::PushAudioStreamTask, this);
     pthread_create(&t2, NULL, RtmpStreamer::PushVideoStreamTask, this);
+//    pthread_create(&t2, NULL, RtmpStreamer::PushStreamTask, this);
+//    pthread_create(&t2, NULL, RtmpStreamer::PushStreamTask, this);
+
     return 0;
 }
 
 int RtmpStreamer::ClosePushStream() {
     if (isPushStream) {
         isPushStream = false;
-        pthread_join(t1, NULL);
+//        pthread_join(t1, NULL);
         pthread_join(t2, NULL);
         if (NULL != iAvFormatContext) {
             av_write_trailer(iAvFormatContext);
@@ -260,12 +387,13 @@ void *RtmpStreamer::WriteHead(void *pObj) {
 }
 
 int RtmpStreamer::SendFrame(OriginData *pData, int streamIndex) {
-    std::lock_guard<std::mutex> lk(mut);
+    std::lock_guard<std::mutex> lk(mut1);
     AVRational stime;
     AVRational dtime;
     AVPacket *packet = pData->avPacket;
     packet->stream_index = streamIndex;
-    LOG_D(DEBUG, "video packet index:%d    index:%d", packet->stream_index, streamIndex);
+    LOG_D(DEBUG, "write packet index:%d    index:%d   pts:%lld", packet->stream_index, streamIndex,
+          packet->pts);
     //判断是音频还是视频
     if (packet->stream_index == videoStreamIndex) {
         stime = videoCodecContext->time_base;

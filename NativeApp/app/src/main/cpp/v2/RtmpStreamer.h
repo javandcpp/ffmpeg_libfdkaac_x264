@@ -13,6 +13,7 @@
 #define NATIVEAPP_RTMPSTREAMER_H
 
 using namespace std;
+
 /**
  * Rtmp推流器
  */
@@ -34,6 +35,8 @@ public:
     static void *PushAudioStreamTask(void *pObj);
 
     static void *PushVideoStreamTask(void *pObj);
+
+    static void *PushStreamTask(void *pObj);
 
     static void *WriteHead(void *pObj);
 
@@ -69,9 +72,9 @@ public:
     */
     int ClosePushStream();
 
-    int SendAudioFrame(OriginData *originData,int streamIndex);
+    int SendAudioFrame(OriginData *originData, int streamIndex);
 
-    int SendVideoFrame(OriginData *originData,int streamIndex);
+    int SendVideoFrame(OriginData *originData, int streamIndex);
 
     int SendFrame(OriginData *pData, int i);
 };

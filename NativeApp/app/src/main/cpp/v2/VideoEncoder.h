@@ -56,6 +56,9 @@ public:
      */
     int CloseEncode();
 
+
+    int EncodeH264(OriginData **originData);
+
     /**
      * 资源回收
      */
