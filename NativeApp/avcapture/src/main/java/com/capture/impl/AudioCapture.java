@@ -45,12 +45,13 @@ public class AudioCapture implements AudioCaptureInterface {
                                                  int aiChannels, int aiBitsPerSample, int[] aiBufferLen) {
         // TODO Auto-generated method stub
         int iEncodingPCM, iChannelInfo;
-        if (aiBitsPerSample == 16)
+        if (aiBitsPerSample == 16) {
             iEncodingPCM = AudioFormat.ENCODING_PCM_16BIT;
-        else if (aiBitsPerSample == 8)
+        } else if (aiBitsPerSample == 8) {
             iEncodingPCM = AudioFormat.ENCODING_PCM_8BIT;
-        else
+        } else {
             return OpenAudioDeviceReturn.OPEN_ERROR_PARAM;
+        }
 
         m_qAudioData.clear();
         if (aiChannels == 1) {
@@ -59,8 +60,9 @@ public class AudioCapture implements AudioCaptureInterface {
         } else if (aiChannels == 2) {
             iChannelInfo = AudioFormat.CHANNEL_IN_STEREO;
             aiBufferLen[0] = BUFFER_LENGTH_STEREO;
-        } else
+        } else {
             return OpenAudioDeviceReturn.OPEN_ERROR_PARAM;
+        }
 
         if (m_bIsOpenAudioDevice) {
             return OpenAudioDeviceReturn.OPEN_ERROR_OCCUPIED;
@@ -68,13 +70,14 @@ public class AudioCapture implements AudioCaptureInterface {
         m_iBufferSize = AudioRecord.getMinBufferSize(aiSamplesPerSec,
                 iChannelInfo, iEncodingPCM);
         Log.d("buffer size:", m_iBufferSize + "");
-        if (aiBufferLen[0] < m_iBufferSize)
+        if (aiBufferLen[0] < m_iBufferSize) {
             aiBufferLen[0] = m_iBufferSize;
-        else
+        } else {
             m_iBufferSize = aiBufferLen[0];
+        }
 
-        m_iBufferSize=4096;
-        aiBufferLen[0]=m_iBufferSize;
+        m_iBufferSize = 4096;
+        aiBufferLen[0] = m_iBufferSize;
 
         m_baAudioDataBuffer = new byte[m_iBufferSize];
         if (m_syncLockObject == null || m_baAudioDataBuffer == null

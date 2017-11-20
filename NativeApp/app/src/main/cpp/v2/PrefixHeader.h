@@ -30,7 +30,7 @@
 #define PTS_INFO
 #endif
 
-#if 0
+#if 1
 #define SHOW_DEBUG_INFO
 #endif
 

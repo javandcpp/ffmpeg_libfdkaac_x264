@@ -29,7 +29,7 @@ import java.util.Vector;
 public class VideoCapture implements Comparator<Size>, PreviewCallback,
         VideoCaptureInterface {
 
-    private static final int VERSION = 20160707;
+    private static final int VERSION = 20171107;
     private static final int SIDE_LEN = 100;
     private static final int MAX_LEN = 1000;
     private static int m_nNum = 0;
@@ -149,23 +149,30 @@ public class VideoCapture implements Comparator<Size>, PreviewCallback,
                 m_camera.setDisplayOrientation(90);
                 params.setPreviewSize(aiWidth, aiHeight);
                 // 帧率相关处理
-                if (aiFPS <= 0)
+                if (aiFPS <= 0) {
                     aiFPS = 1;
+                }
+
+
+
                 m_nSumTime = 0;
                 m_nDuration = 1000 / aiFPS;
-                if (aiFPS * 1000 < range[0])
+
+                if (aiFPS * 1000 < range[0]) {
                     params.setPreviewFrameRate((int) (range[0] / 1000.0 + 0.9));
-                else if (aiFPS * 1000 < range[1])
+                } else if (aiFPS * 1000 < range[1]) {
                     params.setPreviewFrameRate(aiFPS);
-                else
+                } else {
                     params.setPreviewFrameRate(range[0] / 1000);
+                }
 
                 List<String> focusModes = params.getSupportedFocusModes();
 
-                if (focusModes.contains(Parameters.FOCUS_MODE_CONTINUOUS_VIDEO))
+                if (focusModes.contains(Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)) {
                     params.setFocusMode(Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
-                else if (focusModes.contains(Parameters.FOCUS_MODE_AUTO))
+                }else if (focusModes.contains(Parameters.FOCUS_MODE_AUTO)) {
                     params.setFocusMode(Parameters.FOCUS_MODE_AUTO);
+                }
 
                 m_camera.setParameters(params);
                 m_nv21 = new byte[m_nLength];
@@ -349,8 +356,9 @@ public class VideoCapture implements Comparator<Size>, PreviewCallback,
             return StatusReturn.RET_NOT_SUPPORTED;
 
         // 参数保护
-        if (aiZoomLevel > m_nMaxZoom)
+        if (aiZoomLevel > m_nMaxZoom) {
             aiZoomLevel = m_nMaxZoom;
+        }
         params.setZoom(aiZoomLevel);
         m_camera.setParameters(params);
         return StatusReturn.RET_SUCCESS;
@@ -359,22 +367,25 @@ public class VideoCapture implements Comparator<Size>, PreviewCallback,
     @Override
     public StatusReturn TurnFlash(boolean abStatus) {
         // TODO Auto-generated method stub
-        if (m_camera == null)
+        if (m_camera == null) {
             return StatusReturn.RET_NO_CAMERA;
+        }
 
         String flashMode = null;
         Parameters param = m_camera.getParameters();
         List<String> flashModes = param.getSupportedFlashModes();
-        if (flashModes == null)
+        if (flashModes == null) {
             return StatusReturn.RET_NOT_SUPPORTED;
+        }
 
-        if (abStatus)
+        if (abStatus) {
             flashMode = Parameters.FLASH_MODE_TORCH;
-        else
+        } else {
             flashMode = Parameters.FLASH_MODE_OFF;
-        if (!flashModes.contains(flashMode))
+        }
+        if (!flashModes.contains(flashMode)) {
             return StatusReturn.RET_NOT_SUPPORTED;
-        else if (flashMode != param.getFlashMode()) {
+        } else if (flashMode != param.getFlashMode()) {
             param.setFlashMode(flashMode);
             m_camera.setParameters(param);
         }

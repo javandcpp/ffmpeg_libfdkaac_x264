@@ -12,10 +12,10 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.capture.AudioCaptureInterface;
-import com.capture.VideoCaptureInterface;
-import com.capture.impl.AudioCapture;
-import com.capture.impl.VideoCapture;
+import com.guagua.avcapture.AudioCaptureInterface;
+import com.guagua.avcapture.VideoCaptureInterface;
+import com.guagua.avcapture.impl.AudioCapture;
+import com.guagua.avcapture.impl.VideoCapture;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -145,7 +145,7 @@ public class PushStreamer implements SurfaceHolder.Callback {
 
     public void startSpeak() {
         if (!speak) {
-            if (startPushStream("rtmp://192.168.24.153:1935/test/live")) {
+            if (startPushStream("rtmp://192.168.1.104:1935/test/live")) {
                 speak = true;
             }
         }
