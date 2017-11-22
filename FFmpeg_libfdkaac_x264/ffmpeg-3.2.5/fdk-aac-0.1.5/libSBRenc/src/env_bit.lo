@@ -5,7 +5,7 @@
 # It is necessary for linking the library.
 
 # Name of the PIC object.
-pic_object='.libs/env_bit.o'
+pic_object=none
 
 # Name of the non-PIC object
 non_pic_object='env_bit.o'

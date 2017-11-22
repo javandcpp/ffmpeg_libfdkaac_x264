@@ -1,9 +1,9 @@
-# Created by jianxi on 2017/6/4
-# https://github.com/mabeijianxi
-# mabeijianxi@gmail.com
+
 
 NDK=/Applications/android-ndk-r13
 ANDROID_API=android-14
+
+PREFIX=$(pwd)/android/arm
 
 SYSROOT=$NDK/platforms/$ANDROID_API/arch-arm
 
@@ -13,12 +13,13 @@ CROSS_COMPILE=${ANDROID_BIN}/arm-linux-androideabi-
 
 
 
+
 CPU=arm-v7a
 
 
 CFLAGS=""
 
-FLAGS="--enable-static  --host=arm-linux-androideabi --target=android --disable-asm "
+FLAGS="--enable-static  --host=armv7a-linux-androideabi --target=android --disable-asm "
 
 export CXX="${CROSS_COMPILE}g++ --sysroot=${SYSROOT}"
 
@@ -40,7 +41,7 @@ export AS="${CROSS_COMPILE}gcc"
 ./configure $FLAGS \
 --enable-pic \
 --enable-strip \
---prefix=${pwd}/android/$CPU
+--prefix=$PREFIX
 
 $ADDITIONAL_CONFIGURE_FLAG
 make clean

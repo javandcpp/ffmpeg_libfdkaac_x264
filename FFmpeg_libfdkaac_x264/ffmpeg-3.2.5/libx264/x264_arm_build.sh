@@ -14,7 +14,7 @@ function build_one
 --disable-asm \
 --enable-pic \
 --enable-strip \
---host=arm-linux-androideabi \
+--host=armv7a-linux-androideabi \
 --cross-prefix=$TOOLCHAIN/bin/arm-linux-androideabi- \
 --sysroot=$PLATFORM \
 --extra-cflags="-Os -fpic" \

@@ -90,7 +90,7 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = x86_64-apple-darwin15.6.0
-host_triplet = arm-unknown-linux-androideabi
+host_triplet = armv7a-unknown-linux-androideabi
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -331,13 +331,13 @@ AUTOMAKE = ${SHELL} /Users/loneswordman/Downloads/ffmpeg_libfdkaac_x264/FFmpeg_l
 AWK = awk
 CC = /Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm
 CCDEPMODE = depmode=gcc3
-CFLAGS = 
+CFLAGS = -O3 -DANDROID -march=armv7-a -mfloat-abi=softfp -mfpu=neon
 CPP = /Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-gcc --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -E
 CPPFLAGS = 
 CXX = /Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-g++ --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm
 CXXCPP = /Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-g++ --sysroot=/Applications/android-ndk-r13/platforms/android-14/arch-arm -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = 
+CXXFLAGS = -g -O2
 CYGPATH_W = echo
 DEFS = -DPACKAGE_NAME=\"fdk-aac\" -DPACKAGE_TARNAME=\"fdk-aac\" -DPACKAGE_VERSION=\"0.1.5\" -DPACKAGE_STRING=\"fdk-aac\ 0.1.5\" -DPACKAGE_BUGREPORT=\"http://sourceforge.net/projects/opencore-amr/\" -DPACKAGE_URL=\"\" -DPACKAGE=\"fdk-aac\" -DVERSION=\"0.1.5\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_DLFCN_H=1 -DLT_OBJDIR=\".libs/\"
 DEPDIR = .deps
@@ -357,12 +357,12 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
-LD = /Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-ld
-LDFLAGS =  -L/Applications/android-ndk-r13/platforms/android-14/arch-arm/usr/lib   
+LD = /Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/arm-linux-androideabi/bin/ld
+LDFLAGS = -Wl,-dynamic-linker=/system/bin/linker
 LIBOBJS = 
 LIBS = -lm 
-LIBS_PRIVATE = -lm 
-LIBS_PUBLIC = 
+LIBS_PRIVATE = 
+LIBS_PUBLIC = -lm 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LIPO = 
 LN_S = ln -s
@@ -385,11 +385,11 @@ PACKAGE_TARNAME = fdk-aac
 PACKAGE_URL = 
 PACKAGE_VERSION = 0.1.5
 PATH_SEPARATOR = :
-RANLIB = ranlib
+RANLIB = /Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-ranlib
 SED = /usr/bin/sed
 SET_MAKE = 
 SHELL = /bin/sh
-STRIP = strip
+STRIP = /Applications/android-ndk-r13/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-strip
 VERSION = 0.1.5
 abs_builddir = /Users/loneswordman/Downloads/ffmpeg_libfdkaac_x264/FFmpeg_libfdkaac_x264/ffmpeg-3.2.5/fdk-aac-0.1.5
 abs_srcdir = /Users/loneswordman/Downloads/ffmpeg_libfdkaac_x264/FFmpeg_libfdkaac_x264/ffmpeg-3.2.5/fdk-aac-0.1.5
@@ -416,9 +416,9 @@ datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
-host = arm-unknown-linux-androideabi
-host_alias = arm-linux-androideabi
-host_cpu = arm
+host = armv7a-unknown-linux-androideabi
+host_alias = armv7a-linux-androideabi
+host_cpu = armv7a
 host_os = linux-androideabi
 host_vendor = unknown
 htmldir = ${docdir}
@@ -433,14 +433,14 @@ mandir = ${datarootdir}/man
 mkdir_p = $(MKDIR_P)
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /android/arm-v7a
+prefix = /Users/loneswordman/Downloads/ffmpeg_libfdkaac_x264/FFmpeg_libfdkaac_x264/ffmpeg-3.2.5/fdk-aac-0.1.5/android/arm
 program_transform_name = s,x,x,
 psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin
 sharedstatedir = ${prefix}/com
 srcdir = .
 sysconfdir = ${prefix}/etc
-target_alias = android
+target_alias = 
 top_build_prefix = 
 top_builddir = .
 top_srcdir = .

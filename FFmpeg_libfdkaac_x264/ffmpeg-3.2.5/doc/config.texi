@@ -68,13 +68,13 @@
 @c @set have-loongson3 no
 @c @set have-mmi no
 @set have-armv5te-external yes
-@set have-armv6-external yes
-@set have-armv6t2-external yes
+@c @set have-armv6-external no
+@c @set have-armv6t2-external no
 @c @set have-armv8-external no
 @c @set have-neon-external no
 @set have-vfp-external yes
-@set have-vfpv3-external yes
-@set have-setend-external yes
+@c @set have-vfpv3-external no
+@c @set have-setend-external no
 @c @set have-altivec-external no
 @c @set have-dcbzl-external no
 @c @set have-ldbrx-external no
@@ -112,13 +112,13 @@
 @c @set have-loongson3-external no
 @c @set have-mmi-external no
 @set have-armv5te-inline yes
-@set have-armv6-inline yes
-@set have-armv6t2-inline yes
+@c @set have-armv6-inline no
+@c @set have-armv6t2-inline no
 @c @set have-armv8-inline no
 @c @set have-neon-inline no
-@set have-vfp-inline yes
-@set have-vfpv3-inline yes
-@set have-setend-inline yes
+@c @set have-vfp-inline no
+@c @set have-vfpv3-inline no
+@c @set have-setend-inline no
 @c @set have-altivec-inline no
 @c @set have-dcbzl-inline no
 @c @set have-ldbrx-inline no
@@ -181,7 +181,7 @@
 @c @set have-symver no
 @set have-yasm yes
 @c @set have-bigendian no
-@set have-fast-unaligned yes
+@c @set have-fast-unaligned no
 @c @set have-alsa-asoundlib-h no
 @c @set have-altivec-h no
 @set have-arpa-inet-h yes
@@ -513,9 +513,9 @@
 @c @set config-omx-rpi no
 @c @set config-runtime-cpudetect no
 @set config-safe-bitstream-reader yes
-@set config-shared yes
+@c @set config-shared no
 @set config-small yes
-@c @set config-static no
+@set config-static yes
 @set config-swscale-alpha yes
 @set config-gpl yes
 @set config-nonfree yes
@@ -537,7 +537,7 @@
 @set config-dwt yes
 @set config-error-resilience yes
 @set config-faan yes
-@set config-fast-unaligned yes
+@c @set config-fast-unaligned no
 @set config-fft yes
 @set config-lsp yes
 @set config-lzo yes
@@ -2166,45 +2166,45 @@
 @set config-vp3-parser yes
 @set config-vp8-parser yes
 @set config-vp9-parser yes
-@c @set config-async-protocol no
+@set config-async-protocol yes
 @c @set config-bluray-protocol no
-@c @set config-cache-protocol no
-@c @set config-concat-protocol no
-@c @set config-crypto-protocol no
-@c @set config-data-protocol no
+@set config-cache-protocol yes
+@set config-concat-protocol yes
+@set config-crypto-protocol yes
+@set config-data-protocol yes
 @c @set config-ffrtmpcrypt-protocol no
-@c @set config-ffrtmphttp-protocol no
+@set config-ffrtmphttp-protocol yes
 @set config-file-protocol yes
-@c @set config-ftp-protocol no
-@c @set config-gopher-protocol no
-@c @set config-hls-protocol no
+@set config-ftp-protocol yes
+@set config-gopher-protocol yes
+@set config-hls-protocol yes
 @set config-http-protocol yes
-@c @set config-httpproxy-protocol no
+@set config-httpproxy-protocol yes
 @c @set config-https-protocol no
-@c @set config-icecast-protocol no
-@c @set config-mmsh-protocol no
-@c @set config-mmst-protocol no
-@c @set config-md5-protocol no
-@c @set config-pipe-protocol no
+@set config-icecast-protocol yes
+@set config-mmsh-protocol yes
+@set config-mmst-protocol yes
+@set config-md5-protocol yes
+@set config-pipe-protocol yes
 @set config-rtmp-protocol yes
 @c @set config-rtmpe-protocol no
 @c @set config-rtmps-protocol no
-@c @set config-rtmpt-protocol no
+@set config-rtmpt-protocol yes
 @c @set config-rtmpte-protocol no
 @c @set config-rtmpts-protocol no
 @set config-rtp-protocol yes
 @c @set config-sctp-protocol no
-@c @set config-srtp-protocol no
-@c @set config-subfile-protocol no
-@c @set config-tee-protocol no
+@set config-srtp-protocol yes
+@set config-subfile-protocol yes
+@set config-tee-protocol yes
 @set config-tcp-protocol yes
 @c @set config-tls-gnutls-protocol no
 @c @set config-tls-schannel-protocol no
 @c @set config-tls-securetransport-protocol no
 @c @set config-tls-openssl-protocol no
 @set config-udp-protocol yes
-@c @set config-udplite-protocol no
-@c @set config-unix-protocol no
+@set config-udplite-protocol yes
+@set config-unix-protocol yes
 @c @set config-librtmp-protocol no
 @c @set config-librtmpe-protocol no
 @c @set config-librtmps-protocol no
