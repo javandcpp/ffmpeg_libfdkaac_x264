@@ -1,5 +1,4 @@
-# Build ARMv7-A machine code.
-APP_ABI := armeabi-v7a
-APP_PLATFORM = android-8  
-
-
+# NDK
+APP_ABI := armeabi armeabi-v7a
+APP_PLATFORM := android-14
+NDK_TOOLCHAIN_VERSION := clang
