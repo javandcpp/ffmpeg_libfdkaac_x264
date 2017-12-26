@@ -67,23 +67,21 @@ ${TARGET_ARCH_OPTION} \
 --enable-zlib \
 --enable-avfilter \
 --disable-outdevs \
---disable-ffprobe \
---disable-ffplay \
---disable-ffmpeg \
---disable-ffserver \
---disable-debug \
+--enable-ffprobe \
+--enable-ffplay \
+--enable-ffmpeg \
+--enable-ffserver \
+--enable-debug \
 --enable-postproc \
 --enable-avdevice \
 --disable-symver \
 --disable-stripping \
---disable-ffprobe \
---disable-ffplay \
---disable-ffmpeg \
 --disable-zlib \
 --disable-debug \
 --extra-cflags="-DANDROID -I${PREFIX}/include" \
 --extra-ldflags="-L${PREFIX}/lib -lx264 -lfdk-aac -llame -Wl,-dynamic-linker=/system/bin/linker -lc -lm -llog" 
 
+#-lx264 -lfdk-aac -llame  链接库  -L 只是加入搜索库的路径，-l指定要链接的库 -lx64x64, x264就是库的名字
 #make clean and disclean can't delete the bellow 4 files,so delete them manual
 rm -f compat/strtod.o compat/strtod.d  compat/msvcrt/snprintf.o compat/msvcrt/snprintf.d
 make clean
