@@ -1,0 +1,24 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/publish_rtmp.dir/LocalUdpSession.cpp.o"
+  "CMakeFiles/publish_rtmp.dir/RtmpTransBuff.cpp.o"
+  "CMakeFiles/publish_rtmp.dir/RtpDataFrame.cpp.o"
+  "CMakeFiles/publish_rtmp.dir/flv.cpp.o"
+  "CMakeFiles/publish_rtmp.dir/flv_service.cpp.o"
+  "CMakeFiles/publish_rtmp.dir/kernel.cpp.o"
+  "CMakeFiles/publish_rtmp.dir/project.cpp.o"
+  "CMakeFiles/publish_rtmp.dir/timegettime.cpp.o"
+  "CMakeFiles/publish_rtmp.dir/common/BaseThread.cpp.o"
+  "CMakeFiles/publish_rtmp.dir/common/ConfigManager.cpp.o"
+  "CMakeFiles/publish_rtmp.dir/common/DebugTrace.cpp.o"
+  "CMakeFiles/publish_rtmp.dir/common/StdSerializeEx.cpp.o"
+  "CMakeFiles/publish_rtmp.dir/packdeff/LRDSPackDeff.cpp.o"
+  "CMakeFiles/publish_rtmp.dir/packdeff/MediaPackDeff.cpp.o"
+  "CMakeFiles/publish_rtmp.dir/packdeff/ServerPackHead.cpp.o"
+  "publish_rtmp.pdb"
+  "publish_rtmp"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/publish_rtmp.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

@@ -1,0 +1,14 @@
+[DEBUG]
+TraceEnable=3
+TraceLevel=5
+AppendToFile=1
+
+[SVR]
+IDC=2
+SID=20140826
+IP=220.194.216.43
+Port=20000
+PassWord=123456
+ISPType = 0
+publish_base_url=rtmp://uprtmp.player001.cn/qiqilive
+
