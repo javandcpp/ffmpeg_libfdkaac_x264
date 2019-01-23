@@ -38,4 +38,4 @@ dlopen=''
 dlpreopen=''
 
 # Directory that this library needs to be installed in:
-libdir='/Users/loneswordman/Downloads/ffmpeg_libfdkaac_x264/FFmpeg_libfdkaac_x264_lame/jni/fdk-aac-0.1.5/../out/armeabi-v7a/lib'
+libdir='/Users/huaweichang/Desktop/ffmpeg_libfdkaac_x264/FFmpeg_libfdkaac_x264_lame/jni/fdk-aac-0.1.5/../out/armeabi-v7a/lib'

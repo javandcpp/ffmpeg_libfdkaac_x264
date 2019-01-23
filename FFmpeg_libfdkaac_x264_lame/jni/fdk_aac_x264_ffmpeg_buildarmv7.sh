@@ -41,12 +41,12 @@ build_module(){
 }
 
 
-build_aac
+# build_aac
 
 build_x264
 
-build_lame
+# build_lame
 
-build_ffmpeg
+# build_ffmpeg
 
-build_module
+# build_module

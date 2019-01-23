@@ -1,4 +1,4 @@
-prefix=/Users/loneswordman/Downloads/ffmpeg_libfdkaac_x264/FFmpeg_libfdkaac_x264_lame/jni/fdk-aac-0.1.5/../out/armeabi-v7a
+prefix=/Users/huaweichang/Desktop/ffmpeg_libfdkaac_x264/FFmpeg_libfdkaac_x264_lame/jni/fdk-aac-0.1.5/../out/armeabi-v7a
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include
